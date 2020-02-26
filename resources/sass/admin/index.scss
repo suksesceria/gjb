@@ -10,9 +10,9 @@
     height: 100%;
     overflow: auto;
     font-size: 12px;
-    -webkit-box-shadow: 5px 0px 14px -1px rgba(0,0,0,0.68);
-    -moz-box-shadow: 5px 0px 14px -1px rgba(0,0,0,0.68);
-    box-shadow: 5px 0px 14px -1px rgba(0,0,0,0.68);
+    -webkit-box-shadow: 1px 0px 5px -1px rgba(0,0,0,0.68);
+    -moz-box-shadow: 1px 0px 5px -1px rgba(0,0,0,0.68);
+    box-shadow: 1px 0px 5px -1px rgba(0,0,0,0.68);
 }
   
   /* Sidebar links */
@@ -23,13 +23,14 @@
     text-decoration: none;
     width: 15em;
     margin: 0 auto;
-    margin-top: 1em;
+    margin-top: 0.5em;
 }
   
   /* Active/current link */
 .sidebar a.active {
-    background-color: rgb(76, 152, 175);
+    background-color: $primary;
     color: white;
+    border-radius: 5em;
 }
   
   /* Links on mouse-over */
@@ -42,12 +43,13 @@
 .sidebar div.title {
     display: block;
     margin: 0 auto;
-    padding: 10px;
+    padding: 5px;
     text-align: center;
     font-size: 15px;
     font-weight: bold;
     letter-spacing: 7px;
     color: $primary;
+    margin-top: 1em;
 }
   
   /* Page content. The value of the margin-left property should match the value of the sidebar's width property */

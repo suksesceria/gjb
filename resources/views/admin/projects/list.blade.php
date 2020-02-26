@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="col-md-12">
-        Dashboard
+        List
     </div>
 
 @endsection

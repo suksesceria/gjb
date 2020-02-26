@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class AdminController extends Controller
+class ProjectController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +13,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.projects.list');
     }
 
     /**
@@ -80,15 +80,5 @@ class AdminController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function dashboard()
-    {
-        return view('admin.dashboard');
-    }
-
-    public function projectsView()
-    {
-        return view('admin.projects.list');
     }
 }

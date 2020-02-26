@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/login', function () {
     return view('auth.login');
 });
 
@@ -19,6 +19,12 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::group(['prefix' => 'admin'], function() {
-    Route::get('/', 'AdminController@dashboard');
+Route::get('/', 'AdminController@dashboard');
+
+Route::group(['prefix' => 'projects'], function() {
+    Route::get('/', 'ProjectController@index');
+});
+
+Route::group(['prefix' => 'employees'], function() {
+    Route::get('/', 'EmployeeController@index');
 });
