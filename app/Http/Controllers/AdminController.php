@@ -84,11 +84,6 @@ class AdminController extends Controller
 
     public function dashboard()
     {
-        return view('admin.dashboard');
-    }
-
-    public function projectsView()
-    {
-        return view('admin.projects.list');
+        return view('dashboard');
     }
 }

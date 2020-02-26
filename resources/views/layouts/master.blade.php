@@ -14,7 +14,7 @@
 <body>
     <div class="sidebar">
         <div class="title">
-            {{ __('ADMIN') }}
+            {{ __('GJB') }}
             <hr>
         </div>
         <a href="{{ url('/') }}" 
@@ -26,7 +26,11 @@
             >{{ __('Projects') }}
         </a>
         <a href="">{{ __('Project Types') }}</a>
-        <a href="">{{ __('Employees') }}</a>
+        <a href="{{ url('/employees') }}"
+            class="{{ (request()->is('employees*')) ? 'active' : '' }}"
+            >{{ __('Employees') }}
+        </a>
+        <a href="">{{ __('Role Access') }}</a>
     </div>
     <div class="content">
         @yield('content')

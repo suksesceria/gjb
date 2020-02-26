@@ -1,8 +1,8 @@
-@extends('layouts.master-admin')
+@extends('layouts.master')
 
 @section('content')
     <div class="col-md-12">
-        List
+        List Projects
     </div>
 
 @endsection
