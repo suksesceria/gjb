@@ -2,6 +2,10 @@
 
 @section('style')
     <style>
+        .dashboard {
+            height: 100vh;
+            overflow-y: auto;
+        }
         .project-name {
             font-weight: 500;
         }
@@ -53,7 +57,7 @@
 @endsection
 
 @section('content')
-    <div class="container">
+    <div class="container dashboard">
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="col-md-12 text-center">
@@ -102,6 +106,26 @@
         var progress = document.getElementById("progressbar-project").getContext('2d');
         var plannedActual = document.getElementById("planned-actual-project").getContext('2d');
 
+        var x = {
+            beforeDraw: function(chart) {
+                var width = chart.chart.width,
+                    height = chart.chart.height,
+                    ctx = chart.chart.ctx;
+
+                ctx.restore();
+                var fontSize = (height / 114).toFixed(2);
+                ctx.font = fontSize + "em sans-serif";
+                ctx.textBaseline = "middle";
+
+                var text = "100%",
+                    textX = Math.round((width - ctx.measureText(text).width) / 2),
+                    textY = height / 1.7;
+
+                ctx.fillText(text, textX, textY);
+                ctx.save();
+            }
+        };
+
 		var myChart = new Chart(progress, {
 			type: 'doughnut',
 			data: {
@@ -116,7 +140,8 @@
                     'Done',
                     'In Progress',
                 ]
-            }
+            },
+            plugins: [x]
         });
         
         var plannedActualChart = new Chart(plannedActual, {
@@ -195,6 +220,8 @@
                 }
             }
         });
+
+        
 
 	</script>
 @endsection
