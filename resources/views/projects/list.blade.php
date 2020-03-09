@@ -52,7 +52,7 @@
                         <td>gedung</td>
                         <td>2000000</td>
                         <td>
-                            <button class="btn btn-primary btn-details">See details</button>
+                            <a href="{{ url('/projects/1') }}" class="btn btn-primary btn-details">See details</button>
                         </td>
                     </tr>
                 </tbody>

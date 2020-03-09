@@ -23,7 +23,7 @@ Route::get('/', 'AdminController@dashboard');
 
 Route::group(['prefix' => 'projects'], function() {
     Route::get('/', 'ProjectController@index');
-    
+    Route::get('/{id}/progress', 'ProjectController@show');
 });
 
 Route::group(['prefix' => 'employees'], function() {
