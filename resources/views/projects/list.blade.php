@@ -23,12 +23,12 @@
     $url = 'asdasd';
 ?>
 <div class="container">
-    <button class="btn btn-primary btn-large mb-4 btn-add-product"
-            data-toggle="modal"
-            data-target="#modal-add-project"
-    >ADD NEW PROJECT</button>
     <div class="panel panel-default">
         <div class="panel-body">
+            <button class="btn btn-primary btn-large mb-4 btn-add-product"
+                    data-toggle="modal"
+                    data-target="#modal-add-project"
+            >ADD NEW PROJECT</button>
             <table class="table">
                 <thead>
                     <th>Project name</th>

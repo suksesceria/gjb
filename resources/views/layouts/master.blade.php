@@ -19,18 +19,18 @@
         </div>
         <a href="{{ url('/') }}" 
             class="{{ (request()->is('/')) ? 'active' : '' }}"
-            >{{ __('Dashboard') }}
+            >Beranda
         </a>
         <a href="{{ url('/projects') }}" 
             class="{{ (request()->is('projects*')) ? 'active' : '' }}"
-            >{{ __('Projects') }}
+            >Project
         </a>
         <a href="">{{ __('Project Types') }}</a>
         <a href="{{ url('/employees') }}"
             class="{{ (request()->is('employees*')) ? 'active' : '' }}"
-            >{{ __('Employees') }}
+            >Karyawan
         </a>
-        <a href="">{{ __('Role Access') }}</a>
+        <a href="">Akses Role</a>
     </div>
     <div class="content">
         @yield('content')

@@ -1,6 +1,6 @@
 <div id="modal-add-project" class="modal fade" role="dialog">
     <div class="modal-dialog">
-  
+        
         <div class="modal-content">
             <div class="modal-header">
                 <h4>Add Project</h4>
@@ -58,32 +58,59 @@
                   <input type="text" name="substeps_name" class="form-control">
                 </div>
 
-                <div class="form-group">
-                  <label>Tanggal Mulai</label>
-                  <input type="date" name="substeps_start_date" class="form-control">
-                </div>
-
-                <div class="form-group">
-                  <label>Tanggal Selesai</label>
-                  <input type="date" name="substeps_end_date" class="form-control">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Tanggal Mulai</label>
+                      <input type="date" name="substeps_start_date" class="form-control">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Tanggal Selesai</label>
+                      <input type="date" name="substeps_end_date" class="form-control">
+                    </div>
+                  </div>
                 </div>
                 
                 <div id="bobot-per-minggu">
                   <div style="font-size: 12px">Bobot per Minggu</div>
-                  <div class="form-group">
-                      <label>bobot 1</label>
-                      <input type="text" name="week[]">
-                      <input type="text" name="week[]">
+                  <div class="row" id="bobot-container">
+                    <div class="form-group col-sm-4" id="bobot-1">
+                      <label>Minggu 1</label>
+                      <input type="text" name="week[]" class="form-control">
+                    </div>
                   </div>
                 </div>
+
+                <button type="button" id="add" class="btn btn-primary" style="padding: 2px; font-size: 10px;">add</button>
+                <button type="button" id="remove" class="btn btn-danger" style="padding: 2px; font-size: 10px;">remove</button>
+
+                <div style="text-align: center">
+                  <button type="submit" class="btn btn-primary">Buat</button>
+                </div>
               </form>
-              <button class="btn btn-primary" style="padding: 2px; font-size: 10px;">add</button>
-              <button class="btn btn-danger" style="padding: 2px; font-size: 10px;">remove</button>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
-  
     </div>
 </div>
+
+@section('script')
+<script type="text/javascript">
+  console.log('asd');
+  $(document).ready(function() {
+    var i = 1;
+
+    $('#add').click(function() {
+      i++;
+      $('#bobot-container').append('<div id=bobot-'+i+' class="form-group col-sm-4"><label>Minggu '+i+'</label><input type="text" name="week[]" class="form-control"></div>');
+    });
+
+    $('#remove').click(function() {
+      $('#bobot-'+i).remove();
+      i--;
+    });
+  });
+</script>
+    
+@endsection
