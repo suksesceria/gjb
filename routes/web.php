@@ -23,7 +23,9 @@ Route::get('/', 'AdminController@dashboard');
 
 Route::group(['prefix' => 'projects'], function() {
     Route::get('/', 'ProjectController@index');
-    Route::get('/{id}/progress', 'ProjectController@show');
+    Route::get('/{id}/progress', 'ProjectController@showProgress');
+    Route::get('/{id}/keuangan', 'ProjectController@showFinance');
+    Route::get('/{id}/dokumen-pendukung', 'ProjectController@showAdditionalDocument');
 });
 
 Route::group(['prefix' => 'employees'], function() {

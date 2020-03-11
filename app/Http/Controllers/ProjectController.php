@@ -43,9 +43,19 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function showProgress($id)
     {
-        return view('projects.project-detail');
+        return view('projects.detail.index');
+    }
+
+    public function showFinance($id)
+    {
+        return view('projects.detail.index');
+    }
+
+    public function showAdditionalDocument($id)
+    {
+        return view('projects.detail.index');
     }
 
     /**

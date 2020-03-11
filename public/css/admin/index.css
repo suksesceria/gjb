@@ -83,6 +83,19 @@ a.btn {
   color: white !important;
 }
 
+a.tab {
+  border: 1px #dad8d8 solid;
+  padding: 10px 15px;
+  color: #3BB9FF;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+a.tab.active {
+  background-color: #3BB9FF;
+  color: white;
+}
+
 .btn-primary {
   background-color: #3BB9FF;
   border: 1px solid #3BB9FF;
@@ -106,6 +119,24 @@ select {
 
 input {
   font-size: 12px !important;
+}
+
+.table thead th {
+  vertical-align: inherit !important;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.table thead th {
+  vertical-align: unset;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.table td,
+.table th {
+  padding: 0.5rem;
+  vertical-align: top;
+  border-top: 1px solid #dee2e6;
+  border-bottom: 1px solid #dee2e6;
 }
 
 /* On screens that are less than 700px wide, make the sidebar into a topbar */
