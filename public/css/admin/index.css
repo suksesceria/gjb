@@ -135,8 +135,7 @@ input {
 .table th {
   padding: 0.5rem;
   vertical-align: top;
-  border-top: 1px solid #dee2e6;
-  border-bottom: 1px solid #dee2e6;
+  border: 1px solid #dee2e6;
 }
 
 /* On screens that are less than 700px wide, make the sidebar into a topbar */

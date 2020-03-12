@@ -28,11 +28,11 @@
             <button class="btn btn-primary btn-large mb-4 btn-add-product"
                     data-toggle="modal"
                     data-target="#modal-add-project"
-            >ADD NEW PROJECT</button>
+            >BUAT PROYEK BARU</button>
             <table class="table">
                 <thead>
-                    <th>Project name</th>
-                    <th width="30%">Progress</th>
+                    <th>Nama Proyek</th>
+                    <th width="30%">Proses</th>
                     <th>Employee</th>
                     <th>Type</th>
                     <th width="20%">Total Cost</th>
@@ -43,9 +43,9 @@
                         <td>Project alpha</td>
                         <td>
                             <div class="row">
-                                <div style="background-color: #3BB9FF; width: 100%; max-width: 80%; height: 20px; margin-top: 5px">
+                                <div style="background-color: #3BB9FF; width: 100%; max-width: 80%; height: 20px; margin-top: 5px; margin-left: 1em">
                                 </div>
-                                <span style="margin-top: 4px; margin-left: 2px">20</span>
+                                <span style="margin-top: 4px; margin-left: 2px">100</span>
                             </div>
                         </td>
                         <td>budi</td>

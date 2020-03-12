@@ -37,10 +37,6 @@
                         <option value="">joko</option>
                       </select>
                     </div>
-                    <div class="form-group">
-                      <label></label>
-                    </div>
-
                   </div>
                 </div>
 
@@ -99,7 +95,7 @@
 <script type="text/javascript">
   console.log('asd');
   $(document).ready(function() {
-    var i = 1;
+    var i = $('input[name="week[]"]').length;
 
     $('#add').click(function() {
       i++;
@@ -108,7 +104,9 @@
 
     $('#remove').click(function() {
       $('#bobot-'+i).remove();
-      i--;
+      if (i != 0) {
+        i--;
+      }
     });
   });
 </script>

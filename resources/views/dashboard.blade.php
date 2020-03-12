@@ -30,14 +30,14 @@
             font-weight: bold;
         }
         #progressbar-project {
-            max-width: 220px;
-            max-height: 220px;
+            max-width: 250px;
+            max-height: 250px;
             margin: 0 auto;
         }
         canvas#planned-actual-project {
             max-width: 100%;
             height: 60% !important;
-            margin: 24% auto 0px auto;
+            margin: 32% auto 0px auto;
         }
         .overdue-task-text {
             height: 100%;
@@ -83,12 +83,12 @@
                         </div>
                         <div class="col-md-4 progress-status">
                             <span style="font-weight: 500">
-                                PLANNED VS ACTUAL
+                                RENCANA VS REALITA
                             </span>
                             <canvas id="planned-actual-project" ></canvas>
                         </div>
                         <div class="col-md-4">
-                            <span style="font-weight: 500">OVERDUE TASK</span>
+                            <span style="font-weight: 500">TUGAS JATUH TEMPO</span>
                             <div class="overdue-task-text">
                                 4
                             </div>
@@ -137,8 +137,8 @@
                     ]
                 }],
                 labels: [
-                    'Done',
-                    'In Progress',
+                    'Selesai',
+                    'Dalam Pekerjaan',
                 ]
             },
             plugins: [x]
@@ -155,8 +155,8 @@
                     ]
                 }],
                 labels: [
-                    'Planned',
-                    'Actual'
+                    'Rencana',
+                    'Realita'
                 ]
             },
             options: {

@@ -22,10 +22,10 @@
             <table class="table" style="width: 100%; font-size: 12px">
                 <thead>
                 <tr>
-                    <th rowspan="3" align="center">NO</th>
-                    <th rowspan="3">URAIAN PEKERJAAN</th>
-                    <th rowspan="3">JUMLAH HARGA (RP.)</th>
-                    <th rowspan="3">BOBOT (%)</th>
+                    <th rowspan="3" class="text-center">NO</th>
+                    <th rowspan="3" class="text-center">URAIAN PEKERJAAN</th>
+                    <th rowspan="3" class="text-center">JUMLAH HARGA (RP.)</th>
+                    <th rowspan="3" class="text-center">BOBOT (%)</th>
                     <th colspan="48" class="text-center">WAKTU PELAKSANAAN</th>
                 </tr>
                 <tr>
@@ -118,10 +118,10 @@
             <table class="table" style="width: 100%; font-size: 12px">
                 <thead>
                 <tr>
-                    <th rowspan="3" align="center">NO</th>
-                    <th rowspan="3">URAIAN PEKERJAAN</th>
-                    <th rowspan="3">JUMLAH HARGA (RP.)</th>
-                    <th rowspan="3">BOBOT (%)</th>
+                    <th rowspan="3" class="text-center">NO</th>
+                    <th rowspan="3" class="text-center">URAIAN PEKERJAAN</th>
+                    <th rowspan="3" class="text-center">JUMLAH HARGA (RP.)</th>
+                    <th rowspan="3" class="text-center">BOBOT (%)</th>
                     <th colspan="48" class="text-center">WAKTU PELAKSANAAN</th>
                 </tr>
                 <tr>
@@ -238,12 +238,31 @@
     </div>
 </div>
 
+@include('projects.detail.modal.modal-edit-progress-weekly')
+
 @section('script')
     <script>
         $(document).ready(function() {
             $('#edit-item').click(function() {
                 console.log("edit");
                 $(this).addClass('edit-item-trigger-clicked');
+
+                $('#modal-edit-progress-weekly').modal('show');
+            });
+
+            $('#modal-edit-progress-weekly').on('show.bs.modal', function() {
+                var element = $('.edit-item-trigger-clicked');
+                var row = element.closest('.data-row');
+
+                var date = row.children('.date').text();
+                var item = row.children('.item').text();
+                var progressUpdate = row.children('.progress-update').text();
+                var progressDescription = row.children('.progress-description').text();
+
+                $('#modal-progress-weekly-date').val(date);
+                $('#modal-progress-weekly-substep').val(item);
+                $('#modal-progress-weekly-progress-update').val(progressUpdate);
+                $('#modal-progress-weekly-progress-description').val(progressDescription);
             });
         });
     </script>

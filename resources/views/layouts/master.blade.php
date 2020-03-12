@@ -29,7 +29,7 @@
         </a>
         <a href="{{ url('/projects') }}" 
             class="{{ (request()->is('projects*')) ? 'active' : '' }}"
-            >Project
+            >Proyek
         </a>
         <a href="">{{ __('Project Types') }}</a>
         <a href="{{ url('/employees') }}"
