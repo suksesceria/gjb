@@ -13,7 +13,10 @@
                         Send Date: 13/12/2020
                     </div>
                     <div class="col-md-4">
-                        <button class="btn btn-primary">Edit Projek</button>
+                        <button class="btn btn-primary"
+                                data-toggle="modal"
+                                data-target="#modal-edit-project"
+                        >Edit Projek</button>
                     </div>
                 </div>
             </div>
@@ -202,7 +205,10 @@
                         PROGRESS REAL - WEEKLY
                     </div>
                     <div class="col-md-6">
-                        <button class="btn btn-primary float-right">Tambah</button>
+                        <button class="btn btn-primary float-right"
+                                data-target="#modal-add-progress-weekly"
+                                data-toggle="modal"
+                        >Tambah</button>
                         <div class="clearfix"></div>
                     </div>
                 </div>
@@ -216,7 +222,7 @@
                                 <th>Item Pekerjaan</th>
                                 <th>Progress Update</th>
                                 <th>Deskripsi Progress</th>
-                                <th>Action</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -239,6 +245,8 @@
 </div>
 
 @include('projects.detail.modal.modal-edit-progress-weekly')
+@include('projects.detail.modal.modal-add-progress-weekly')
+@include('projects.detail.modal.modal-edit-project')
 
 @section('script')
     <script>

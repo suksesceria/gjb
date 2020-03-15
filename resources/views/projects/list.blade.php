@@ -19,9 +19,6 @@
 @endsection
 
 @section('content')
-<?php
-    $url = 'asdasd';
-?>
 <div class="container">
     <div class="panel panel-default">
         <div class="panel-body">

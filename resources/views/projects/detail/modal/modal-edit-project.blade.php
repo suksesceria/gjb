@@ -1,9 +1,9 @@
-<div id="modal-add-project" class="modal fade" role="dialog">
+<div id="modal-edit-project" class="modal fade" role="dialog">
     <div class="modal-dialog">
         
         <div class="modal-content">
             <div class="modal-header">
-                <h4>Add Projek</h4>
+                <h4>Edit Projek</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
@@ -83,7 +83,7 @@
                 <button type="button" id="remove" class="btn btn-danger" style="padding: 2px; font-size: 10px;">remove</button>
 
                 <div style="text-align: center">
-                  <button type="submit" class="btn btn-primary">Buat</button>
+                  <button type="submit" class="btn btn-primary">Edit</button>
                 </div>
               </form>
               @if ($errors->any())

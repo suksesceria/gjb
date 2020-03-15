@@ -1,6 +1,10 @@
 @import '../variables';
 
 /* The side navigation menu */
+body {
+  font-size: 12px;
+}
+
 .sidebar {
     margin: 0;
     padding: 0;
@@ -136,6 +140,10 @@ input {
   padding: .50rem;
   vertical-align: top;
   border: 1px solid #dee2e6;
+}
+
+.overflow-x {
+  overflow-x: auto;
 }
 
 /* On screens that are less than 700px wide, make the sidebar into a topbar */

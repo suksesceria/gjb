@@ -1,9 +1,9 @@
-<div id="modal-edit-progress-weekly" class="modal fade" role="dialog">
+<div id="modal-add-progress-weekly" class="modal fade" role="dialog">
     <div class="modal-dialog">
         
         <div class="modal-content">
             <div class="modal-header">
-                <h4>Edit Progress Mingguan</h4>
+                <h4>Tambah Progress Mingguan</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
@@ -25,19 +25,19 @@
                         <input class="form-control" type="text" id="modal-progress-weekly-progress-description">
                     </div>
                     <div class="text-center">
-                        <button class="btn btn-primary">Edit</button>
+                        <button class="btn btn-primary">Tambah</button>
                     </div>
                 </form>
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
             </div>
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
         </div>
     </div>
 </div>
