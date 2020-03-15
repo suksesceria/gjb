@@ -8,7 +8,14 @@
                         data-toggle="modal"
                         data-target="#modal-create-role"
                 >Membuat Role</button>
-                
+                <table class="table mt-3">
+                    <thead>
+                        <tr>
+                            <th width="5%">No</th>
+                            <th>Akses</th>
+                        </tr>
+                    </thead>
+                </table>
             </div>
         </div>
     </div>
