@@ -36,7 +36,7 @@
             class="{{ (request()->is('employees*')) ? 'active' : '' }}"
             >Karyawan
         </a>
-        <a href="">Akses Role</a>
+    <a href="{{ url('/roles') }}">Akses Role</a>
     </div>
     <div class="content">
         @yield('content')

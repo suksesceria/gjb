@@ -31,3 +31,7 @@ Route::group(['prefix' => 'projects'], function() {
 Route::group(['prefix' => 'employees'], function() {
     Route::get('/', 'EmployeeController@index');
 });
+
+Route::group(['prefix' => 'roles'], function() {
+    Route::get('/', 'RoleController@index');
+});
