@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Employee;
+use App\Observers\EmployeeObserver;
+use App\Observers\RoleObserver;
+use App\Role;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
@@ -24,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Role::observe(RoleObserver::class);
+        Employee::observe(EmployeeObserver::class);
     }
 }
