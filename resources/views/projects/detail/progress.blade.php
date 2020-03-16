@@ -251,6 +251,8 @@
 @section('script')
     <script>
         $(document).ready(function() {
+            var i = $('input[name="week[]"]').length;
+
             $('#edit-item').click(function() {
                 console.log("edit");
                 $(this).addClass('edit-item-trigger-clicked');
@@ -271,6 +273,18 @@
                 $('#modal-progress-weekly-substep').val(item);
                 $('#modal-progress-weekly-progress-update').val(progressUpdate);
                 $('#modal-progress-weekly-progress-description').val(progressDescription);
+            });
+
+            $('#add').click(function() {
+                i++;
+                $('#bobot-container').append('<div id=bobot-'+i+' class="form-group col-sm-4"><label>Minggu '+i+'</label><input type="text" name="week[]" class="form-control"></div>');
+            });
+
+            $('#remove').click(function() {
+                $('#bobot-'+i).remove();
+                if (i != 0) {
+                    i--;
+                }
             });
         });
     </script>

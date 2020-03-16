@@ -17,7 +17,7 @@
                     </div>
                     <div class="form-group">
                       <label>Total Biaya Projek</label>
-                      <input type="number" class="form-control" name="project_total_cost" id="project_total_cost">
+                      <input type="number" min="0" class="form-control" name="project_total_cost" id="project_total_cost">
                     </div>
                     
                   </div>
