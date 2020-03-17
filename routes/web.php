@@ -19,7 +19,7 @@ Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group([], function () {
 
     Route::get('/', 'AdminController@dashboard');
 
@@ -28,6 +28,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{id}/progress', 'ProjectController@showProgress');
         Route::get('/{id}/keuangan', 'ProjectController@showFinance');
         Route::get('/{id}/dokumen-pendukung', 'ProjectController@showAdditionalDocument');
+        Route::get('/tambah-projek', 'ProjectController@addProject');
     });
 
     Route::group(['prefix' => 'employees'], function() {

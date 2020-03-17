@@ -22,10 +22,9 @@
 <div class="container">
     <div class="panel panel-default">
         <div class="panel-body">
-            <button class="btn btn-primary btn-large mb-4 btn-add-product"
-                    data-toggle="modal"
-                    data-target="#modal-add-project"
-            >BUAT PROYEK BARU</button>
+            <a class="btn btn-primary btn-large mb-4 btn-add-product"
+                    href="{{ url('/projects/tambah-projek') }}"
+            >BUAT PROYEK BARU</a>
             <table class="table">
                 <thead>
                     <th>Nama Proyek</th>
@@ -58,7 +57,6 @@
             </table>
         </div>
     </div>
-    @include('projects.modal-add-project')
 </div>
 @endsection
 
