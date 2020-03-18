@@ -3,7 +3,7 @@
         
         <div class="modal-content">
             <div class="modal-header">
-                <h4>Tambah Karyawan</h4>
+                <h4>Edit Karyawan</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
@@ -14,7 +14,7 @@
                     </div>
                     <div class="form-group">
                         <label>Tanggal lahir</label>
-                        <input class="form-control" type="text" name="dob" id="dob" required>
+                        <input class="form-control" type="date" name="dob" id="dob" required>
                     </div>
                     <div class="form-group">
                         <label>Username</label>

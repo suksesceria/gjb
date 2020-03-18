@@ -26,7 +26,19 @@
                             <td class="email">djail@org.com</td>
                             <td class="phone-number">123456789</td>
                             <td>
-                                <i class="fas fa-pencil-alt mr-2" style="cursor: pointer;" id="edit-item"></i>
+                                <i class="fas fa-pencil-alt mr-2" style="cursor: pointer;" onclick="editItem(1)" id="1"></i>
+                                <i class="fas fa-trash" style="cursor: pointer;" id="delete-item"></i>
+                            </td>
+                        </tr>
+                        <tr class="data-row">
+                            <td>2</td>
+                            <td class="name">asd</td>
+                            <td class="dob">10/12/2020</td>
+                            <td class="username">djail</td>
+                            <td class="email">test@org.com</td>
+                            <td class="phone-number">0987654321</td>
+                            <td>
+                                <i class="fas fa-pencil-alt mr-2" style="cursor: pointer;" onclick="editItem(2)" id="2"></i>
                                 <i class="fas fa-trash" style="cursor: pointer;" id="delete-item"></i>
                             </td>
                         </tr>
@@ -43,12 +55,6 @@
 @section('script')
     <script>
         $(document).ready(function() {
-            $('#edit-item').click(function() {
-                $(this).addClass('edit-item-trigger-clicked');
-
-                $('#modal-edit-employees').modal('show');
-            });
-
             $('#modal-edit-employees').on('show.bs.modal', function() {
                 var element = $('.edit-item-trigger-clicked');
                 var row = element.closest('.data-row');
@@ -58,6 +64,8 @@
                 var userName = row.children('.username').text();
                 var email = row.children('.email').text();
                 var phoneNumber= row.children('.phone-number').text();
+
+                dob = dob.split("/").reverse().join("-");
 
                 $('#name').val(name);
                 $('#dob').val(dob);
@@ -70,5 +78,10 @@
                 $('.edit-item-trigger-clicked').removeClass('edit-item-trigger-clicked')
             });
         });
+        function editItem(index) {
+            $('#'+index).addClass('edit-item-trigger-clicked');
+
+            $('#modal-edit-employees').modal('show');
+        }
     </script>
 @endsection

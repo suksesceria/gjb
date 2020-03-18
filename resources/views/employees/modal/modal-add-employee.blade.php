@@ -14,7 +14,7 @@
                     </div>
                     <div class="form-group">
                         <label>Tanggal lahir</label>
-                        <input class="form-control" type="text" name="dob" required>
+                        <input class="form-control" type="date" name="dob" required>
                     </div>
                     <div class="form-group">
                         <label>Username</label>
