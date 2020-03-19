@@ -36,7 +36,7 @@
                         <label>Role</label>
                         <select name="role" class="form-control">
                             <option value="admin">Admin</option>
-                            <option value="project_manager">Admin</option>
+                            <option value="project_manager">Project manager</option>
                             <option value="office">Office</option>
                         </select>
                     </div>
