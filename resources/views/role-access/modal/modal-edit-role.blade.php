@@ -1,4 +1,4 @@
-<div id="modal-create-role" class="modal fade" role="dialog">
+<div id="modal-edit-role" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -9,55 +9,55 @@
                 <form action="">
                     <div class="form-group">
                         <label>Nama Role</label>
-                        <input class="form-control" type="text" name="role_name" id="role-name">
+                        <input class="form-control" type="text" name="name" id="edit-role-name">
                     </div>
                     <div class="form-group">
                         <label>Deskripsi Role</label>
-                        <input class="form-control" type="text" name="role_description" id="role-description">
+                        <input class="form-control" type="text" name="description" id="edit-role-description">
                     </div>
                     <label for="">Akses Menu</label>
                     <div class="ml-1">
                         <div class="row">
                             <div class="col-md-6">
                                 <div>
-                                    <input type="checkbox" class="m-1" id="dashboard" name="dashboard" value="dashboard">
+                                    <input type="checkbox" class="m-1" id="edit-dashboard" name="dashboard" value="dashboard">
                                     <label for="dashboard">Beranda</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" class="m-1" id="project" name="project" value="project">
+                                    <input type="checkbox" class="m-1" id="edit-project" name="project" value="project">
                                     <label for="project">Proyek</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" class="m-1" id="cost-report" name="cost_report" value="cost_report">
+                                    <input type="checkbox" class="m-1" id="edit-cost-report" name="cost_report" value="cost_report">
                                     <label for="cost-report">Laporan keuangan</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" class="m-1" id="employees" name="employees" value="employees">
+                                    <input type="checkbox" class="m-1" id="edit-employees" name="employees" value="employees">
                                     <label for="employess">Karyawan</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div>
-                                    <input type="checkbox" class="m-1" id="progress" name="progress" value="progress">
+                                    <input type="checkbox" class="m-1" id="edit-progress" name="progress" value="progress">
                                     <label for="progress">Progress</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" class="m-1" id="supporting-document" name="supporting_document" value="supporting_document">
+                                    <input type="checkbox" class="m-1" id="edit-supporting-document" name="supporting_document" value="supporting_document">
                                     <label for="supporting-document">Documen pendukung</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" class="m-1" id="role-access" name="role_access" value="role_access">
+                                    <input type="checkbox" class="m-1" id="edit-role-access" name="role_access" value="role_access">
                                     <label for="role-access">Akses role</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" class="m-1" id="project-type" name="project_type" value="project_type">
+                                    <input type="checkbox" class="m-1" id="edit-project-type" name="project_type" value="project_type">
                                     <label for="project-type">Tipe Proyek</label>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="text-center mt-2">
-                        <button type="submit" class="btn btn-primary">Buat</button>
+                    <div style="text-align: center">
+                        <button type="submit" class="btn btn-primary">Edit</button>
                     </div>
                 </form>
                 @if ($errors->any())
