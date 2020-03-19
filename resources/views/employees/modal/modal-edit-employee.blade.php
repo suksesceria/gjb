@@ -28,6 +28,10 @@
                         <label>Nomor Ponsel</label>
                         <input class="form-control" type="text" name="phone_number" id="phone-number" required>
                     </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input class="form-control" type="text" name="password">
+                    </div>
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary">Tambah</button>
                     </div>
