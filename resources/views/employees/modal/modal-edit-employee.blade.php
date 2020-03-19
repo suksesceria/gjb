@@ -29,6 +29,14 @@
                         <input class="form-control" type="text" name="phone_number" id="phone-number" required>
                     </div>
                     <div class="form-group">
+                        <label>Role</label>
+                        <select name="role" class="form-control">
+                            <option value="admin">Admin</option>
+                            <option value="project_manager">Admin</option>
+                            <option value="office">Office</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label>Password</label>
                         <input class="form-control" type="text" name="password">
                     </div>

@@ -32,6 +32,14 @@
                         <label>Nomor Ponsel</label>
                         <input class="form-control" type="text" name="phone_number" required>
                     </div>
+                    <div class="form-group">
+                        <label>Role</label>
+                        <select name="role" class="form-control">
+                            <option value="admin">Admin</option>
+                            <option value="project_manager">Admin</option>
+                            <option value="office">Office</option>
+                        </select>
+                    </div>
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary">Tambah</button>
                     </div>
