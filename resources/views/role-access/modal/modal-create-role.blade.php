@@ -9,11 +9,11 @@
                 <form action="">
                     <div class="form-group">
                         <label>Nama Role</label>
-                        <input class="form-control" type="text" name="role_name" id="role-name">
+                        <input class="form-control" type="text" name="role_name" id="role-name" required>
                     </div>
                     <div class="form-group">
                         <label>Deskripsi Role</label>
-                        <input class="form-control" type="text" name="role_description" id="role-description">
+                        <input class="form-control" type="text" name="role_description" id="role-description" required>
                     </div>
                     <label for="">Akses Menu</label>
                     <div class="ml-1">

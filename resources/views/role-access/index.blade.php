@@ -11,7 +11,7 @@
                 <table class="table mt-3">
                     <thead>
                         <tr>
-                            <th width="5%">Peran</th>
+                            <th>Peran</th>
                             <th>Akses Menu</th>
                             <th>Deskripsi</th>
                             <th>Aksi</th>

@@ -39,5 +39,9 @@ Route::group([], function () {
         Route::get('/', 'RoleController@index');
     });
 
+    Route::group(['prefix' => 'type-proyek'], function() {
+       Route::get('/', 'ProjectTypeController@index');
+    });
+
 });
 
