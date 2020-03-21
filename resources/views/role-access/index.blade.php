@@ -26,7 +26,7 @@
                             <td class="description">-</td>
                             <td>
                                 <i class="fas fa-pencil-alt mr-2" style="cursor: pointer;" onclick="editItem(1)" id="1"></i>
-                                <i class="fas fa-trash" style="cursor: pointer;" id="delete-item"></i>
+                                <i class="fas fa-trash" style="cursor: pointer;" onclick="deleteItem(2)" id="delete-item"></i>
                             </td>
                         </tr>
                         <tr class="data-row">
@@ -37,7 +37,7 @@
                             <td class="description">-</td>
                             <td>
                                 <i class="fas fa-pencil-alt mr-2" style="cursor: pointer;" onclick="editItem(2)" id="2"></i>
-                                <i class="fas fa-trash" style="cursor: pointer;" id="delete-item"></i>
+                                <i class="fas fa-trash" style="cursor: pointer;" onclick="deleteItem(2)" id="delete-item"></i>
                             </td>
                         </tr>
                     </tbody>
@@ -103,6 +103,10 @@
             $('#'+index).addClass('edit-item-trigger-clicked');
 
             $('#modal-edit-role').modal('show');
+        }
+
+        function deleteItem() {
+            
         }
     </script>
 @endsection

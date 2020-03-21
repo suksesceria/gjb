@@ -19,12 +19,10 @@
                     <tbody>
                         <tr class="data-row">
                             <td width="5%">1</td>
-                            <td class="type">
-                                Gedung
-                            </td>
+                            <td class="type">Gedung</td>
                             <td>
                                 <i class="fas fa-pencil-alt mr-2" style="cursor: pointer;" onclick="editItem(1)" id="1"></i>
-                                <i class="fas fa-trash" style="cursor: pointer;" id="delete-item"></i>
+                                <i class="fas fa-trash" style="cursor: pointer;" onclick="deleteItem(1)" id="delete-item"></i>
                             </td>
                         </tr>
                     </tbody>
@@ -33,14 +31,34 @@
         </div>
     </div>
     @include('project-type.modal.modal-create-project-type')
+    @include('project-type.modal.modal-edit-project-type')
 @endsection
 
 @section('script')
     <script>
+        $('#modal-edit-project-type').on('show.bs.modal', function() {
+            var element = $('.edit-item-trigger-clicked');
+            var row = element.closest('.data-row');
+
+            var typeProyek = row.children('.type').text();
+
+            $('#edit-type-proyek').val(typeProyek);
+        });
+
+        $('#modal-edit-project-type').on('hide.bs.modal', function() {
+            $('.edit-item-trigger-clicked').removeClass('edit-item-trigger-clicked')
+        });
+
         function editItem(index) {
             $('#'+index).addClass('edit-item-trigger-clicked');
 
-            $('#modal-edit-role').modal('show');
+            $('#modal-edit-project-type').modal('show');
+        }
+
+        function deleteItem(id) {
+            $.ajax({
+
+            });
         }
     </script>
 @endsection
