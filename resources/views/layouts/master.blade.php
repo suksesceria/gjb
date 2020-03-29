@@ -40,6 +40,7 @@
         <a href="{{ url('/roles') }}"
             class="{{ (request()->is('roles*')) ? 'active' : '' }}"
             >Akses Role</a>
+        <a href="{{ url('/logout') }}">Log out</a>
     </div>
     <div class="content">
         @yield('content')
