@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRoleTable extends Migration
+class CreateProjectStepTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateRoleTable extends Migration
      */
     public function up()
     {
-        Schema::create('role', function (Blueprint $table) {
-            $table->bigIncrements('role_id');
-            $table->string('role_name', 100)->nullable(false);
-            $table->text('role_desc')->nullable();
+        Schema::create('project_step', function (Blueprint $table) {
+            $table->bigIncrements('project_step_id');
+            $table->string('project_step_name', 100)->nullable(false);
+            $table->unsignedBigInteger('project_id')->nullable(false);
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->string('desc', 300)->nullable();
@@ -24,6 +24,13 @@ class CreateRoleTable extends Migration
             $table->boolean('delete')->nullable(false);
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('project_id')->references('project_id')->on('project')
+                ->onDelete('RESTRICT');
+            $table->foreign('created_by')->references('employee_id')->on('employees')
+                ->onDelete('RESTRICT');
+            $table->foreign('updated_by')->references('employee_id')->on('employees')
+                ->onDelete('RESTRICT');
         });
     }
 
@@ -34,6 +41,6 @@ class CreateRoleTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('role');
+        Schema::dropIfExists('project_step');
     }
 }

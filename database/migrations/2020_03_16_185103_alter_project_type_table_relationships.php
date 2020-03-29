@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterEmployeesTableRelationships extends Migration
+class AlterProjectTypeTableRelationships extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,7 @@ class AlterEmployeesTableRelationships extends Migration
      */
     public function up()
     {
-        Schema::table('employees', function (Blueprint $table) {
-            $table->foreign('role_id')->references('role_id')->on('role')
-                ->onDelete('RESTRICT');
+        Schema::table('project_types', function (Blueprint $table) {
             $table->foreign('created_by')->references('employee_id')->on('employees')
                 ->onDelete('RESTRICT');
             $table->foreign('updated_by')->references('employee_id')->on('employees')
@@ -30,10 +28,9 @@ class AlterEmployeesTableRelationships extends Migration
      */
     public function down()
     {
-        Schema::table('employees', function (Blueprint $table) {
-            $table->dropForeign('employees_role_id_foreign');
-            $table->dropForeign('employees_created_by_foreign');
-            $table->dropForeign('employees_updated_by_foreign');
+        Schema::table('project_types', function (Blueprint $table) {
+            $table->dropForeign('project_created_by_foreign');
+            $table->dropForeign('project_updated_by_foreign');
         });
     }
 }
