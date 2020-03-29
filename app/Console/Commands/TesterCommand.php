@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Menu;
+use App\Role;
 use Illuminate\Console\Command;
 
 class TesterCommand extends Command
@@ -37,6 +39,9 @@ class TesterCommand extends Command
      */
     public function handle()
     {
-
+        $role = Role::first();
+//        $role->menus()->detach([3]);
+//        $role->menus()->attach([3]);
+        dd($role->menus->count());
     }
 }

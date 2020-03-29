@@ -21,7 +21,15 @@ class Role extends Model
 
     public function menus()
     {
-        return $this->belongsToMany(Menu::class)->using(RoleAccess::class);
+        return $this
+            ->belongsToMany(
+                Menu::class,
+                'role_access',
+                'role_id',
+                'menu_id')
+            ->using(RoleAccess::class)
+            ->whereNull('role_access.deleted_at')
+            ->withTimestamps();
     }
 
 }

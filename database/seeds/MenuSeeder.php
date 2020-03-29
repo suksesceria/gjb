@@ -1,5 +1,6 @@
 <?php
 
+use App\Menu;
 use Illuminate\Database\Seeder;
 
 class MenuSeeder extends Seeder
@@ -11,7 +12,10 @@ class MenuSeeder extends Seeder
      */
     public function run()
     {
-
+        foreach ($this->getData() as $key => $datum) {
+            $menu = new Menu($datum);
+            $menu->save();
+        }
     }
 
     protected function getData()

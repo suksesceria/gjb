@@ -28,17 +28,17 @@
             >Beranda
         </a>
         <a href="{{ url('/projects') }}" 
-            class="{{ (request()->is('projects*')) ? 'active' : '' }}"
+            class="{{ (request()->is('projects*')) ? 'active' : '' }} access-role access-projects"
             >Proyek
         </a>
         <a href="{{ url('/type-proyek') }}"
-            class="{{ request()->is('type-proyek*') ? 'active' : '' }}">Tipe Proyek</a>
+            class="{{ request()->is('type-proyek*') ? 'active' : '' }} access-role access-type-proyek">Tipe Proyek</a>
         <a href="{{ url('/employees') }}"
-            class="{{ (request()->is('employees*')) ? 'active' : '' }}"
+            class="{{ (request()->is('employees*')) ? 'active' : '' }} access-role access-employees"
             >Karyawan
         </a>
         <a href="{{ url('/roles') }}"
-            class="{{ (request()->is('roles*')) ? 'active' : '' }}"
+            class="{{ (request()->is('roles*')) ? 'active' : '' }} access-role access-roles"
             >Akses Role</a>
         <a href="{{ url('/logout') }}">Log out</a>
     </div>
@@ -50,4 +50,13 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 @yield('script')
+<script>
+    $('.access-role').hide();
+    var menus = <?= json_encode(Auth::user()->role->menus->pluck('menu_code')) ?>;
+    if (menus.length < 1)
+        window.location.href = '/logout';
+    menus.forEach(function(menu) {
+        $('.access-' + menu).show();
+    });
+</script>
 </html>

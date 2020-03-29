@@ -4,6 +4,7 @@
 namespace App\Observers\Traits;
 
 
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Support\Facades\Auth;
 
 trait ObserverBlame
@@ -34,6 +35,8 @@ trait ObserverBlame
     public function deleting($model)
     {
         $model->delete = true;
+        if ($model instanceof Pivot)
+            $model->save();
     }
 
 }

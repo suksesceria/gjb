@@ -1,5 +1,6 @@
 <?php
 
+use App\Menu;
 use App\Role;
 use Illuminate\Database\Seeder;
 
@@ -17,5 +18,8 @@ class RoleSeeder extends Seeder
             'role_desc' => 'Admin can access all of the features'
         ]);
         $role->save();
+        $role->menus()->attach(
+            Menu::get()->pluck('menu_id')
+        );
     }
 }
