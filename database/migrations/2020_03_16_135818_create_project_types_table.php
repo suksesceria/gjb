@@ -22,6 +22,7 @@ class CreateProjectTypesTable extends Migration
             $table->unsignedInteger('ver')->nullable(false);
             $table->boolean('delete')->nullable(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
