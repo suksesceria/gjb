@@ -31,12 +31,15 @@
             class="{{ (request()->is('projects*')) ? 'active' : '' }}"
             >Proyek
         </a>
-        <a href="">{{ __('Project Types') }}</a>
+        <a href="{{ url('/type-proyek') }}"
+            class="{{ request()->is('type-proyek*') ? 'active' : '' }}">Tipe Proyek</a>
         <a href="{{ url('/employees') }}"
             class="{{ (request()->is('employees*')) ? 'active' : '' }}"
             >Karyawan
         </a>
-    <a href="{{ url('/roles') }}">Akses Role</a>
+        <a href="{{ url('/roles') }}"
+            class="{{ (request()->is('roles*')) ? 'active' : '' }}"
+            >Akses Role</a>
     </div>
     <div class="content">
         @yield('content')

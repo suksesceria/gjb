@@ -254,7 +254,6 @@
             var i = $('input[name="week[]"]').length;
 
             $('#edit-item').click(function() {
-                console.log("edit");
                 $(this).addClass('edit-item-trigger-clicked');
 
                 $('#modal-edit-progress-weekly').modal('show');
@@ -273,6 +272,10 @@
                 $('#modal-progress-weekly-substep').val(item);
                 $('#modal-progress-weekly-progress-update').val(progressUpdate);
                 $('#modal-progress-weekly-progress-description').val(progressDescription);
+            });
+
+            $('#modal-edit-progress-weekly').on('hide.bs.modal', function() {
+                $('.edit-item-trigger-clicked').removeClass('edit-item-trigger-clicked')
             });
 
             $('#add').click(function() {

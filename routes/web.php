@@ -28,6 +28,7 @@ Route::group([], function () {
         Route::get('/{id}/progress', 'ProjectController@showProgress');
         Route::get('/{id}/keuangan', 'ProjectController@showFinance');
         Route::get('/{id}/dokumen-pendukung', 'ProjectController@showAdditionalDocument');
+        Route::get('/tambah-projek', 'ProjectController@addProject');
     });
 
     Route::group(['prefix' => 'employees'], function() {
@@ -36,6 +37,10 @@ Route::group([], function () {
 
     Route::group(['prefix' => 'roles'], function() {
         Route::get('/', 'RoleController@index');
+    });
+
+    Route::group(['prefix' => 'type-proyek'], function() {
+       Route::get('/', 'ProjectTypeController@index');
     });
 
 });
