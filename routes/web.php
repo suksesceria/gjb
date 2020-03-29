@@ -21,7 +21,7 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::redirect('home', '/');
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['auth', 'access_role']], function () {
 
     Route::get('/', 'AdminController@dashboard');
 

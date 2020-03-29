@@ -39,8 +39,9 @@ class TesterCommand extends Command
      */
     public function handle()
     {
+
         $role = Role::first();
-//        $role->menus()->detach([3]);
+//        $role->menus()->detach([2]);
 //        $role->menus()->attach([3]);
         dd($role->menus->count());
     }
