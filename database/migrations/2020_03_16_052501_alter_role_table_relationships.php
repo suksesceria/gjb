@@ -29,8 +29,8 @@ class AlterRoleTableRelationships extends Migration
     public function down()
     {
         Schema::table('role', function (Blueprint $table) {
-            $table->dropForeign('created_by');
-            $table->dropForeign('updated_by');
+            $table->dropForeign('role_created_by_foreign');
+            $table->dropForeign('role_updated_by_foreign');
         });
     }
 }
