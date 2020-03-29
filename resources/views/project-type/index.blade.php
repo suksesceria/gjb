@@ -17,19 +17,32 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="data-row">
-                            <td width="5%">1</td>
-                            <td class="type">Gedung</td>
-                            <td>
-                                <i class="fas fa-pencil-alt mr-2" style="cursor: pointer;" onclick="editItem(1)" id="1"></i>
-                                <i class="fas fa-trash" style="cursor: pointer;" onclick="deleteItem(1)" id="delete-item"></i>
-                            </td>
-                        </tr>
+                        @if($project_types->count() > 0)
+                            @foreach($project_types as $index => $project_type)
+                            <tr class="data-row">
+                                <td width="5%">{{ $index + 1 }}</td>
+                                <td class="type">{{ $project_type->project_type_name }}</td>
+                                <td>
+                                    <i class="fas fa-pencil-alt mr-2" style="cursor: pointer;" onclick="editItem({{ json_encode($project_type) }})" id="1"></i>
+                                    <i class="fas fa-trash" style="cursor: pointer;" onclick="deleteItem({{ $project_type->project_type_id }})" id="delete-item"></i>
+                                </td>
+                            </tr>
+                            @endforeach
+                        @else
+                            <tr class="data-row">
+                                <td colspan="3" align="center">Data tidak ditemukan</td>
+                            </tr>
+                        @endif
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+    <form action="" method="post" id="form-delete-project_type_id">
+        @method('DELETE')
+        @csrf
+        <input type="hidden" name="project_type_id" id="delete-project_type_id" />
+    </form>
     @include('project-type.modal.modal-create-project-type')
     @include('project-type.modal.modal-edit-project-type')
 @endsection
@@ -49,16 +62,16 @@
             $('.edit-item-trigger-clicked').removeClass('edit-item-trigger-clicked')
         });
 
-        function editItem(index) {
-            $('#'+index).addClass('edit-item-trigger-clicked');
-
+        function editItem(data) {
+            $('#'+data.project_type_id).addClass('edit-item-trigger-clicked');
+            $('#edit-project_type_name').val(data.project_type_name);
+            $('#edit-project_type_id').val(data.project_type_id);
             $('#modal-edit-project-type').modal('show');
         }
 
         function deleteItem(id) {
-            $.ajax({
-
-            });
+            $('#delete-project_type_id').val(id);
+            $('#form-delete-project_type_id').submit();
         }
     </script>
 @endsection

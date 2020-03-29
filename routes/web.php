@@ -43,6 +43,9 @@ Route::group(['middleware' => ['auth', 'access_role']], function () {
 
     Route::group(['prefix' => 'type-proyek'], function() {
        Route::get('/', 'ProjectTypeController@index');
+       Route::post('/', 'ProjectTypeController@store');
+       Route::put('/', 'ProjectTypeController@update');
+       Route::delete('/', 'ProjectTypeController@delete');
     });
 
 });

@@ -6,10 +6,11 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <form action="">
+                <form action="" method="post">
+                    @csrf
                     <div class="form-group">
                         <label>Nama Tipe Proyek</label>
-                        <input class="form-control" type="text" name="role_description" id="role-description" required>
+                        <input class="form-control" type="text" name="project_type_name" id="project_type_name" required>
                     </div>
                     <div class="text-center mt-2">
                         <button type="submit" class="btn btn-primary">Buat</button>

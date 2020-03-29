@@ -6,10 +6,13 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <form action="">
+                <form action="" method="post">
+                    @method('PUT')
+                    @csrf
+                    <input type="hidden" name="project_type_id" id="edit-project_type_id" />
                     <div class="form-group">
                         <label>Nama Tipe Proyek</label>
-                        <input class="form-control" type="text" name="type_proyek" id="edit-type-proyek" required>
+                        <input class="form-control" type="text" name="project_type_name" id="edit-project_type_name" required>
                     </div>
                     <div class="text-center mt-2">
                         <button type="submit" class="btn btn-primary">Edit</button>
