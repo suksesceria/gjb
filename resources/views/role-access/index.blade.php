@@ -18,28 +18,27 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="data-row">
-                            <td class="role">Admin</td>
-                            <td class="access-menu">
-                                Beranda, Proyek
-                            </td>
-                            <td class="description">-</td>
-                            <td>
-                                <i class="fas fa-pencil-alt mr-2" style="cursor: pointer;" onclick="editItem(1)" id="1"></i>
-                                <i class="fas fa-trash" style="cursor: pointer;" onclick="deleteItem(2)" id="delete-item"></i>
-                            </td>
-                        </tr>
-                        <tr class="data-row">
-                            <td class="role">Project Manager</td>
-                            <td class="access-menu">
-                                Beranda, Proyek, Progress
-                            </td>
-                            <td class="description">-</td>
-                            <td>
-                                <i class="fas fa-pencil-alt mr-2" style="cursor: pointer;" onclick="editItem(2)" id="2"></i>
-                                <i class="fas fa-trash" style="cursor: pointer;" onclick="deleteItem(2)" id="delete-item"></i>
-                            </td>
-                        </tr>
+                        @if($roles->count() > 0)
+                            @foreach($roles as $index => $role)
+                            <tr class="data-row">
+                                <td class="role">{{ $role->role_name }}</td>
+                                <td class="access-menu">
+                                    {{ $role->menus->implode('menu_name', ', ') }}
+                                </td>
+                                <td class="description">
+                                    {{ $role->role_desc }}
+                                </td>
+                                <td>
+                                    <i class="fas fa-pencil-alt mr-2" style="cursor: pointer;" onclick="editItem(1)" id="1"></i>
+                                    <i class="fas fa-trash" style="cursor: pointer;" onclick="deleteItem(2)" id="delete-item"></i>
+                                </td>
+                            </tr>
+                            @endforeach
+                        @else
+                            <tr class="data-row">
+                                <td colspan="4" align="center">Data tidak ditemukan</td>
+                            </tr>
+                        @endif
                     </tbody>
                 </table>
             </div>

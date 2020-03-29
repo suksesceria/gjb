@@ -18,42 +18,16 @@
                     <label for="">Akses Menu</label>
                     <div class="ml-1">
                         <div class="row">
+                            @foreach($menus->split(2) as $menu)
                             <div class="col-md-6">
-                                <div>
-                                    <input type="checkbox" class="m-1" id="dashboard" name="dashboard" value="dashboard">
-                                    <label for="dashboard">Beranda</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" class="m-1" id="project" name="project" value="project">
-                                    <label for="project">Proyek</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" class="m-1" id="cost-report" name="cost_report" value="cost_report">
-                                    <label for="cost-report">Laporan keuangan</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" class="m-1" id="employees" name="employees" value="employees">
-                                    <label for="employess">Karyawan</label>
-                                </div>
+                                @foreach($menu as $item)
+                                    <div>
+                                        <input type="checkbox" class="m-1" id="dashboard" name="dashboard" value="dashboard">
+                                        <label for="dashboard">{{ $item->menu_name }}</label>
+                                    </div>
+                                @endforeach
                             </div>
-                            <div class="col-md-6">
-                                <div>
-                                    <input type="checkbox" class="m-1" id="progress" name="progress" value="progress">
-                                    <label for="progress">Progress</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" class="m-1" id="supporting-document" name="supporting_document" value="supporting_document">
-                                    <label for="supporting-document">Documen pendukung</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" class="m-1" id="role-access" name="role_access" value="role_access">
-                                    <label for="role-access">Akses role</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" class="m-1" id="project-type" name="project_type" value="project_type">
-                                    <label for="project-type">Tipe Proyek</label>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                     <div class="text-center mt-2">
