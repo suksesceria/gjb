@@ -19,4 +19,9 @@ class Role extends Model
         'role_desc'
     ];
 
+    public function menus()
+    {
+        return $this->belongsToMany(Menu::class)->using(RoleAccess::class);
+    }
+
 }

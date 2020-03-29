@@ -19,6 +19,8 @@ Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
+Route::redirect('home', '/');
+
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/', 'AdminController@dashboard');

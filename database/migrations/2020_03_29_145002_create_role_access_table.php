@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMenusTable extends Migration
+class CreateRoleAccessTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateMenusTable extends Migration
      */
     public function up()
     {
-        Schema::create('menus', function (Blueprint $table) {
-            $table->bigIncrements('menu_id');
-            $table->string('menu_code', 100)->nullable(false);
-            $table->string('menu_name', 100)->nullable(false);
-            $table->string('menu_link', 100)->nullable(false);
+        Schema::create('role_access', function (Blueprint $table) {
+            $table->bigIncrements('role_access_id');
+            $table->unsignedBigInteger('role_id')->nullable(false);
+            $table->unsignedBigInteger('menu_id')->nullable(false);
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->string('desc', 300)->nullable();
@@ -25,8 +24,6 @@ class CreateMenusTable extends Migration
             $table->boolean('delete')->nullable(false);
             $table->timestamps();
             $table->softDeletes();
-
-            $table->unique(['menu_code', 'deleted_at']);
         });
     }
 
@@ -37,6 +34,6 @@ class CreateMenusTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('menus');
+        Schema::dropIfExists('role_access');
     }
 }

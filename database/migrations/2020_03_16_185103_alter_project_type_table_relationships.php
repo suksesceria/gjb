@@ -29,8 +29,8 @@ class AlterProjectTypeTableRelationships extends Migration
     public function down()
     {
         Schema::table('project_types', function (Blueprint $table) {
-            $table->dropForeign('project_created_by_foreign');
-            $table->dropForeign('project_updated_by_foreign');
+            $table->dropForeign('project_types_created_by_foreign');
+            $table->dropForeign('project_types_updated_by_foreign');
         });
     }
 }
