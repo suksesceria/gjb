@@ -29,8 +29,8 @@
                                     {{ $role->role_desc }}
                                 </td>
                                 <td>
-                                    <i class="fas fa-pencil-alt mr-2" style="cursor: pointer;" onclick="editItem(1)" id="1"></i>
-                                    <i class="fas fa-trash" style="cursor: pointer;" onclick="deleteItem(2)" id="delete-item"></i>
+                                    <i class="fas fa-pencil-alt mr-2" style="cursor: pointer;" onclick="editItem({{ json_encode($role) }})" id="{{ $role->role_id }}"></i>
+                                    <i class="fas fa-trash" style="cursor: pointer;" onclick="deleteItem({{ $role->role_id }})" id="delete-item"></i>
                                 </td>
                             </tr>
                             @endforeach
@@ -46,66 +46,35 @@
     </div>
     @include('role-access.modal.modal-create-role')
     @include('role-access.modal.modal-edit-role')
+    <form action="" method="post" id="form-delete-role_id">
+        @method('DELETE')
+        @csrf
+        <input type="hidden" name="role_id" id="delete-role_id" />
+    </form>
 @endsection
 
 @section('script')
     <script>
-        $('#modal-edit-role').on('show.bs.modal', function() {
-            var element = $('.edit-item-trigger-clicked');
-            var row = element.closest('.data-row');
-
-            var role = row.children('.role').text();
-            var accessMenu = row.children('.access-menu').text();
-            var description = row.children('.description').text();
-
-            $('#edit-role-name').val(role);
-            $('#edit-role-description').val(description);
-
-            if (accessMenu.includes('Beranda')) {
-                $('#edit-dashboard').attr('checked', true);
-            }
-
-            if (accessMenu.includes('Proyek')) {
-                $('#edit-project').attr('checked', true);
-            }
-
-            if (accessMenu.includes('Laporan keuangan')) {
-                $('#edit-cost-report').attr('checked', true);
-            }
-
-            if (accessMenu.includes('Karyawan')) {
-                $('#edit-employees').attr('checked', true);
-            }
-
-            if (accessMenu.includes('Progress')) {
-                $('#edit-progress').attr('checked', true);
-            }
-
-            if (accessMenu.includes('Dokument pendukung')) {
-                $('#edit-supporting-document').attr('checked', true);
-            }
-
-            if (accessMenu.includes('Akses role')) {
-                $('#edit-role-access').attr('checked', true);
-            }
-
-            if (accessMenu.includes('Tipe Proyek')) {
-                $('#edit-project-type').attr('checked', true);
-            }
-        });
-
         $('#modal-edit-role').on('hide.bs.modal', function() {
             $('.edit-item-trigger-clicked').removeClass('edit-item-trigger-clicked')
         });
 
-        function editItem(index) {
-            $('#'+index).addClass('edit-item-trigger-clicked');
-
+        function editItem(data) {
+            $('#'+ data.role_id).addClass('edit-item-trigger-clicked');
+            var form = $('#form-edit-role');
+            form.find('[name="role_id"]').val(data.role_id);
+            form.find('[name="role_name"]').val(data.role_name);
+            form.find('[name="role_desc"]').val(data.role_desc);
+            form.find('[name="menus[]"]').prop('checked', false);
+            data.menus.forEach(function (menu) {
+                form.find('#menu_' + menu.menu_id).prop('checked', true);
+            });
             $('#modal-edit-role').modal('show');
         }
 
-        function deleteItem() {
-            
+        function deleteItem(id) {
+            $('#delete-role_id').val(id);
+            $('#form-delete-role_id').submit();
         }
     </script>
 @endsection

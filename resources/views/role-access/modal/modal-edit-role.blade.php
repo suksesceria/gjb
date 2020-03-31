@@ -6,54 +6,31 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <form action="">
+                <form action="" method="post" id="form-edit-role">
+                    @method('PUT')
+                    @csrf
+                    <input type="hidden" name="role_id" />
                     <div class="form-group">
                         <label>Nama Role</label>
-                        <input class="form-control" type="text" name="name" id="edit-role-name">
+                        <input class="form-control" type="text" name="role_name" id="edit-role-name">
                     </div>
                     <div class="form-group">
                         <label>Deskripsi Role</label>
-                        <input class="form-control" type="text" name="description" id="edit-role-description">
+                        <input class="form-control" type="text" name="role_desc" id="edit-role-description">
                     </div>
                     <label for="">Akses Menu</label>
                     <div class="ml-1">
                         <div class="row">
-                            <div class="col-md-6">
-                                <div>
-                                    <input type="checkbox" class="m-1" id="edit-dashboard" name="dashboard" value="dashboard">
-                                    <label for="dashboard">Beranda</label>
+                            @foreach($menus->split(2) as $menu)
+                                <div class="col-md-6">
+                                    @foreach($menu as $item)
+                                        <div>
+                                            <input type="checkbox" class="m-1" id="menu_{{ $item->menu_id }}" name="menus[]" value="{{ $item->menu_id }}">
+                                            <label for="dashboard">{{ $item->menu_name }}</label>
+                                        </div>
+                                    @endforeach
                                 </div>
-                                <div>
-                                    <input type="checkbox" class="m-1" id="edit-project" name="project" value="project">
-                                    <label for="project">Proyek</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" class="m-1" id="edit-cost-report" name="cost_report" value="cost_report">
-                                    <label for="cost-report">Laporan keuangan</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" class="m-1" id="edit-employees" name="employees" value="employees">
-                                    <label for="employess">Karyawan</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div>
-                                    <input type="checkbox" class="m-1" id="edit-progress" name="progress" value="progress">
-                                    <label for="progress">Progress</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" class="m-1" id="edit-supporting-document" name="supporting_document" value="supporting_document">
-                                    <label for="supporting-document">Documen pendukung</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" class="m-1" id="edit-role-access" name="role_access" value="role_access">
-                                    <label for="role-access">Akses role</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" class="m-1" id="edit-project-type" name="project_type" value="project_type">
-                                    <label for="project-type">Tipe Proyek</label>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                     <div style="text-align: center">

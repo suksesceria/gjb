@@ -23,7 +23,7 @@
                                 <td width="5%">{{ $index + 1 }}</td>
                                 <td class="type">{{ $project_type->project_type_name }}</td>
                                 <td>
-                                    <i class="fas fa-pencil-alt mr-2" style="cursor: pointer;" onclick="editItem({{ json_encode($project_type) }})" id="1"></i>
+                                    <i class="fas fa-pencil-alt mr-2" style="cursor: pointer;" onclick="editItem({{ json_encode($project_type) }})" id="{{ $project_type->project_type_id }}"></i>
                                     <i class="fas fa-trash" style="cursor: pointer;" onclick="deleteItem({{ $project_type->project_type_id }})" id="delete-item"></i>
                                 </td>
                             </tr>

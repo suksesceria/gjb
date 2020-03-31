@@ -34,48 +34,31 @@ class RoleController extends Controller
         return redirect('/roles');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function update(Request $request)
     {
-        //
+        $model = Role::findOrFail($request->get('role_id'));
+        $model->role_name = $request->get('role_name');
+        $model->role_desc = $request->get('role_desc');
+        $model->save();
+
+        $menus = collect($request->get('menus'));
+        $current_menus = $model->menus->pluck('menu_id');
+
+        $model->menus()->detach(
+            $current_menus->diff($menus)
+        );
+
+        $model->menus()->attach(
+            $menus->diff($current_menus)
+        );
+
+        return redirect('/roles');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function destroy(Request $request)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $model = Role::findOrFail($request->get('role_id'));
+        $model->delete();
+        return redirect('/roles');
     }
 }
