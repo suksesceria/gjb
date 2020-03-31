@@ -7,41 +7,44 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <form action="">
+                <form action="" method="post" id="form-edit-employee">
+                    @method('PUT')
+                    @csrf
+                    <input type="hidden" name="employee_id"/>
                     <div class="form-group">
                         <label>Nama</label>
-                        <input class="form-control" type="type" name="name" id="name" required>
+                        <input class="form-control" type="type" name="employee_name" id="name" required>
                     </div>
                     <div class="form-group">
                         <label>Tanggal lahir</label>
-                        <input class="form-control" type="date" name="dob" id="dob" required>
+                        <input class="form-control" type="date" name="employee_dob" id="dob" required>
                     </div>
                     <div class="form-group">
                         <label>Username</label>
-                        <input class="form-control" type="text" name="username" id="username" required>
+                        <input class="form-control" type="text" name="employee_username" id="username" required>
                     </div>
                     <div class="form-group">
                         <label>Email</label>
-                        <input class="form-control" type="text" name="email" id="email" required>
+                        <input class="form-control" type="text" name="employee_email" id="email" required>
                     </div>
                     <div class="form-group">
                         <label>Nomor Ponsel</label>
-                        <input class="form-control" type="text" name="phone_number" id="phone-number" required>
+                        <input class="form-control" type="text" name="employee_phone" id="phone-number" required>
                     </div>
                     <div class="form-group">
                         <label>Role</label>
-                        <select name="role" class="form-control">
-                            <option value="admin">Admin</option>
-                            <option value="project_manager">Project manager</option>
-                            <option value="office">Office</option>
+                        <select name="role_id" class="form-control">
+                            @foreach($roles as $role)
+                                <option value="{{ $role->role_id }}">{{ $role->role_name }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Password</label>
-                        <input class="form-control" type="text" name="password">
+                        <input class="form-control" type="text" name="employee_password">
                     </div>
                     <div class="text-center">
-                        <button type="submit" class="btn btn-primary">Tambah</button>
+                        <button type="submit" class="btn btn-primary">Edit</button>
                     </div>
                 </form>
                 @if ($errors->any())

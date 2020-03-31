@@ -18,30 +18,26 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="data-row">
-                            <td>1</td>
-                            <td class="name">Suhar</td>
-                            <td class="dob">10/12/2020</td>
-                            <td class="username">djail</td>
-                            <td class="email">djail@org.com</td>
-                            <td class="phone-number">123456789</td>
-                            <td>
-                                <i class="fas fa-pencil-alt mr-2" style="cursor: pointer;" onclick="editItem(1)" id="1"></i>
-                                <i class="fas fa-trash" style="cursor: pointer;" id="delete-item"></i>
-                            </td>
-                        </tr>
-                        <tr class="data-row">
-                            <td>2</td>
-                            <td class="name">asd</td>
-                            <td class="dob">10/12/2020</td>
-                            <td class="username">djail</td>
-                            <td class="email">test@org.com</td>
-                            <td class="phone-number">0987654321</td>
-                            <td>
-                                <i class="fas fa-pencil-alt mr-2" style="cursor: pointer;" onclick="editItem(2)" id="2"></i>
-                                <i class="fas fa-trash" style="cursor: pointer;" id="delete-item"></i>
-                            </td>
-                        </tr>
+                        @if($employees->count() > 0)
+                            @foreach($employees as $index => $employee)
+                                <tr class="data-row">
+                                    <td>{{ $employee->employee_id }}</td>
+                                    <td class="name">{{ $employee->employee_name }}</td>
+                                    <td class="dob">{{ $employee->employee_dob->format('d/m/Y') }}</td>
+                                    <td class="username">{{ $employee->employee_username }}</td>
+                                    <td class="email">{{ $employee->employee_email }}</td>
+                                    <td class="phone-number">{{ $employee->employee_phone }}</td>
+                                    <td>
+                                        <i class="fas fa-pencil-alt mr-2" style="cursor: pointer;" onclick="editItem({{ json_encode($employee) }})" id="{{ $employee->employee_id }}"></i>
+                                        <i class="fas fa-trash" style="cursor: pointer;" id="delete-item" onclick="deleteItem({{ $employee->employee_id }})"></i>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr class="data-row">
+                                <td colspan="3" align="center">Data tidak ditemukan</td>
+                            </tr>
+                        @endif
                     </tbody>
                 </table>
             </div>
@@ -50,6 +46,12 @@
 
     @include('employees.modal.modal-add-employee')
     @include('employees.modal.modal-edit-employee')
+
+    <form action="" method="post" id="form-delete-employee">
+        @method('DELETE')
+        @csrf
+        <input type="hidden" name="employee_id" id="delete-employee_id" />
+    </form>
 @endsection
 
 @section('script')
@@ -78,10 +80,15 @@
                 $('.edit-item-trigger-clicked').removeClass('edit-item-trigger-clicked')
             });
         });
-        function editItem(index) {
-            $('#'+index).addClass('edit-item-trigger-clicked');
-
+        function editItem(data) {
+            $('#'+data.employee_id).addClass('edit-item-trigger-clicked');
+            $('#form-edit-employee').find('[name="employee_id"]').val(data.employee_id);
+            $('#form-edit-employee').find('[name="role_id"]').val(data.role_id);
             $('#modal-edit-employees').modal('show');
+        }
+        function deleteItem(id) {
+            $('#delete-employee_id').val(id);
+            $('#form-delete-employee').submit();
         }
     </script>
 @endsection

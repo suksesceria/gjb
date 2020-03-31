@@ -23,6 +23,10 @@ class Employee extends Authenticable
         'role_id',
     ];
 
+    protected $dates = [
+        'employee_dob'
+    ];
+
     protected $casts = [
         'employee_dob' => 'datetime'
     ];

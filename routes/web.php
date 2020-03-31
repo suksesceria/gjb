@@ -35,6 +35,9 @@ Route::group(['middleware' => ['auth', 'access_role']], function () {
 
     Route::group(['prefix' => 'employees'], function() {
         Route::get('/', 'EmployeeController@index');
+        Route::post('/', 'EmployeeController@store');
+        Route::delete('/', 'EmployeeController@destroy');
+        Route::put('/', 'EmployeeController@update');
     });
 
     Route::group(['prefix' => 'roles'], function() {
