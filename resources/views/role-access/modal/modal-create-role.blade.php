@@ -6,14 +6,15 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <form action="">
+                <form action="" method="post">
+                    @csrf
                     <div class="form-group">
                         <label>Nama Role</label>
                         <input class="form-control" type="text" name="role_name" id="role-name" required>
                     </div>
                     <div class="form-group">
                         <label>Deskripsi Role</label>
-                        <input class="form-control" type="text" name="role_description" id="role-description" required>
+                        <input class="form-control" type="text" name="role_desc" id="role-desc" required>
                     </div>
                     <label for="">Akses Menu</label>
                     <div class="ml-1">
@@ -22,7 +23,7 @@
                             <div class="col-md-6">
                                 @foreach($menu as $item)
                                     <div>
-                                        <input type="checkbox" class="m-1" id="dashboard" name="dashboard" value="dashboard">
+                                        <input type="checkbox" class="m-1" name="menus[]" value="{{ $item->menu_id }}">
                                         <label for="dashboard">{{ $item->menu_name }}</label>
                                     </div>
                                 @endforeach

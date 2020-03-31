@@ -21,16 +21,6 @@ class RoleController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -38,7 +28,10 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $model = new Role($request->only(['role_name', 'role_desc']));
+        $model->save();
+        $model->menus()->attach($request->get('menus'));
+        return redirect('/roles');
     }
 
     /**

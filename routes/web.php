@@ -39,6 +39,7 @@ Route::group(['middleware' => ['auth', 'access_role']], function () {
 
     Route::group(['prefix' => 'roles'], function() {
         Route::get('/', 'RoleController@index');
+        Route::post('/', 'RoleController@store');
     });
 
     Route::group(['prefix' => 'type-proyek'], function() {
