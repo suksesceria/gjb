@@ -21,16 +21,19 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::redirect('home', '/');
 
+Route::group(['prefix' => 'projects'], function() {
+    Route::get('/{id}/progress', 'ProjectController@showProgress');
+    Route::get('/{id}/keuangan', 'ProjectController@showFinance');
+    Route::get('/{id}/dokumen-pendukung', 'ProjectController@showAdditionalDocument');
+    Route::get('/tambah-projek', 'ProjectController@addProject');
+});
+
 Route::group(['middleware' => ['auth', 'access_role']], function () {
 
     Route::get('/', 'AdminController@dashboard');
 
     Route::group(['prefix' => 'projects'], function() {
         Route::get('/', 'ProjectController@index');
-        Route::get('/{id}/progress', 'ProjectController@showProgress');
-        Route::get('/{id}/keuangan', 'ProjectController@showFinance');
-        Route::get('/{id}/dokumen-pendukung', 'ProjectController@showAdditionalDocument');
-        Route::get('/tambah-projek', 'ProjectController@addProject');
     });
 
     Route::group(['prefix' => 'employees'], function() {
