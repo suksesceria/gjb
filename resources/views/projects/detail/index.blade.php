@@ -18,7 +18,7 @@
         </div>
         @if (request()->is('projects/*/progress'))
             @include('projects.detail.progress')
-        @elseif (request()->is('projects/*/keuangan'))
+        @elseif (request()->is('projects/*/keuangan') || request()->is('projects/*/keuangan-nyata') || request()->is('projects/*/laporan-material'))
             @include('projects.detail.finance')
         @elseif (request()->is('projects/*/dokumen-pendukung'))
             @include('projects.detail.additional-document')

@@ -7,9 +7,10 @@
                         <label>Pilihan</label>
                     </div>
                     <div>
-                        <select name="" id="" class="form-control">
-                            <option value="">Keuangan Lapangan</option>
-                            <option value="">Keuangan Lapangan</option>
+                        <select name="" id="" class="form-control" value="{{ request()->segment(count(request()->segments())) }}" onchange="changeRoute(this.value)">
+                            <option value="keuangan" {{ request()->segment(count(request()->segments())) == 'keuangan' ? 'selected' : '' }}>Keuangan Lapangan</option>
+                            <option value="keuangan-nyata">Keuangan Lapangan Nyata</option>
+                            <option value="laporan-material">Laporan Material</option>
                         </select>
                     </div>
                 </div>
@@ -86,7 +87,7 @@
             if (month < 10) month = "0" + month;
             if (day < 10) day = "0" + day;
 
-            var today = year + "-" + month + "-" + day;       
+            var today = year + "-" + month + "-" + day;
 
             $("#date-from").attr('value', today);
             $("#date-to").attr('value', today);
@@ -120,5 +121,9 @@
 
             });
         });
+
+        function changeRoute(e) {
+            window.location.href = e;
+        };
     </script>
 @endsection
