@@ -3,8 +3,12 @@
 namespace App\Providers;
 
 use App\Employee;
+use App\MaterialType;
+use App\MaterialUnit;
 use App\Menu;
 use App\Observers\EmployeeObserver;
+use App\Observers\MaterialTypeObserver;
+use App\Observers\MaterialUnitObserver;
 use App\Observers\MenuObserver;
 use App\Observers\ProjectTypeObserver;
 use App\Observers\RoleAccessObserver;
@@ -39,5 +43,7 @@ class AppServiceProvider extends ServiceProvider
         Menu::observe(MenuObserver::class);
         ProjectType::observe(ProjectTypeObserver::class);
         RoleAccess::observe(RoleAccessObserver::class);
+        MaterialType::observe(MaterialTypeObserver::class);
+        MaterialUnit::observe(MaterialUnitObserver::class);
     }
 }

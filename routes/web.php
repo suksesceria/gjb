@@ -38,6 +38,20 @@ Route::group(['middleware' => ['auth', 'access_role']], function () {
         Route::get('/', 'ProjectController@index');
     });
 
+    Route::group(['prefix' => 'material-type'], function() {
+        Route::get('/', 'MaterialTypeController@index');
+        Route::post('/', 'MaterialTypeController@store');
+        Route::delete('/', 'MaterialTypeController@destroy');
+        Route::put('/', 'MaterialTypeController@update');
+    });
+
+    Route::group(['prefix' => 'material-unit'], function() {
+        Route::get('/', 'MaterialUnitController@index');
+        Route::post('/', 'MaterialUnitController@store');
+        Route::delete('/', 'MaterialUnitController@destroy');
+        Route::put('/', 'MaterialUnitController@update');
+    });
+
     Route::group(['prefix' => 'employees'], function() {
         Route::get('/', 'EmployeeController@index');
         Route::post('/', 'EmployeeController@store');
