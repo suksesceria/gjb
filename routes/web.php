@@ -21,56 +21,53 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::redirect('home', '/');
 
-Route::group(['prefix' => 'projects'], function() {
-    Route::get('/{id}/progress', 'ProjectController@showProgress');
-    Route::get('/{id}/keuangan', 'ProjectController@showFinance');
-    Route::get('/{id}/keuangan-nyata', 'ProjectController@showFinance');
-    Route::get('/{id}/laporan-material', 'MaterialReportController@index');
-    Route::get('/{id}/dokumen-pendukung', 'ProjectController@showAdditionalDocument');
-    Route::get('/tambah-projek', 'ProjectController@addProject');
-});
-
 Route::group(['middleware' => ['auth', 'access_role']], function () {
 
-    Route::get('/', 'AdminController@dashboard');
+    Route::get('/', 'AdminController@dashboard')->name('home-dashboard');
 
     Route::group(['prefix' => 'projects'], function() {
-        Route::get('/', 'ProjectController@index');
+        Route::get('/', 'ProjectController@index')->name('projects');
+        Route::get('/{id}/progress', 'ProjectController@showProgress')->name('projects');
+        Route::get('/{id}/keuangan', 'ProjectController@showFinance')->name('projects');
+        Route::get('/{id}/keuangan-nyata', 'ProjectController@showFinance')->name('projects');
+        Route::get('/{id}/laporan-material', 'MaterialReportController@index')->name('projects');
+        Route::get('/{id}/dokumen-pendukung', 'ProjectController@showAdditionalDocument')->name('projects');
+        Route::get('/tambah-projek', 'ProjectController@addProject')->name('projects');
     });
 
     Route::group(['prefix' => 'material-type'], function() {
-        Route::get('/', 'MaterialTypeController@index');
-        Route::post('/', 'MaterialTypeController@store');
-        Route::delete('/', 'MaterialTypeController@destroy');
-        Route::put('/', 'MaterialTypeController@update');
+        Route::get('/', 'MaterialTypeController@index')->name('material-type');
+        Route::post('/', 'MaterialTypeController@store')->name('material-type');
+        Route::delete('/', 'MaterialTypeController@destroy')->name('material-type');
+        Route::put('/', 'MaterialTypeController@update')->name('material-type');
     });
 
     Route::group(['prefix' => 'material-unit'], function() {
-        Route::get('/', 'MaterialUnitController@index');
-        Route::post('/', 'MaterialUnitController@store');
-        Route::delete('/', 'MaterialUnitController@destroy');
-        Route::put('/', 'MaterialUnitController@update');
+        Route::get('/', 'MaterialUnitController@index')->name('material-unit');
+        Route::post('/', 'MaterialUnitController@store')->name('material-unit');
+        Route::delete('/', 'MaterialUnitController@destroy')->name('material-unit');
+        Route::put('/', 'MaterialUnitController@update')->name('material-unit');
     });
 
     Route::group(['prefix' => 'employees'], function() {
-        Route::get('/', 'EmployeeController@index');
-        Route::post('/', 'EmployeeController@store');
-        Route::delete('/', 'EmployeeController@destroy');
-        Route::put('/', 'EmployeeController@update');
+        Route::get('/', 'EmployeeController@index')->name('employees');
+        Route::post('/', 'EmployeeController@store')->name('employees');
+        Route::delete('/', 'EmployeeController@destroy')->name('employees');
+        Route::put('/', 'EmployeeController@update')->name('employees');
     });
 
     Route::group(['prefix' => 'roles'], function() {
-        Route::get('/', 'RoleController@index');
-        Route::post('/', 'RoleController@store');
-        Route::delete('/', 'RoleController@destroy');
-        Route::put('/', 'RoleController@update');
+        Route::get('/', 'RoleController@index')->name('roles');
+        Route::post('/', 'RoleController@store')->name('roles');
+        Route::delete('/', 'RoleController@destroy')->name('roles');
+        Route::put('/', 'RoleController@update')->name('roles');
     });
 
     Route::group(['prefix' => 'type-proyek'], function() {
-       Route::get('/', 'ProjectTypeController@index');
-       Route::post('/', 'ProjectTypeController@store');
-       Route::put('/', 'ProjectTypeController@update');
-       Route::delete('/', 'ProjectTypeController@delete');
+       Route::get('/', 'ProjectTypeController@index')->name('type-proyek');
+       Route::post('/', 'ProjectTypeController@store')->name('type-proyek');
+       Route::put('/', 'ProjectTypeController@update')->name('type-proyek');
+       Route::delete('/', 'ProjectTypeController@delete')->name('type-proyek');
     });
 
 });
