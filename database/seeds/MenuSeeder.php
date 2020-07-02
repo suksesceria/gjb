@@ -46,6 +46,16 @@ class MenuSeeder extends Seeder
                 'menu_name' => 'Akses Role',
                 'menu_link' => 'roles'
             ],
+            [
+                'menu_code' => 'material-type',
+                'menu_name' => 'Tipe Material',
+                'menu_link' => 'material-type'
+            ],
+            [
+                'menu_code' => 'material-unit',
+                'menu_name' => 'Unit Material',
+                'menu_link' => 'material-unit'
+            ],
         ];
     }
 }

@@ -19,7 +19,7 @@ class EmployeeSeeder extends Seeder
             'employee_name' => 'Admin User',
             'employee_dob' => Carbon::createFromTimeString('1990-01-01 00:00:00'),
             'employee_username' => 'adminuser',
-            'employee_password' => Hash::make('admin'),
+            'employee_password' => Hash::make('adminuser@gjb.com'),
             'employee_email' => 'adminuser@gjb.com',
             'employee_phone' => '08000000000',
             'role_id' => Role::first()->role_id
