@@ -25,7 +25,7 @@ Route::group(['prefix' => 'projects'], function() {
     Route::get('/{id}/progress', 'ProjectController@showProgress');
     Route::get('/{id}/keuangan', 'ProjectController@showFinance');
     Route::get('/{id}/keuangan-nyata', 'ProjectController@showFinance');
-    Route::get('/{id}/laporan-material', 'ProjectController@showFinance');
+    Route::get('/{id}/laporan-material', 'MaterialReportController@index');
     Route::get('/{id}/dokumen-pendukung', 'ProjectController@showAdditionalDocument');
     Route::get('/tambah-projek', 'ProjectController@addProject');
 });
