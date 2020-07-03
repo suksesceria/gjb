@@ -35,24 +35,32 @@
                     <th>Action</th>
                 </thead>
                 <tbody>
+                @if($data->count() > 0)
+                    @foreach($data as $index => $project)
                     <tr>
-                        <td>Project alpha</td>
+                        <td>{{ $project->project_name }}</td>
                         <td>
                             <div class="row">
-                                <div style="background-color: #3BB9FF; width: 100%; max-width: 80%; height: 20px; margin-top: 5px; margin-left: 1em">
+                                <div style="background-color: #3BB9FF; width: {{ $project->progress }}%; max-width: 80%; height: 20px; margin-top: 5px; margin-left: 1em">
                                 </div>
-                                <span style="margin-top: 4px; margin-left: 2px">100</span>
+                                <span style="margin-top: 4px; margin-left: 2px">{{ $project->progress }}</span>
                             </div>
                         </td>
-                        <td>budi</td>
-                        <td>gedung</td>
+                        <td>{{ implode(", ", $project->employees->pluck('employee_name')->toArray()) }}</td>
+                        <td>{{ $project->type->project_type_name }}</td>
                         <td>
-                            {{number_format(2000000, 0, ",", ".")}}
+                            {{number_format($project->cost_total, 0, ",", ".")}}
                         </td>
                         <td>
-                            <a href="{{ url('/projects/1/progress') }}" class="btn btn-primary btn-details">See details</button>
+                            <a href="{{ url('/projects/'. $project->project_id .'/progress') }}" class="btn btn-primary btn-details">See details</button>
                         </td>
                     </tr>
+                    @endforeach
+                @else
+                    <tr class="data-row">
+                        <td colspan="3" align="center">Data tidak ditemukan</td>
+                    </tr>
+                @endif
                 </tbody>
             </table>
         </div>

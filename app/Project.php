@@ -12,7 +12,13 @@ class Project extends Model
     protected $table = 'project';
     protected $primaryKey = 'project_id';
 
-    public function project_type()
+    protected $fillable = [
+        'project_name',
+        'cost_total',
+        'project_type_id'
+    ];
+
+    public function type()
     {
         return $this->hasOne(ProjectType::class, 'project_type_id', 'project_type_id');
     }

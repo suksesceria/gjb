@@ -33,6 +33,7 @@ Route::group(['middleware' => ['auth', 'access_role']], function () {
         Route::get('/{id}/laporan-material', 'MaterialReportController@index')->name('projects');
         Route::get('/{id}/dokumen-pendukung', 'ProjectController@showAdditionalDocument')->name('projects');
         Route::get('/tambah-projek', 'ProjectController@addProject')->name('projects');
+        Route::post('/tambah-projek', 'ProjectController@storeProject')->name('projects');
     });
 
     Route::group(['prefix' => 'material-type'], function() {

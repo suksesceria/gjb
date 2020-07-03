@@ -6,6 +6,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticable;
+use Illuminate\Support\Collection;
 
 class Employee extends Authenticable
 {
@@ -68,6 +69,28 @@ class Employee extends Authenticable
     public function role()
     {
         return $this->hasOne(Role::class, 'role_id', 'role_id');
+    }
+
+    public function projects()
+    {
+        if ($this->role()->where('role_name', Role::ADMIN)->count()) {
+            return Project::query();
+        } else {
+            return
+                $this->belongsToMany(
+                    Project::class,
+                    'project_employees',
+                    'employee_id',
+                    'project_id')
+                ->using(ProjectEmployee::class)
+                ->whereNull('project_employees.deleted_at')
+                ->withTimestamps();
+        }
+    }
+
+    public function getProjectsAttribute()
+    {
+        return $this->projects()->get();
     }
 
 }

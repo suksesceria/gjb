@@ -2,7 +2,8 @@
 
 @section('content')
   <div class="container">
-    <form action="">
+    <form action="" method="post">
+        @csrf
       <div class="row">
         <div class="col-md-6">
 
@@ -12,26 +13,25 @@
           </div>
           <div class="form-group">
             <label>Total Biaya Projek</label>
-            <input type="number" min="0" class="form-control" name="project_total_cost" id="project_total_cost">
+            <input type="number" min="0" class="form-control" name="cost_total" id="cost_total">
           </div>
           
         </div>
         <div class="col-md-6">
           <div class="form-group">
             <label>Tipe</label>
-            <select class="form-control" name="project_type" id="project_type" multiple>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">2</option>
-              <option value="4">2</option>
-              <option value="5">2</option>
+            <select class="form-control" name="project_type_id" id="project_type_id">
+                @foreach ($projectTypes as $projectType)
+                    <option value="{{ $projectType->project_type_id }}">{{$projectType->project_type_name}}</option>
+                @endforeach
             </select>
           </div>
           <div class="form-group">
             <label>Karyawan</label>
-            <select class="form-control" name="project_employee" id="project_type">
-              <option value="">asep</option>
-              <option value="">joko</option>
+            <select class="form-control" name="project_employees[]" id="project_employees" multiple>
+                @foreach($employees as $employee)
+                    <option value="{{$employee->employee_id}}">{{$employee->employee_name}}</option>
+                @endforeach
             </select>
           </div>
         </div>

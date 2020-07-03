@@ -11,6 +11,10 @@ class Role extends Model
 {
     use SoftDeletes;
 
+    const ADMIN = 'Admin';
+    const OFFICE = 'Office';
+    const PMO = 'Project Manager & Officer';
+
     protected $table = 'role';
     protected $primaryKey = 'role_id';
 

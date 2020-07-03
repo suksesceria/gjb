@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Employee;
 use App\Project;
+use App\ProjectType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ProjectController extends Controller
 {
@@ -14,29 +18,8 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $data = Project::get();
+        $data = Auth::user()->projects;
         return view('projects.list', compact(['data']));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
@@ -95,6 +78,26 @@ class ProjectController extends Controller
     }
 
     public function addProject() {
-        return view('projects.add-project');
+        $projectTypes = ProjectType::get();
+        $employees = Employee::get();
+        return view('projects.add-project', compact(['projectTypes', 'employees']));
+    }
+
+    public function storeProject(Request $request) {
+        try {
+            DB::beginTransaction();
+            $project = new Project(
+                $request->only(['project_name',
+                    'cost_total',
+                    'project_type_id'])
+            );
+            $project->save();
+            $project->employees()->attach($request->get('project_employees'));
+            DB::commit();
+        } catch (\Exception $exception) {
+            DB::rollBack();
+        }
+
+        return redirect("/projects/{$project->project_id}/progress");
     }
 }
