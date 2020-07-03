@@ -21,5 +21,18 @@ class RoleSeeder extends Seeder
         $role->menus()->attach(
             Menu::get()->pluck('menu_id')
         );
+
+        $role = new Role([
+            'role_name' => 'Office',
+            'role_desc' => 'Office'
+        ]);
+        $role->save();
+
+        $role = new Role([
+            'role_name' => 'Projek Manajer',
+            'role_desc' => 'Projek Manajer'
+        ]);
+        $role->save();
     }
+
 }

@@ -18,7 +18,7 @@ class AccessRoleMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $menu = Auth::user()->role->menus->where('menu_code', $request->route()->getName())->first();
+        $menu = Auth::user()->role->menus()->where('menu_code', $request->route()->getName())->first();
         if (! $menu)
             throw new AuthorizationException();
         return $next($request);
