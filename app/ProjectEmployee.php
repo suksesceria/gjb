@@ -2,9 +2,11 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class ProjectEmployee extends Model
+class ProjectEmployee extends Pivot
 {
-    //
+    protected $table = 'project_employees';
+
+    protected $primaryKey = 'project_employee_id';
 }
