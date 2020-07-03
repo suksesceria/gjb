@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Employee;
 use App\Project;
 use App\ProjectType;
+use App\SupportingDocument;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -40,7 +42,22 @@ class ProjectController extends Controller
 
     public function showAdditionalDocument($id)
     {
-        return view('projects.detail.index');
+        $supportingDocuments = Project::findOrFail($id)->supporting_documents;
+        return view('projects.detail.index', compact(['supportingDocuments']));
+    }
+
+    public function storeAdditionalDocument(Request $request, $id)
+    {
+        $path = $request->file('supporting_document_path')->store('public/supporting-document');
+        $date = Carbon::createFromFormat('Y-m-d', $request->get('supporting_document_upload_date'));
+        $sp = new SupportingDocument([
+            'project_id' => $id,
+            'supporting_document_name' => $request->get('supporting_document_name'),
+            'supporting_document_path' => $path,
+            'supporting_document_upload_date' => $date,
+        ]);
+        Project::findOrFail($id)->supporting_documents()->save($sp);
+        return redirect("projects/{$id}/dokumen-pendukung");
     }
 
     /**

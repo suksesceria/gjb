@@ -21,6 +21,11 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::redirect('home', '/');
 
+
+Route::group(['prefix' => 'storages'], function () {
+    Route::get('/{path}', 'StorageController@get')->name('storage-get')->where('path', '.*');
+});
+
 Route::group(['middleware' => ['auth', 'access_role']], function () {
 
     Route::get('/', 'AdminController@dashboard')->name('home-dashboard');
@@ -32,6 +37,7 @@ Route::group(['middleware' => ['auth', 'access_role']], function () {
         Route::get('/{id}/keuangan-nyata', 'ProjectController@showFinance')->name('projects');
         Route::get('/{id}/laporan-material', 'MaterialReportController@index')->name('projects');
         Route::get('/{id}/dokumen-pendukung', 'ProjectController@showAdditionalDocument')->name('projects');
+        Route::post('/{id}/dokumen-pendukung', 'ProjectController@storeAdditionalDocument')->name('projects');
         Route::get('/tambah-projek', 'ProjectController@addProject')->name('projects');
         Route::post('/tambah-projek', 'ProjectController@storeProject')->name('projects');
     });

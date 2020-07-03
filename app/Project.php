@@ -56,4 +56,9 @@ class Project extends Model
         return $this->hasMany(Progress::class, 'project_id', 'project_id');
     }
 
+    public function supporting_documents()
+    {
+        return $this->hasMany(SupportingDocument::class, 'project_id', 'project_id');
+    }
+
 }

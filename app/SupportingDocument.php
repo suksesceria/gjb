@@ -11,4 +11,15 @@ class SupportingDocument extends Model
 
     protected $table = 'supporting_document';
     protected $primaryKey = 'supporting_document_id';
+
+    protected $dates = [
+        'supporting_document_upload_date'
+    ];
+
+    protected $fillable = [
+        'project_id',
+        'supporting_document_name',
+        'supporting_document_path',
+        'supporting_document_upload_date',
+    ];
 }

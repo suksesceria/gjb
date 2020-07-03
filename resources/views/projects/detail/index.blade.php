@@ -11,10 +11,10 @@
 @section('content')
     <div class="container">
         <div class="mb-5">
-            <a href="{{ url('/projects/1/progress') }}"
+            <a href="{{ url('/projects/'. Request::route('id') .'/progress') }}"
                 class="tab {{ (request()->is('projects/*/progress')) ? 'active' : '' }}">Progress</a>
-            <a class="tab {{ (request()->is('projects/*/keuangan')) ? 'active' : '' }}" href="{{ url('/projects/1/keuangan') }}">Keuangan</a>
-            <a class="tab {{ (request()->is('projects/*/dokumen-pendukung')) ? 'active' : '' }}" href="{{ url('/projects/1/dokumen-pendukung') }}">Dokumen Pendukung</a>
+            <a class="tab {{ (request()->is('projects/*/keuangan')) ? 'active' : '' }}" href="{{ url('/projects/'. Request::route('id') .'/keuangan') }}">Keuangan</a>
+            <a class="tab {{ (request()->is('projects/*/dokumen-pendukung')) ? 'active' : '' }}" href="{{ url('/projects/'. Request::route('id') .'/dokumen-pendukung') }}">Dokumen Pendukung</a>
         </div>
         @if (request()->is('projects/*/progress'))
             @include('projects.detail.progress')
