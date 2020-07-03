@@ -60,6 +60,11 @@ class ProjectController extends Controller
         return redirect("projects/{$id}/dokumen-pendukung");
     }
 
+    public function deleteAdditionalDocument($id, $idSupportingDoc) {
+        Project::findOrFail($id)->supporting_documents()->findOrFail($idSupportingDoc)->delete();
+        return redirect("projects/{$id}/dokumen-pendukung");
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

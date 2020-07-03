@@ -27,7 +27,7 @@
                                 <td class="description">{{ $supportingDocument->supporting_document_name }}</td>
                                 <td class="debit-amount"><a href="{{ url('storages/'. $supportingDocument->supporting_document_path) }}">{{ $supportingDocument->supporting_document_path }}</a></td>
                                 <td>
-                                    <i class="fas fa-trash" style="cursor: pointer;" id="delete-item"></i>
+                                    <a href="/projects/{{Request::route('id')}}/dokumen-pendukung/{{ $supportingDocument->supporting_document_id }}/delete"><i class="fas fa-trash" style="cursor: pointer;" id="delete-item"></i></a>
                                 </td>
                             </tr>
                         @endforeach
@@ -44,55 +44,3 @@
 
 @include('projects.detail.modal.modal-add-supporting_document')
 
-@section('script')
-    <script>
-        $(document).ready(function() {
-            var date = new Date();
-
-            var day = date.getDate();
-            var month = date.getMonth() + 1;
-            var year = date.getFullYear();
-
-            if (month < 10) month = "0" + month;
-            if (day < 10) day = "0" + day;
-
-            var today = year + "-" + month + "-" + day;
-
-            $("#date-from").attr('value', today);
-            $("#date-to").attr('value', today);
-
-            $('#edit-item').click(function() {
-                console.log("edit");
-                $(this).addClass('edit-item-trigger-clicked');
-
-                $('#modal-edit-supporting_document').modal('show');
-            });
-
-            $('#modal-edit-supporting_document').on('show.bs.modal', function() {
-                var element = $('.edit-item-trigger-clicked');
-                var row = element.closest('.data-row');
-
-                var date = row.children('.date').text();
-                var description = row.children('.description').text();
-                var debitAmount = row.children('.debit-amount').children('span').text();
-                var kreditAmount = row.children('.kredit-amount').children('span').text();
-
-                $('#modal-edit-supporting_document-date').val(date);
-                $('#modal-edit-supporting_document-description').val(description);
-
-                if (debitAmount != '-') {
-                    $('#modal-edit-supporting_document-total').val(debitAmount.split('.').join(''));
-                    $('#modal-edit-debit').prop("checked", true);
-                } else if (kreditAmount != '-') {
-                    $('#modal-edit-supporting_document-total').val(kreditAmount.split('.').join(''));
-                    $('#modal-edit-kredit').prop("checked", true);
-                }
-
-            });
-        });
-
-        function changeRoute(e) {
-            window.location.href = e;
-        };
-    </script>
-@endsection
