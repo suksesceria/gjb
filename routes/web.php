@@ -34,6 +34,7 @@ Route::group(['middleware' => ['auth', 'access_role']], function () {
         Route::get('/', 'ProjectController@index')->name('projects');
         Route::get('/{id}/progress', 'ProjectController@showProgress')->name('projects');
         Route::get('/{id}/keuangan', 'ProjectController@showFinance')->name('projects');
+        Route::post('/{id}/keuangan', 'ProjectController@storeFinance')->name('projects');
         Route::get('/{id}/keuangan-nyata', 'ProjectController@showFinance')->name('projects');
         Route::get('/{id}/laporan-material', 'MaterialReportController@index')->name('projects');
         Route::get('/{id}/dokumen-pendukung', 'ProjectController@showAdditionalDocument')->name('projects');

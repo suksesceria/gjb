@@ -61,4 +61,9 @@ class Project extends Model
         return $this->hasMany(SupportingDocument::class, 'project_id', 'project_id');
     }
 
+    public function cost_report_office()
+    {
+        return $this->hasMany(CostReportOffice::class, 'project_id', 'project_id');
+    }
+
 }

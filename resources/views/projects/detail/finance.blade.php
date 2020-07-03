@@ -7,33 +7,35 @@
                         <label>Pilihan</label>
                     </div>
                     <div>
-                        <select name="" id="" class="form-control" value="{{ request()->segment(count(request()->segments())) }}" onchange="changeRoute(this.value)">
-                            <option value="keuangan" {{ request()->segment(count(request()->segments())) == 'keuangan' ? 'selected' : '' }}>Keuangan Lapangan</option>
-                            <option value="keuangan-nyata">Keuangan Lapangan Nyata</option>
-                            <option value="laporan-material">Laporan Material</option>
+                        <?php $menu = request()->segment(count(request()->segments())); ?>
+                        <select name="" id="" class="form-control" onchange="changeRoute(this.value)">
+                            <option value="keuangan" {{ $menu == 'keuangan' ? 'selected' : '' }}>Keuangan Lapangan</option>
+                            <option value="keuangan-nyata" {{ $menu == 'keuangan-nyata' ? 'selected' : '' }}>Keuangan Lapangan Nyata</option>
+                            <option value="laporan-material" {{ $menu == 'laporan-material' ? 'selected' : '' }}>Laporan Material</option>
                         </select>
                     </div>
                 </div>
             </div>
             <div class="col-md-8">
                 <div class="row">
-                    <div class="col-md-4 mt-1">
-                        <div class="row">
-                            <div class="mt-1 mr-2">Dari:</div>
-                            <div>
-                                <input type="date" id="date-from" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mt-1">
-                        <div class="row">
-                            <div class="mt-1 mr-2">Sampai:</div>
-                            <div>
-                                <input type="date" id="date-to" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
+{{--                    <div class="col-md-4 mt-1">--}}
+{{--                        <div class="row">--}}
+{{--                            <div class="mt-1 mr-2">Dari:</div>--}}
+{{--                            <div>--}}
+{{--                                <input type="date" id="date-from" class="form-control">--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="col-md-5 mt-1">--}}
+{{--                        <div class="row">--}}
+{{--                            <div class="mt-1 mr-2">Sampai:</div>--}}
+{{--                            <div>--}}
+{{--                                <input type="date" id="date-to" class="form-control">--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+                    <div class="col-md-9"></div>
+                    <div class="col-md-3">
                         <button class="btn btn-primary"
                                 data-toggle="modal"
                                 data-target="#modal-add-transaction"
@@ -51,21 +53,40 @@
                         <th>Debit</th>
                         <th>Kredit</th>
                         <th>Saldo Terakhir</th>
-                        <th>Aksi</th>
+{{--                        <th>Aksi</th>--}}
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="data-row">
-                        <td class="date">10/10/2020</td>
-                        <td class="description">Pemasukan dari kantor</td>
-                        <td class="debit-amount">Rp. <span>-</span></td>
-                        <td class="kredit-amount">Rp. <span>{{ number_format(2000000, 0, ",", ".") }}</span></td>
-                        <td class="last-deposit">Rp. <span>{{ number_format(2000000, 0, ",", ".") }}</span></td>
-                        <td>
-                            <i class="fas fa-pencil-alt mr-2" style="cursor: pointer;" id="edit-item"></i>
-                            <i class="fas fa-trash" style="cursor: pointer;" id="delete-item"></i>
-                        </td>
-                    </tr>
+                    @if($data->count())
+                        @foreach($data as $datum)
+                            <?php
+                                if ($datum instanceof \App\CostReportOffice){
+                                    $id = $datum->cost_report_office_id;
+                                    $desc = $datum->cost_report_office_desc;
+                                    $date = $datum->cost_report_office_date;
+                                } else {
+                                    $id = $datum->cost_report_realtime_id;
+                                    $desc = $datum->cost_report_realtime_desc;
+                                    $date = $datum->cost_report_realtime_date;
+                                }
+                            ?>
+                            <tr class="data-row">
+                                <td class="date">{{$date->format('d-m-Y')}}</td>
+                                <td class="description">{{$desc}}</td>
+                                <td class="debit-amount">Rp. <span>{{ $datum->cost_report_cashflow ? number_format($datum->cost_expense, 0, ",", ".") : '-' }}</span></td>
+                                <td class="kredit-amount">Rp. <span>{{ !$datum->cost_report_cashflow ? number_format($datum->cost_expense, 0, ",", ".") : '-' }}</span></td>
+                                <td class="last-deposit">Rp. <span>{{ number_format($datum->balance, 0, ",", ".") }}</span></td>
+{{--                                <td>--}}
+{{--                                    <i class="fas fa-pencil-alt mr-2" style="cursor: pointer;" id="edit-item"></i>--}}
+{{--                                    <i class="fas fa-trash" style="cursor: pointer;" id="delete-item"></i>--}}
+{{--                                </td>--}}
+                            </tr>
+                        @endforeach
+                    @else
+                        <tr class="data-row">
+                            <td class="date" colspan="5">Data tidak ditemukan</td>
+                        </tr>
+                    @endif
                 </tbody>
             </table>
         </div>

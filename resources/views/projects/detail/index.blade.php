@@ -13,7 +13,7 @@
         <div class="mb-5">
             <a href="{{ url('/projects/'. Request::route('id') .'/progress') }}"
                 class="tab {{ (request()->is('projects/*/progress')) ? 'active' : '' }}">Progress</a>
-            <a class="tab {{ (request()->is('projects/*/keuangan')) ? 'active' : '' }}" href="{{ url('/projects/'. Request::route('id') .'/keuangan') }}">Keuangan</a>
+            <a class="tab {{ (request()->is('projects/*/keuangan') || request()->is('projects/*/keuangan-nyata') || request()->is('projects/*/laporan-material')) ? 'active' : '' }}" href="{{ url('/projects/'. Request::route('id') .'/keuangan') }}">Keuangan</a>
             <a class="tab {{ (request()->is('projects/*/dokumen-pendukung')) ? 'active' : '' }}" href="{{ url('/projects/'. Request::route('id') .'/dokumen-pendukung') }}">Dokumen Pendukung</a>
         </div>
         @if (request()->is('projects/*/progress'))

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CostReportOffice;
 use App\Employee;
 use App\Project;
 use App\ProjectType;
@@ -37,7 +38,33 @@ class ProjectController extends Controller
 
     public function showFinance($id)
     {
-        return view('projects.detail.index');
+        $data = CostReportOffice::orderBy('cost_report_office_id', 'desc')->get();
+        return view('projects.detail.index', compact(['data']));
+    }
+
+    public function storeFinance(Request $request, $id)
+    {
+        $last = CostReportOffice::orderBy('cost_report_office_id', 'desc')->first();
+        $balance = 0;
+        $cashflow =  (bool) $request->get('cashflow');
+        $cost_expense = $request->get('cost_expense');
+        if ($last) {
+            $balance = $last->balance;
+            if ($cashflow)
+                $balance += $cost_expense;
+            else
+                $balance -= $cost_expense;
+        }
+        $cro = new CostReportOffice([
+            'project_id' => $id,
+            'balance' => $balance,
+            'cost_expense' => $cost_expense,
+            'cost_report_cashflow' => $cashflow,
+            'cost_report_office_desc' => $request->get('desc'),
+            'cost_report_office_date' => Carbon::createFromFormat('Y-m-d', $request->get('date')),
+        ]);
+        Project::findOrFail($id)->cost_report_office()->save($cro);
+        return redirect("projects/{$id}/keuangan");
     }
 
     public function showAdditionalDocument($id)

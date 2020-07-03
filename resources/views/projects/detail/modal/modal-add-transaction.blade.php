@@ -7,24 +7,25 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <form action="">
+                <form action="" method="post">
+                    @csrf
                     <div class="form-group">
                         <label>Tanggal</label>
-                        <input class="form-control" type="date" id="modal-add-transaction-date">
+                        <input class="form-control" name="date" type="date" id="modal-add-transaction-date">
                     </div>
                     <div class="form-group">
                         <label>Keterangan</label>
-                        <input class="form-control" type="text" id="modal-add-transaction-description">
+                        <input class="form-control" name="desc" type="text" id="modal-add-transaction-description">
                     </div>
                     <div class="form-group">
                         <label>Jumlah</label>
-                        <input class="form-control" type="text" id="modal-add-transaction-total">
+                        <input class="form-control" name="cost_expense" type="number" id="modal-add-transaction-total">
                     </div>
                     <div class="form-group">
                         <label class="mr-1">Jenis Transaksi: </label>
-                        <input type="radio" id="modal-add-debit" value="debit" name="payment-type">
+                        <input type="radio" id="modal-add-debit" value="1" name="cashflow">
                         <label for="debit" class="mr-1">Debit</label>
-                        <input type="radio" id="modal-add-kredit" value="kredit" name="payment-type">
+                        <input type="radio" id="modal-add-kredit" value="0" name="cashflow">
                         <label for="kredit">Kredit</label>
                     </div>
                     <div class="text-center">
