@@ -11,4 +11,17 @@ class CostReportRealtime extends Model
 
     protected $table = 'cost_report_realtime';
     protected $primaryKey = 'cost_report_realtime_id';
+
+    protected $dates = [
+        'cost_report_realtime_date'
+    ];
+
+    protected $fillable = [
+        'project_id',
+        'cost_expense',
+        'balance',
+        'cost_report_cashflow',
+        'cost_report_realtime_desc',
+        'cost_report_realtime_date',
+    ];
 }

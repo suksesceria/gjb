@@ -66,4 +66,14 @@ class Project extends Model
         return $this->hasMany(CostReportOffice::class, 'project_id', 'project_id');
     }
 
+    public function cost_report_realtime()
+    {
+        return $this->hasMany(CostReportRealtime::class, 'project_id', 'project_id');
+    }
+
+    public function material_report()
+    {
+        return $this->hasMany(MaterialReport::class, 'project_id', 'project_id');
+    }
+
 }

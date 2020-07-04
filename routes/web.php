@@ -35,8 +35,10 @@ Route::group(['middleware' => ['auth', 'access_role']], function () {
         Route::get('/{id}/progress', 'ProjectController@showProgress')->name('projects');
         Route::get('/{id}/keuangan', 'ProjectController@showFinance')->name('projects');
         Route::post('/{id}/keuangan', 'ProjectController@storeFinance')->name('projects');
-        Route::get('/{id}/keuangan-nyata', 'ProjectController@showFinance')->name('projects');
-        Route::get('/{id}/laporan-material', 'MaterialReportController@index')->name('projects');
+        Route::get('/{id}/keuangan-nyata', 'ProjectController@showFinanceRealtime')->name('projects');
+        Route::post('/{id}/keuangan-nyata', 'ProjectController@storeFinanceRealtime')->name('projects');
+        Route::get('/{id}/laporan-material', 'ProjectController@showMaterial')->name('projects');
+        Route::post('/{id}/laporan-material', 'ProjectController@storeMaterial')->name('projects');
         Route::get('/{id}/dokumen-pendukung', 'ProjectController@showAdditionalDocument')->name('projects');
         Route::post('/{id}/dokumen-pendukung', 'ProjectController@storeAdditionalDocument')->name('projects');
         Route::get('/{id}/dokumen-pendukung/{idSupportingDoc}/delete', 'ProjectController@deleteAdditionalDocument')->name('projects');
