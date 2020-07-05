@@ -33,8 +33,18 @@
                 </tr>
                 <tr>
                     <th colspan="4" class="text-center">Januari</th>
+                    <th colspan="4" class="text-center">Febuari</th>
+                    <th colspan="4" class="text-center">Maret</th>
                 </tr>
                 <tr>
+                    <th class="text-center">1</th>
+                    <th class="text-center">2</th>
+                    <th class="text-center">3</th>
+                    <th class="text-center">4</th>
+                    <th class="text-center">1</th>
+                    <th class="text-center">2</th>
+                    <th class="text-center">3</th>
+                    <th class="text-center">4</th>
                     <th class="text-center">1</th>
                     <th class="text-center">2</th>
                     <th class="text-center">3</th>
@@ -47,29 +57,125 @@
                     <td>Membangun atap</td>
                     <td>{{ number_format(2000000, 0, ",", ".") }}</td>
                     <td>3.0</td>
-                    <td>
+                    <td style="background-color: red">
                         <div class="text-center">
                             3.2
                         </div>
-                        <div style="background-color: red; width: 100%; height: 1em; border-radius: 5px"></div>
                     </td>
-                    <td>
+                    <td style="background-color: red">
                         <div class="text-center">
                             3.2
                         </div>
-                        <div style="background-color: red; width: 100%; height: 1em; border-radius: 5px"></div>
                     </td>
-                    <td>
+                    <td style="background-color: red">
                         <div class="text-center">
                             3.2
                         </div>
-                        <div style="background-color: red; width: 100%; height: 1em; border-radius: 5px"></div>
                     </td>
-                    <td>
+                    <td style="background-color: red">
                         <div class="text-center">
                             3.2
                         </div>
-                        <div style="background-color: red; width: 100%; height: 1em; border-radius: 5px"></div>
+                    </td>
+                </tr>
+                <tr class="text-center">
+                    <td>1</td>
+                    <td>Membangun tembok</td>
+                    <td>{{ number_format(2000000, 0, ",", ".") }}</td>
+                    <td>3.0</td>
+                    <td style="background-color: white">
+                        <div class="text-center">
+                        </div>
+                    </td>
+                    <td style="background-color: white">
+                        <div class="text-center">
+                        </div>
+                    </td>
+                    <td style="background-color: white">
+                        <div class="text-center">
+                        </div>
+                    </td>
+                    <td style="background-color: white">
+                        <div class="text-center">
+                        </div>
+                    </td>
+                    <td style="background-color: red">
+                        <div class="text-center">
+                            3
+                        </div>
+                    </td>
+                    <td style="background-color: red">
+                        <div class="text-center">
+                            3
+                        </div>
+                    </td>
+                    <td style="background-color: red">
+                        <div class="text-center">
+                            3
+                        </div>
+                    </td>
+                    <td style="background-color: red">
+                        <div class="text-center">
+                            3
+                        </div>
+                    </td>
+                </tr>
+                <tr class="text-center">
+                    <td>1</td>
+                    <td>Membangun tembok</td>
+                    <td>{{ number_format(2000000, 0, ",", ".") }}</td>
+                    <td>3.0</td>
+                    <td style="background-color: white">
+                        <div class="text-center">
+                        </div>
+                    </td>
+                    <td style="background-color: white">
+                        <div class="text-center">
+                        </div>
+                    </td>
+                    <td style="background-color: white">
+                        <div class="text-center">
+                        </div>
+                    </td>
+                    <td style="background-color: white">
+                        <div class="text-center">
+                        </div>
+                    </td>
+                    <td style="background-color: white">
+                        <div class="text-center">
+                        </div>
+                    </td>
+                    <td style="background-color: white">
+                        <div class="text-center">
+                        </div>
+                    </td>
+                    <td style="background-color: white">
+                        <div class="text-center">
+                        </div>
+                    </td>
+                    <td style="background-color: white">
+                        <div class="text-center">
+                        </div>
+                    </td>
+                    <td style="background-color: red">
+                        <div class="text-center">
+                            3
+                        </div>
+                    </td>
+                    <td style="background-color: red">
+                        <div class="text-center">
+                            3
+                        </div>
+                    </td>
+                    <td style="background-color: red">
+                        <div class="text-center">
+                            3
+                        </div>
+                    </td>
+                    <td style="background-color: red">
+                        <div class="text-center">
+                            3
+                        </div>
                     </td>
                 </tr>
                 <tr id="total" class="text-center">
@@ -85,6 +191,14 @@
                     <td>3.2</td>
                     <td>3.2</td>
                     <td>3.2</td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>3</td>
                 </tr>
                 <tr class="text-center">
                     <td colspan="3">Komulatif Progress Mingguan (%)</td>
@@ -93,6 +207,14 @@
                     <td>3.2</td>
                     <td>3.2</td>
                     <td>3.2</td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>3</td>
                 </tr>
             </tbody>
             </table>
@@ -143,29 +265,25 @@
                     <td>Membangun atap</td>
                     <td>{{ number_format(2000000, 0, ",", ".") }}</td>
                     <td>3.0</td>
-                    <td>
+                    <td style="background-color: red">
                         <div class="text-center">
                             3.2
                         </div>
-                        <div style="background-color: red; width: 100%; height: 1em; border-radius: 5px"></div>
                     </td>
-                    <td>
+                    <td style="background-color: red">
                         <div class="text-center">
                             3.2
                         </div>
-                        <div style="background-color: red; width: 100%; height: 1em; border-radius: 5px"></div>
                     </td>
-                    <td>
+                    <td style="background-color: red">
                         <div class="text-center">
                             3.2
                         </div>
-                        <div style="background-color: red; width: 100%; height: 1em; border-radius: 5px"></div>
                     </td>
-                    <td>
+                    <td style="background-color: red">
                         <div class="text-center">
                             3.2
                         </div>
-                        <div style="background-color: red; width: 100%; height: 1em; border-radius: 5px"></div>
                     </td>
                 </tr>
                 <tr id="total" class="text-center">
