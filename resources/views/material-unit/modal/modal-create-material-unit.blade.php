@@ -2,14 +2,14 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4>Tambah Unit Material</h4>
+                <h4>Tambah Satuan Material</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
                 <form action="" method="post">
                     @csrf
                     <div class="form-group">
-                        <label>Nama Unit Material</label>
+                        <label>Nama Satuan Material</label>
                         <input class="form-control" type="text" name="material_unit_name" id="material_unit_name" required>
                     </div>
                     <div class="text-center mt-2">

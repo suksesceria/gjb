@@ -7,7 +7,7 @@
                 <button class="btn btn-primary"
                         data-toggle="modal"
                         data-target="#modal-create-material-unit"
-                >Membuat Unit Material</button>
+                >Membuat Satuan Material</button>
                 <table class="table mt-3">
                     <thead>
                         <tr>

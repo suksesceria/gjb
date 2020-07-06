@@ -10,7 +10,7 @@
                         <?php $menu = request()->segment(count(request()->segments())); ?>
                         <select name="" id="" class="form-control" onchange="changeRoute(this.value)">
                             <option value="keuangan" {{ $menu == 'keuangan' ? 'selected' : '' }}>Keuangan Lapangan</option>
-                            <option value="keuangan-nyata" {{ $menu == 'keuangan-nyata' ? 'selected' : '' }}>Keuangan Lapangan Nyata</option>
+                            <option value="keuangan-nyata" {{ $menu == 'keuangan-nyata' ? 'selected' : '' }}>Keuangan Kantor</option>
                             <option value="laporan-material" {{ $menu == 'laporan-material' ? 'selected' : '' }}>Laporan Material</option>
                         </select>
                     </div>

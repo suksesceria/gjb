@@ -2,7 +2,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4>Edit Unit Material</h4>
+                <h4>Edit Satuan Material</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
@@ -11,7 +11,7 @@
                     @csrf
                     <input type="hidden" name="material_unit_id" id="edit-material_unit_id" />
                     <div class="form-group">
-                        <label>Nama Unit Proyek</label>
+                        <label>Nama Satuan Proyek</label>
                         <input class="form-control" type="text" name="material_unit_name" id="edit-material_unit_name" required>
                     </div>
                     <div class="text-center mt-2">
