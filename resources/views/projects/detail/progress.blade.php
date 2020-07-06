@@ -337,6 +337,7 @@
                         <thead>
                             <tr>
                                 <th>Tanggal</th>
+                                <th>Minggu ke-</th>
                                 <th>Item Pekerjaan</th>
                                 <th>Progress Update</th>
                                 <th>Deskripsi Progress</th>

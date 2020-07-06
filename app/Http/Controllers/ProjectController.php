@@ -9,6 +9,7 @@ use App\MaterialReport;
 use App\MaterialType;
 use App\MaterialUnit;
 use App\Project;
+use App\ProjectSubStep;
 use App\ProjectType;
 use App\SupportingDocument;
 use Carbon\Carbon;
@@ -37,7 +38,8 @@ class ProjectController extends Controller
      */
     public function showProgress($id)
     {
-        return view('projects.detail.index');
+        $project = Project::findOrFail($id);
+        return view('projects.detail.index', compact(['project']));
     }
 
     public function showFinance(Request $request, $id)
