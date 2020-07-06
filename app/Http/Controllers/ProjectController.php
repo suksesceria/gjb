@@ -9,6 +9,8 @@ use App\MaterialReport;
 use App\MaterialType;
 use App\MaterialUnit;
 use App\Project;
+use App\ProjectProgressPlan;
+use App\ProjectStep;
 use App\ProjectSubStep;
 use App\ProjectType;
 use App\SupportingDocument;
@@ -247,9 +249,46 @@ class ProjectController extends Controller
             $project->save();
             $project->employees()->attach($request->get('project_employees'));
 
-            $countProjectStep = count($request->get('project_step_name'));
+            $projectStepName = $request->get('project_step_name');
+            $countProjectStep = count($projectStepName);
             for ($iProjectStep = 0; $iProjectStep < $countProjectStep; $iProjectStep++) {
+                $step = new ProjectStep([
+                    'project_id' => $project->project_id,
+                    'project_step_name' => $projectStepName[$iProjectStep]
+                ]);
+                $step->save();
 
+                $projectSubstepName = $request->get('project_substep_name')[$iProjectStep];
+                $estimatedStartDate = $request->get('estimated_start_date')[$iProjectStep];
+                $estimatedEndDate = $request->get('estimated_end_date')[$iProjectStep];
+                $countProjectSubstep = count($projectSubstepName);
+
+                for ($iProjectSubstep = 0; $iProjectSubstep < $countProjectSubstep; $iProjectSubstep++) {
+                    $subStep = new ProjectSubStep([
+                        'project_id' => $project->project_id,
+                        'project_step_id' => $step->project_step_id,
+                        'project_substep_name' => $projectSubstepName[$iProjectSubstep],
+                        'estimated_start_date' => Carbon::createFromFormat('Y-m-d', $estimatedStartDate[$iProjectSubstep]),
+                        'estimated_end_date' => Carbon::createFromFormat('Y-m-d', $estimatedEndDate[$iProjectSubstep]),
+                    ]);
+                    $subStep->save();
+
+                    $weeks = $request->get('week')[$iProjectStep][$iProjectSubstep];
+                    $weights = $request->get('weight')[$iProjectStep][$iProjectSubstep];
+                    $countWeeks = count($weeks);
+
+                    for ($iWeek = 0; $iWeek < $countWeeks; $iWeek++) {
+                        $progressPlan = new ProjectProgressPlan([
+                            'project_id' => $project->project_id,
+                            'project_step_id' => $step->project_step_id,
+                            'project_substep_id' => $subStep->project_substep_id,
+                            'week' => $weeks[$iWeek],
+                            'weight' => $weights[$iWeek],
+                        ]);
+                        $progressPlan->save();
+                    }
+
+                }
             }
 
             DB::commit();
