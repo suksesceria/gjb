@@ -40,9 +40,18 @@ class ProjectController extends Controller
         return view('projects.detail.index');
     }
 
-    public function showFinance($id)
+    public function showFinance(Request $request, $id)
     {
-        $data = Project::findOrFail($id)->cost_report_office()->orderBy('cost_report_office_id', 'desc')->get();
+        $dateFrom = $request->get('date-from', null);
+        $dateTo = $request->get('date-to', null);
+
+        if ($dateFrom && $dateTo) {
+            $dateFrom = Carbon::createFromFormat('Y-m-d', $dateFrom)->startOfDay();
+            $dateTo = Carbon::createFromFormat('Y-m-d', $dateTo)->endOfDay();
+            $data = Project::findOrFail($id)->cost_report_office()->whereBetween('cost_report_office_date', [$dateFrom, $dateTo])->orderBy('cost_report_office_id', 'asc')->get();
+        } else {
+            $data = Project::findOrFail($id)->cost_report_office()->orderBy('cost_report_office_id', 'desc')->get();
+        }
         return view('projects.detail.index', compact(['data']));
     }
 
@@ -71,9 +80,18 @@ class ProjectController extends Controller
         return redirect("projects/{$id}/keuangan");
     }
 
-    public function showFinanceRealtime($id)
+    public function showFinanceRealtime(Request $request, $id)
     {
-        $data = Project::findOrFail($id)->cost_report_realtime()->orderBy('cost_report_realtime_id', 'desc')->get();
+        $dateFrom = $request->get('date-from', null);
+        $dateTo = $request->get('date-to', null);
+
+        if ($dateFrom && $dateTo) {
+            $dateFrom = Carbon::createFromFormat('Y-m-d', $dateFrom)->startOfDay();
+            $dateTo = Carbon::createFromFormat('Y-m-d', $dateTo)->endOfDay();
+            $data = Project::findOrFail($id)->cost_report_realtime()->whereBetween('cost_report_realtime_date', [$dateFrom, $dateTo])->orderBy('cost_report_realtime_id', 'asc')->get();
+        } else {
+            $data = Project::findOrFail($id)->cost_report_realtime()->orderBy('cost_report_realtime_id', 'desc')->get();
+        }
         return view('projects.detail.index', compact(['data']));
     }
 
@@ -102,9 +120,18 @@ class ProjectController extends Controller
         return redirect("projects/{$id}/keuangan-nyata");
     }
 
-    public function showMaterial($id)
+    public function showMaterial(Request $request, $id)
     {
-        $data = Project::findOrFail($id)->material_report()->orderBy('material_report_id', 'desc')->get();
+        $dateFrom = $request->get('date-from', null);
+        $dateTo = $request->get('date-to', null);
+
+        if ($dateFrom && $dateTo) {
+            $dateFrom = Carbon::createFromFormat('Y-m-d', $dateFrom)->startOfDay();
+            $dateTo = Carbon::createFromFormat('Y-m-d', $dateTo)->endOfDay();
+            $data = Project::findOrFail($id)->material_report()->whereBetween('material_report_date', [$dateFrom, $dateTo])->orderBy('material_report_id', 'asc')->get();
+        } else {
+            $data = Project::findOrFail($id)->material_report()->orderBy('material_report_id', 'asc')->get();
+        }
         $materialTypes = MaterialType::get();
         $materialUnits = MaterialUnit::get();
         return view('projects.detail.index', compact(['data', 'materialTypes', 'materialUnits']));

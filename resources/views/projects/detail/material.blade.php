@@ -1,7 +1,7 @@
 <div class="panel panel-default">
     <div class="panel-body">
         <div class="row m-2">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="row">
                     <div class="mr-2 mt-1">
                         <label>Pilihan</label>
@@ -16,25 +16,29 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-9">
                 <div class="row">
-{{--                    <div class="col-md-4 mt-1">--}}
-{{--                        <div class="row">--}}
-{{--                            <div class="mt-1 mr-2">Dari:</div>--}}
-{{--                            <div>--}}
-{{--                                <input type="date" id="date-from" class="form-control">--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div class="col-md-5 mt-1">--}}
-{{--                        <div class="row">--}}
-{{--                            <div class="mt-1 mr-2">Sampai:</div>--}}
-{{--                            <div>--}}
-{{--                                <input type="date" id="date-to" class="form-control">--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-                    <div class="col-md-9"></div>
+                    <div class="col-md-9">
+                        <form class="form-inline">
+                            <div class="form-row">
+                                <div class="col" style="align-self: center">
+                                    Dari:
+                                </div>
+                                <div class="col">
+                                    <input type="date" id="date-from" name="date-from" class="form-control">
+                                </div>
+                                <div class="col" style="align-self: center">
+                                    Sampai:
+                                </div>
+                                <div class="col">
+                                    <input type="date" id="date-to" name="date-to" class="form-control">
+                                </div>
+                                <div class="col">
+                                    <button class="btn btn-primary">Cari</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                     <div class="col-md-3">
                         <button class="btn btn-primary"
                                 data-toggle="modal"
@@ -62,7 +66,13 @@
                 </thead>
                 <tbody>
                     @if($data->count())
+                        <?php
+                        $total = 0;
+                        ?>
                         @foreach($data as $index => $datum)
+                            <?php
+                            $total += ($datum->material_cost_unit * $datum->material_qty);
+                            ?>
                             <tr class="data-row">
                                 <td>{{$index + 1}}</td>
                                 <td>{{$datum->material_name}}</td>
@@ -79,6 +89,12 @@
 {{--                                </td>--}}
                             </tr>
                         @endforeach
+                        <tr class="data-row">
+                            <td colspan="5"></td>
+                            <td><b>TOTAL</b></td>
+                            <td><b>Rp. <span>{{ number_format($total, 0, ",", ".") }}</span></b></td>
+                            <td colspan="2"></td>
+                        </tr>
                     @else
                         <tr class="data-row">
                             <td class="date" colspan="9">Data tidak ditemukan</td>

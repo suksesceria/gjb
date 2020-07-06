@@ -1,7 +1,7 @@
 <div class="panel panel-default">
     <div class="panel-body">
         <div class="row m-2">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="row">
                     <div class="mr-2 mt-1">
                         <label>Pilihan</label>
@@ -16,25 +16,29 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-9">
                 <div class="row">
-{{--                    <div class="col-md-4 mt-1">--}}
-{{--                        <div class="row">--}}
-{{--                            <div class="mt-1 mr-2">Dari:</div>--}}
-{{--                            <div>--}}
-{{--                                <input type="date" id="date-from" class="form-control">--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div class="col-md-5 mt-1">--}}
-{{--                        <div class="row">--}}
-{{--                            <div class="mt-1 mr-2">Sampai:</div>--}}
-{{--                            <div>--}}
-{{--                                <input type="date" id="date-to" class="form-control">--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-                    <div class="col-md-9"></div>
+                    <div class="col-md-9">
+                        <form class="form-inline">
+                            <div class="form-row">
+                                <div class="col" style="align-self: center">
+                                    Dari:
+                                </div>
+                                <div class="col">
+                                    <input type="date" id="date-from" name="date-from" class="form-control">
+                                </div>
+                                <div class="col" style="align-self: center">
+                                    Sampai:
+                                </div>
+                                <div class="col">
+                                    <input type="date" id="date-to" name="date-to" class="form-control">
+                                </div>
+                                <div class="col">
+                                    <button class="btn btn-primary">Cari</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                     <div class="col-md-3">
                         <button class="btn btn-primary"
                                 data-toggle="modal"
@@ -58,8 +62,17 @@
                 </thead>
                 <tbody>
                     @if($data->count())
+                        <?php
+                        $totalKredit = 0;
+                        $totalDebit = 0;
+                        $total = 0;
+                        ?>
                         @foreach($data as $datum)
                             <?php
+                                $debit = $datum->cost_report_cashflow ? $datum->cost_expense : 0;
+                                $kredit = !$datum->cost_report_cashflow ? $datum->cost_expense : 0;
+                                $totalDebit += $debit;
+                                $totalKredit += $kredit;
                                 if ($datum instanceof \App\CostReportOffice){
                                     $id = $datum->cost_report_office_id;
                                     $desc = $datum->cost_report_office_desc;
@@ -69,12 +82,13 @@
                                     $desc = $datum->cost_report_realtime_desc;
                                     $date = $datum->cost_report_realtime_date;
                                 }
+                                $total = $datum->balance;
                             ?>
                             <tr class="data-row">
                                 <td class="date">{{$date->format('d-m-Y')}}</td>
                                 <td class="description">{{$desc}}</td>
-                                <td class="debit-amount">Rp. <span>{{ $datum->cost_report_cashflow ? number_format($datum->cost_expense, 0, ",", ".") : '-' }}</span></td>
-                                <td class="kredit-amount">Rp. <span>{{ !$datum->cost_report_cashflow ? number_format($datum->cost_expense, 0, ",", ".") : '-' }}</span></td>
+                                <td class="debit-amount">Rp. <span>{{ number_format($debit, 0, ",", ".") }}</span></td>
+                                <td class="kredit-amount">Rp. <span>{{ number_format($kredit, 0, ",", ".") }}</span></td>
                                 <td class="last-deposit">Rp. <span>{{ number_format($datum->balance, 0, ",", ".") }}</span></td>
 {{--                                <td>--}}
 {{--                                    <i class="fas fa-pencil-alt mr-2" style="cursor: pointer;" id="edit-item"></i>--}}
@@ -82,6 +96,13 @@
 {{--                                </td>--}}
                             </tr>
                         @endforeach
+                        <tr class="data-row">
+                            <td class="date"></td>
+                            <td class="description"><b>TOTAL</b></td>
+                            <td class="debit-amount"><b>Rp. <span>{{ number_format($totalDebit, 0, ",", ".") }}</span></b></td>
+                            <td class="kredit-amount"><b>Rp. <span>{{ number_format($totalKredit, 0, ",", ".") }}</span></b></td>
+                            <td class="last-deposit"><b>Rp. <span>{{ number_format($total, 0, ",", ".") }}</span></b></td>
+                        </tr>
                     @else
                         <tr class="data-row">
                             <td class="date" colspan="5">Data tidak ditemukan</td>
