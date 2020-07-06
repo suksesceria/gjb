@@ -246,6 +246,12 @@ class ProjectController extends Controller
             );
             $project->save();
             $project->employees()->attach($request->get('project_employees'));
+
+            $countProjectStep = count($request->get('project_step_name'));
+            for ($iProjectStep = 0; $iProjectStep < $countProjectStep; $iProjectStep++) {
+
+            }
+
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();
