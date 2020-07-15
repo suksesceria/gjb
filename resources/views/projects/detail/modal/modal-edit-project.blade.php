@@ -1,6 +1,6 @@
 <div id="modal-edit-project" class="modal fade" role="dialog">
     <div class="modal-dialog">
-        
+
         <div class="modal-content">
             <div class="modal-header">
                 <h4>Edit Projek</h4>
@@ -19,10 +19,10 @@
                       <label>Total Biaya Projek</label>
                       <input type="number" min="0" class="form-control" name="project_total_cost" id="project_total_cost">
                     </div>
-                    
+
                   </div>
                   <div class="col-md-6">
-                    
+
                     <div class="form-group">
                       <label>Tipe</label>
                       <select class="form-control" name="project_type" id="project_type">
@@ -48,7 +48,7 @@
                 </div>
 
                 <div style="font-size: 12px">Item Pekerjaan</div>
-                
+
                 <div class="form-group">
                   <label>Nama</label>
                   <input type="text" name="substeps_name" class="form-control">
@@ -68,7 +68,7 @@
                     </div>
                   </div>
                 </div>
-                
+
                 <div id="bobot-per-minggu">
                   <div style="font-size: 12px">Bobot per Minggu</div>
                   <div class="row" id="bobot-container">

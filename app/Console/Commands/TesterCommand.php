@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Menu;
 use App\Role;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 class TesterCommand extends Command
@@ -39,10 +40,22 @@ class TesterCommand extends Command
      */
     public function handle()
     {
+        $sd = Carbon::createFromFormat('Y-m-d', '2020-01-01');
+        $ed = Carbon::createFromFormat('Y-m-d', '2020-01-31');
 
-        $role = Role::first();
-//        $role->menus()->detach([2]);
-//        $role->menus()->attach([3]);
-        dd($role->menus->count());
+        $totalDays = $sd->diffInDays($ed);
+        $totalWeeks = ceil($totalDays/7);
+        $this->info("Total weeks {$totalWeeks}");
+
+
+        $selip = Carbon::createFromFormat('Y-m-d', '2020-02-01');
+        $totalDays = $sd->diffInDays($selip);
+        $totalWeeks = ceil($totalDays/7);
+        $this->info($totalWeeks);
+
+        dd(
+
+            str_pad("<td>2</td>", 50, "<td></td>", STR_PAD_LEFT)
+        );
     }
 }

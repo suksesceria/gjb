@@ -27,6 +27,16 @@ class ProjectSubStep extends Model
         'real_start_date',
     ];
 
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'project_id','project_id');
+    }
+
+    public function step()
+    {
+        return $this->belongsTo(ProjectStep::class, 'project_step_id','project_step_id');
+    }
+
     public function progress_plans()
     {
         return $this->hasMany(ProjectProgressPlan::class, 'project_substep_id', 'project_substep_id');

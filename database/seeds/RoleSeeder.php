@@ -27,12 +27,18 @@ class RoleSeeder extends Seeder
             'role_desc' => 'Office'
         ]);
         $role->save();
+        $role->menus()->attach(
+            Menu::whereIn('menu_code', ['home-dashboard', 'projects', 'type-proyek', 'material-type', 'material-unit'])->get()->pluck('menu_id')
+        );
 
         $role = new Role([
             'role_name' => 'Projek Manajer',
             'role_desc' => 'Projek Manajer'
         ]);
         $role->save();
+        $role->menus()->attach(
+            Menu::whereIn('menu_code', ['home-dashboard', 'projects'])->get()->pluck('menu_id')
+        );
     }
 
 }

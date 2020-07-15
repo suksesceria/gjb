@@ -8,6 +8,7 @@ use App\Employee;
 use App\MaterialReport;
 use App\MaterialType;
 use App\MaterialUnit;
+use App\Progress;
 use App\Project;
 use App\ProjectProgressPlan;
 use App\ProjectStep;
@@ -40,8 +41,107 @@ class ProjectController extends Controller
      */
     public function showProgress($id)
     {
-        $project = Project::findOrFail($id);
-        return view('projects.detail.index', compact(['project']));
+        $project = Project::with(['steps', 'steps.substeps', 'steps.substeps.progress_plans', 'steps.substeps.progresses', 'progresses'])->findOrFail($id);
+        $progressPlanStartDate = $project->substeps()->orderBy('estimated_start_date')->first()->estimated_start_date;
+        $progressPlanEndDate = $project->substeps()->orderByDesc('estimated_end_date')->first()->estimated_end_date;
+        $totalWeeks = ceil($progressPlanEndDate->diffInDays($progressPlanStartDate) / 7);
+        $totalMonths = ceil($totalWeeks/4);
+
+        $realStartDate = $project->progresses()->orderBy('progress_date')->first();
+        if ($realStartDate) {
+            $progressStartDate = $realStartDate->progress_date;
+            if ($project->progresses->sum('progress_add') >= 100) {
+                $progressEndDate = $project->progresses()->orderByDesc('progress_date')->first()->progress_date;
+            } else {
+                $progressEndDate = null;
+            }
+            $lastProgressDate = $progressEndDate;
+            if (! $lastProgressDate) {
+                $lastProgressDate = $project->progresses()->orderByDesc('progress_date')->first();;
+            }
+            if ($lastProgressDate) {
+                $lastProgressDate = $lastProgressDate->progress_date;
+                $totalWeeksProgress = ceil($lastProgressDate->diffInDays($progressStartDate)/7);
+                if ($totalWeeksProgress == 0) {
+                    $totalWeeksProgress = 1;
+                }
+                $totalMonthsProgress = ceil($totalWeeksProgress/4);
+            } else {
+                $totalWeeksProgress = 0;
+                $totalMonthsProgress = 0;
+            }
+
+        } else {
+            $lastProgressDate = null;
+            $progressStartDate = null;
+            $progressEndDate = null;
+            $totalWeeksProgress = 0;
+            $totalMonthsProgress = 0;
+        }
+
+        return view('projects.detail.index', compact([
+            'project',
+            'progressPlanStartDate',
+            'progressPlanEndDate',
+            'totalWeeks',
+            'totalMonths',
+            'progressStartDate',
+            'progressEndDate',
+            'totalWeeksProgress',
+            'totalMonthsProgress',
+            'lastProgressDate',
+        ]));
+    }
+
+    public function editProject($id) {
+
+    }
+
+    public function deleteProgress($id, $progress_id)
+    {
+        $progress = Progress::findOrFail($progress_id)->delete();
+        return redirect("projects/{$id}/progress");
+    }
+
+    public function storeProgress(Request $request, $id)
+    {
+        $substep = ProjectSubStep::findOrFail($request->get('project_substep_id'));
+        $progressDate = Carbon::createFromFormat('Y-m-d', $request->get('progress_date'));
+        $progress = new Progress([
+            'project_substep_id' => $substep->project_substep_id,
+            'project_step_id' => $substep->step->project_step_id,
+            'project_id' => $substep->project->project_id,
+            'week' => $request->get('week'),
+            'progress_add' => $request->get('progress_add'),
+            'progress_desc' => $request->get('progress_desc'),
+            'progress_date' => $progressDate,
+        ]);
+        try {
+            DB::beginTransaction();
+            if (!$substep->real_start_date) {
+                $substep->real_start_date = $progressDate;
+                $substep->save();
+            }
+            $substep->progresses()->save($progress);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+        }
+        return redirect("projects/{$id}/progress");
+    }
+
+    public function updateProgress(Request $request, $id)
+    {
+        $progress = Progress::findOrFail($request->get('progress_id'));
+        $progressDate = Carbon::createFromFormat('Y-m-d', $request->get('progress_date'));
+        $progress->project_substep_id = $request->get('project_substep_id');
+        $progress->week = $request->get('week');
+        $progress->progress_add = $request->get('progress_add');
+        $progress->progress_desc = $request->get('progress_desc');
+        $progress->progress_date = $progressDate;
+        $progress->save();
+
+        return redirect("projects/{$id}/progress");
     }
 
     public function showFinance(Request $request, $id)

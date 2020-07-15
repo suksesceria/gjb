@@ -33,6 +33,9 @@ Route::group(['middleware' => ['auth', 'access_role']], function () {
     Route::group(['prefix' => 'projects'], function() {
         Route::get('/', 'ProjectController@index')->name('projects');
         Route::get('/{id}/progress', 'ProjectController@showProgress')->name('projects');
+        Route::post('/{id}/progress', 'ProjectController@storeProgress')->name('projects');
+        Route::post('/{id}/progress/update', 'ProjectController@updateProgress')->name('projects');
+        Route::get('/{id}/progress/{progress_id}/delete', 'ProjectController@deleteProgress')->name('projects');
         Route::get('/{id}/keuangan', 'ProjectController@showFinance')->name('projects');
         Route::post('/{id}/keuangan', 'ProjectController@storeFinance')->name('projects');
         Route::get('/{id}/keuangan-nyata', 'ProjectController@showFinanceRealtime')->name('projects');
@@ -44,6 +47,7 @@ Route::group(['middleware' => ['auth', 'access_role']], function () {
         Route::get('/{id}/dokumen-pendukung/{idSupportingDoc}/delete', 'ProjectController@deleteAdditionalDocument')->name('projects');
         Route::get('/tambah-projek', 'ProjectController@addProject')->name('projects');
         Route::post('/tambah-projek', 'ProjectController@storeProject')->name('projects');
+        Route::get('/edit-projek/{id}', 'ProjectController@editProject')->name('projects');
     });
 
     Route::group(['prefix' => 'material-type'], function() {

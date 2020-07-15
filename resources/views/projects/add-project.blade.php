@@ -69,21 +69,21 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label>Tanggal Mulai</label>
-                    <input type="date" name="estimated_start_date[{step_index}][]" class="form-control">
+                    <input type="date" name="estimated_start_date[{step_index}][]" class="form-control start-date" data-index="{step_index}-{substep_index}" onchange="dateChanged(this)">
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
                     <label>Tanggal Selesai</label>
-                    <input type="date" name="estimated_end_date[{step_index}][]" class="form-control">
+                    <input type="date" name="estimated_end_date[{step_index}][]" class="form-control end-date" data-index="{step_index}-{substep_index}" onchange="dateChanged(this)">
                   </div>
                 </div>
               </div>
 
               <div class="bobot-per-minggu">
                 <div style="font-size: 12px;margin-bottom: 10px;margin-top: 10px;font-weight: bold;">Bobot per Minggu</div>
-                <button type="button" onclick="addProgressPlan(this, {step_index}, {substep_index})" class="btn btn-primary" style="padding: 2px; font-size: 10px;">+</button>
-                <button type="button" onclick="removeProgressPlan(this)" class="btn btn-danger" style="padding: 2px; font-size: 10px;">-</button>
+                <!--button type="button" onclick="addProgressPlan(this, {step_index}, {substep_index})" class="btn btn-primary" style="padding: 2px; font-size: 10px;">+</button-->
+                <!--button type="button" onclick="removeProgressPlan(this)" class="btn btn-danger" style="padding: 2px; font-size: 10px;">-</button-->
                 <div class="row bobot-container">
 
                 </div>
@@ -127,6 +127,43 @@
 @section('script')
 <script type="text/javascript">
 
+function dateChanged(ele) {
+    var startDate = '';
+    var endDate = '';
+    if ($(ele).hasClass("start-date")) {
+        startDate = $(ele).val();
+        if (startDate === '') {
+            return;
+        }
+        startDate = moment(startDate);
+        endDate = $(ele).parent().parent().next().children().children('.end-date').val();
+        if (endDate === '') {
+            return;
+        }
+        endDate = moment(endDate);
+    } else {
+        endDate = $(ele).val();
+        if (endDate === '') {
+            return;
+        }
+        endDate = moment(endDate);
+        startDate = $(ele).parent().parent().prev().children().children('.start-date').val();
+        if (startDate === '') {
+            return;
+        }
+        startDate = moment(startDate);
+    }
+    var totalWeek = Math.ceil(Math.abs(endDate.diff(startDate, 'day')) / 7);
+    var container = $(ele).parent().parent().parent().next('.bobot-per-minggu').children('.bobot-container');
+    container.html("");
+    var dataIndex = $(ele).attr('data-index').split('-');
+    var stepIndex = dataIndex[0];
+    var substepIndex = dataIndex[1];
+    for (var week = 0; week < totalWeek; week++) {
+        addProgressPlan(container, stepIndex, substepIndex);
+    }
+}
+
 function addStep() {
     var index = $('.steps').length;
     var html = $('#template-langkah').val();
@@ -157,7 +194,8 @@ function removeSubstep(ele) {
 }
 
 function addProgressPlan(ele, stepIndex, substepIndex) {
-    var container = $(ele).next().next('.bobot-container');
+    // var container = $(ele).next().next('.bobot-container');
+    var container = $(ele);
     var index = container.children('.bobot').length;
     var html = $('#template-progress-plan').val().replace(/{step_index}/g, stepIndex).replace(/{substep_index}/g, substepIndex).replace(/{progress_plan}/g, index + 1);
     container.append(html);

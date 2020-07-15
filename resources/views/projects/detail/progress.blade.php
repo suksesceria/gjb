@@ -1,3 +1,12 @@
+@php
+$emptyWeek = '';
+$totalBobot = 0;
+$progressPlanSum = array_fill(0, $totalWeeks, 0);
+
+$emptyWeekProgress = '';
+$totalBobotProgress = 0;
+$progressSum = array_fill(0, $totalWeeksProgress, 0);
+@endphp
 <div class="panel panel-default">
     <div class="panel-body">
         <div class="row">
@@ -7,10 +16,10 @@
             <div class="col-md-6 detail-progress">
                 <div class="row">
                     <div class="col-md-4 mt-2">
-                        Start Date: 13/12/2020
+                        Start Date: {{ $progressPlanStartDate->format('d/m/Y') }}
                     </div>
                     <div class="col-md-4 mt-2">
-                        Send Date: 13/12/2020
+                        Send Date: {{ $progressPlanEndDate->format('d/m/Y') }}
                     </div>
                     <div class="col-md-4">
                         <button class="btn btn-primary"
@@ -21,200 +30,106 @@
                 </div>
             </div>
         </div>
-        <div style="overflow-y: auto">
+        <div style="overflow-y: auto; margin-top:20px;">
             <table class="table" style="width: 100%; font-size: 12px">
                 <thead>
                 <tr>
-                    <th rowspan="3" class="text-center">NO</th>
-                    <th rowspan="3" class="text-center">URAIAN PEKERJAAN</th>
-                    <th rowspan="3" class="text-center">JUMLAH HARGA (RP.)</th>
-                    <th rowspan="3" class="text-center">BOBOT (%)</th>
-                    <th colspan="48" class="text-center">WAKTU PELAKSANAAN</th>
+                    <th rowspan="3" class="text-center" width="1%">No</th>
+                    <th rowspan="3" class="text-center" width="20%">Uraian Pekerjaan</th>
+                    <th rowspan="3" class="text-center" width="10%">Tanggal</th>
+                    <th rowspan="3" class="text-center" width="5%">Bobot (%)</th>
+                    <th colspan="{{ $totalWeeks }}" class="text-center" width="64%">Waktu Pelaksanaan</th>
                 </tr>
                 <tr>
-                    <th colspan="4" class="text-center">Januari</th>
-                    <th colspan="4" class="text-center">Febuari</th>
-                    <th colspan="4" class="text-center">Maret</th>
+                    @for($month = 1; $month <= $totalMonths; $month++)
+                        <th colspan="4" class="text-center">Bulan ke-{{$month}}</th>
+                    @endfor
                 </tr>
                 <tr>
-                    <th class="text-center">1</th>
-                    <th class="text-center">2</th>
-                    <th class="text-center">3</th>
-                    <th class="text-center">4</th>
-                    <th class="text-center">1</th>
-                    <th class="text-center">2</th>
-                    <th class="text-center">3</th>
-                    <th class="text-center">4</th>
-                    <th class="text-center">1</th>
-                    <th class="text-center">2</th>
-                    <th class="text-center">3</th>
-                    <th class="text-center">4</th>
+                    @for($week = 1; $week <= $totalWeeks; $week++)
+                        <th class="text-center">{{$week}}</th>
+                        @php
+                            $emptyWeek .= "<td></td>";
+                        @endphp
+                    @endfor
                 </tr>
             </thead>
             <tbody>
-                <tr class="text-center">
-                    <td>1</td>
-                    <td>Membangun atap</td>
-                    <td>{{ number_format(2000000, 0, ",", ".") }}</td>
-                    <td>3.0</td>
-                    <td style="background-color: red">
-                        <div class="text-center">
-                            3.2
-                        </div>
-                    </td>
-                    <td style="background-color: red">
-                        <div class="text-center">
-                            3.2
-                        </div>
-                    </td>
-                    <td style="background-color: red">
-                        <div class="text-center">
-                            3.2
-                        </div>
-                    </td>
-                    <td style="background-color: red">
-                        <div class="text-center">
-                            3.2
-                        </div>
-                    </td>
-                </tr>
-                <tr class="text-center">
-                    <td>1</td>
-                    <td>Membangun tembok</td>
-                    <td>{{ number_format(2000000, 0, ",", ".") }}</td>
-                    <td>3.0</td>
-                    <td style="background-color: white">
-                        <div class="text-center">
-                        </div>
-                    </td>
-                    <td style="background-color: white">
-                        <div class="text-center">
-                        </div>
-                    </td>
-                    <td style="background-color: white">
-                        <div class="text-center">
-                        </div>
-                    </td>
-                    <td style="background-color: white">
-                        <div class="text-center">
-                        </div>
-                    </td>
-                    <td style="background-color: red">
-                        <div class="text-center">
-                            3
-                        </div>
-                    </td>
-                    <td style="background-color: red">
-                        <div class="text-center">
-                            3
-                        </div>
-                    </td>
-                    <td style="background-color: red">
-                        <div class="text-center">
-                            3
-                        </div>
-                    </td>
-                    <td style="background-color: red">
-                        <div class="text-center">
-                            3
-                        </div>
-                    </td>
-                </tr>
-                <tr class="text-center">
-                    <td>1</td>
-                    <td>Membangun tembok</td>
-                    <td>{{ number_format(2000000, 0, ",", ".") }}</td>
-                    <td>3.0</td>
-                    <td style="background-color: white">
-                        <div class="text-center">
-                        </div>
-                    </td>
-                    <td style="background-color: white">
-                        <div class="text-center">
-                        </div>
-                    </td>
-                    <td style="background-color: white">
-                        <div class="text-center">
-                        </div>
-                    </td>
-                    <td style="background-color: white">
-                        <div class="text-center">
-                        </div>
-                    </td>
-                    <td style="background-color: white">
-                        <div class="text-center">
-                        </div>
-                    </td>
-                    <td style="background-color: white">
-                        <div class="text-center">
-                        </div>
-                    </td>
-                    <td style="background-color: white">
-                        <div class="text-center">
-                        </div>
-                    </td>
-                    <td style="background-color: white">
-                        <div class="text-center">
-                        </div>
-                    </td>
-                    <td style="background-color: red">
-                        <div class="text-center">
-                            3
-                        </div>
-                    </td>
-                    <td style="background-color: red">
-                        <div class="text-center">
-                            3
-                        </div>
-                    </td>
-                    <td style="background-color: red">
-                        <div class="text-center">
-                            3
-                        </div>
-                    </td>
-                    <td style="background-color: red">
-                        <div class="text-center">
-                            3
-                        </div>
-                    </td>
-                </tr>
-                <tr id="total" class="text-center">
+                @php $no = 1; @endphp
+                @foreach($project->steps as $step)
+                    <tr class="text-center font-weight-bold">
+                        <td>{{NumConvert::roman($no++)}}</td>
+                        <td>{{$step->project_step_name}}</td>
+                        <td></td>
+                        <td></td>
+                        @php echo $emptyWeek; @endphp
+                    </tr>
+                    @php $noSub = 1; @endphp
+                    @foreach($step->substeps as $substep)
+                        @php
+                        $bobot = 0;
+                        $cols = "";
+                        $start = floor($progressPlanStartDate->diffInDays($substep->estimated_start_date)/7);
+                        $end = floor($progressPlanEndDate->diffInDays($substep->estimated_end_date)/7);
+                        $startLoop = $start;
+                        $length = $substep->progress_plans->count();
+                        if (($size = $start + $end + $length) < $totalWeeks) {
+                            $end += $totalWeeks - $size;
+                        }
+                        $padLeft = 0;
+                        $padRight = 0;
+                        foreach ($substep->progress_plans as $progress_plan) {
+                            $progressPlanSum[$startLoop++] += $progress_plan->weight;
+                            $bobot += $progress_plan->weight;
+                            if ($progress_plan->weight) {
+                                $col = '<td style="background-color: red;color:white" class="text-center">'. $progress_plan->weight .'</td>';
+                                $cols .= $col;
+                                $padLeft += strlen($col);
+                            } else {
+                                $cols .= '<td></td>';
+                                $padLeft += 9;
+                            }
+                        }
+                        $padLeft += $start * 9;
+                        $padRight = $padLeft + ($end * 9);
+                        $cols = str_pad($cols, $padLeft, '<td></td>', STR_PAD_LEFT);
+                        $cols = str_pad($cols, $padRight, '<td></td>', STR_PAD_RIGHT);
+                        $totalBobot += $bobot;
+                        @endphp
+                        <tr class="text-center">
+                            <td>{{$noSub++}}</td>
+                            <td>{{$substep->project_substep_name}}</td>
+                            <td>{{$substep->estimated_start_date->format('d/m/y').' - '.$substep->estimated_end_date->format('d/m/y')}}</td>
+                            <td>{{$bobot}}</td>
+                            @php echo $cols; @endphp
+                        </tr>
+                    @endforeach
+                @endforeach
+
+                <tr id="total" class="text-center font-weight-bold">
                     <td colspan="2" align="right">Jumlah</td>
-                    <td>{{ number_format(2000000, 0, ',', '.') }}</td>
-                    <td>3.0</td>
+                    <td>{{ $totalBobot }}</td>
+                    <td>100</td>
                     <td colspan="48"></td>
                 </tr>
-                <tr class="text-center">
+                <tr class="text-center font-weight-bold">
                     <td colspan="3">Rencana Progress Mingguan (%)</td>
-                    <td></td>
-                    <td>3.2</td>
-                    <td>3.2</td>
-                    <td>3.2</td>
-                    <td>3.2</td>
-                    <td>3</td>
-                    <td>3</td>
-                    <td>3</td>
-                    <td>3</td>
-                    <td>3</td>
-                    <td>3</td>
-                    <td>3</td>
-                    <td>3</td>
+                    <td>-</td>
+                    @foreach($progressPlanSum as $sum)
+                        <td>{{$sum}}</td>
+                    @endforeach
                 </tr>
-                <tr class="text-center">
-                    <td colspan="3">Komulatif Progress Mingguan (%)</td>
-                    <td></td>
-                    <td>3.2</td>
-                    <td>3.2</td>
-                    <td>3.2</td>
-                    <td>3.2</td>
-                    <td>3</td>
-                    <td>3</td>
-                    <td>3</td>
-                    <td>3</td>
-                    <td>3</td>
-                    <td>3</td>
-                    <td>3</td>
-                    <td>3</td>
+                <tr class="text-center font-weight-bold">
+                    <td colspan="3">Kumulatif Rencana Progress Mingguan (%)</td>
+                    <td>-</td>
+                    @php $kumulatif = 0; @endphp
+                    @for($i = 0; $i < $totalWeeks; $i++)
+                        @if ($i == 0)
+                            <td>{{$kumulatif = $progressPlanSum[$i]}}</td>
+                        @else
+                            <td>{{$kumulatif += $progressPlanSum[$i]}}</td>
+                        @endif
+                    @endfor
                 </tr>
             </tbody>
             </table>
@@ -231,66 +146,73 @@
             <div class="col-md-6 detail-progress">
                 <div class="row">
                     <div class="col-md-4 mt-2">
-                        Start Date: 13/12/2020
+                        Start Date: {{$progressStartDate ? $progressStartDate->format('d/m/Y') : '-'}}
                     </div>
                     <div class="col-md-4 mt-2">
-                        End Date: -
+                        End Date: {{$progressEndDate ? $progressEndDate->format('d/m/Y') : '-'}}
                     </div>
                 </div>
             </div>
         </div>
-        <div style="overflow-y: auto">
+        <div style="overflow-y: auto; margin-top:20px;">
             <table class="table" style="width: 100%; font-size: 12px">
                 <thead>
                 <tr>
-                    <th rowspan="3" class="text-center">NO</th>
-                    <th rowspan="3" class="text-center">URAIAN PEKERJAAN</th>
-                    <th rowspan="3" class="text-center">JUMLAH HARGA (RP.)</th>
-                    <th rowspan="3" class="text-center">BOBOT (%)</th>
-                    <th colspan="48" class="text-center">WAKTU PELAKSANAAN</th>
+                    <th rowspan="3" class="text-center" width="1%">No</th>
+                    <th rowspan="3" class="text-center" width="20%">Uraian Pekerjaan</th>
+                    <th rowspan="3" class="text-center" width="10%">Tanggal</th>
+                    <th rowspan="3" class="text-center" width="5%">Bobot (%)</th>
+                    <th colspan="{{ $totalWeeks }}" class="text-center" width="64%">Waktu Pelaksanaan</th>
                 </tr>
                 <tr>
-                    <th colspan="4" class="text-center">Januari</th>
+                    @for($month = 1; $month <= $totalMonths; $month++)
+                        <th colspan="4" class="text-center">Bulan ke-{{$month}}</th>
+                    @endfor
                 </tr>
                 <tr>
-                    <th class="text-center">1</th>
-                    <th class="text-center">2</th>
-                    <th class="text-center">3</th>
-                    <th class="text-center">4</th>
+                    @for($week = 1; $week <= $totalWeeks; $week++)
+                        <th class="text-center">{{$week}}</th>
+                        @php
+                            $emptyWeekProgress .= "<td></td>";
+                        @endphp
+                    @endfor
                 </tr>
             </thead>
             <tbody>
-                <tr class="text-center">
-                    <td>1</td>
-                    <td>Membangun atap</td>
-                    <td>{{ number_format(2000000, 0, ",", ".") }}</td>
-                    <td>3.0</td>
-                    <td style="background-color: red">
-                        <div class="text-center">
-                            3.2
-                        </div>
-                    </td>
-                    <td style="background-color: red">
-                        <div class="text-center">
-                            3.2
-                        </div>
-                    </td>
-                    <td style="background-color: red">
-                        <div class="text-center">
-                            3.2
-                        </div>
-                    </td>
-                    <td style="background-color: red">
-                        <div class="text-center">
-                            3.2
-                        </div>
-                    </td>
+            @php $no = 1; @endphp
+            @foreach($project->steps as $step)
+                <tr class="text-center font-weight-bold">
+                    <td>{{NumConvert::roman($no++)}}</td>
+                    <td>{{$step->project_step_name}}</td>
+                    <td></td>
+                    <td></td>
+                    @php echo $emptyWeekProgress; @endphp
                 </tr>
+                @php $noSub = 1; @endphp
+                @foreach($step->substeps as $substep)
+                    @php
+                        $startDate = '-';
+                        $endDate = '-';
+                        $date = '-';
+                        $bobot = 0;
+                        foreach ($substep->progresses as $progress) {
+                            $bobot += $progress->progress_add;
+                            $totalBobotProgress += $bobot;
+                        }
+                    @endphp
+                    <tr class="text-center">
+                        <td>{{$noSub++}}</td>
+                        <td>{{$substep->project_substep_name}}</td>
+                        <td>{{$date}}</td>
+                        <td>{{$bobot}}</td>
+                    </tr>
+                @endforeach
+            @endforeach
                 <tr id="total" class="text-center">
                     <td colspan="2" align="right">Jumlah</td>
                     <td>{{ number_format(2000000, 0, ',', '.') }}</td>
-                    <td>3.0</td>
-                    <td colspan="48"></td>
+                    <td>{{$totalBobotProgress}}</td>
+                    <td colspan="{{ $totalWeeksProgress }}"></td>
                 </tr>
                 <tr class="text-center">
                     <td colspan="3">Rencana Progress Mingguan (%)</td>
@@ -316,7 +238,7 @@
 
 <div class="panel panel-default">
     <div class="panel-body">
-        <div class="row">
+        <div class="row" style="margin-bottom: 10px;">
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-6">
@@ -331,6 +253,8 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="row">
             <div class="col-md-12">
                 <div style="overflow-y: auto">
                     <table class="table" style="font-size: 12px;">
@@ -345,16 +269,25 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="data-row">
-                                <td class="date">13/02/2020</td>
-                                <td class="item">Selokan</td>
-                                <td class="progress-update">0.25</td>
-                                <td class="progress-description">Tahap Awal</td>
-                                <td>
-                                    <i class="fas fa-pencil-alt mr-2" style="cursor: pointer;" id="edit-item"></i>
-                                    <i class="fas fa-trash" style="cursor: pointer;" id="delete-item"></i>
-                                </td>
-                            </tr>
+                            @if ($project->progresses->count() > 0)
+                                @foreach($project->progresses as $progress)
+                                    <tr class="data-row" data-id="{{$progress->progress_id}}">
+                                        <td class="date">{{$progress->progress_date->format('d/m/Y')}}</td>
+                                        <td class="week">{{$progress->week}}</td>
+                                        <td class="progress-project-substep" data-id="{{$progress->substep->project_substep_id}}">{{$progress->substep->project_substep_name}}</td>
+                                        <td class="progress-add">{{$progress->progress_add}}</td>
+                                        <td class="progress-description">{{$progress->progress_desc}}</td>
+                                        <td>
+                                            <i class="fas fa-pencil-alt mr-2 edit-progress" style="cursor: pointer;"></i>
+                                            <a href="/projects/{{$project->project_id}}/progress/{{$progress->progress_id}}/delete"><i class="fas fa-trash" style="cursor: pointer;" id="delete-item"></i></a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr class="data-row">
+                                    <td colspan="6">Data tidak ditemukan</td>
+                                </tr>
+                            @endif
                         </tbody>
                     </table>
                 </div>
@@ -372,23 +305,25 @@
         $(document).ready(function() {
             var i = $('input[name="week[]"]').length;
 
-            $('#edit-item').click(function() {
-                $(this).addClass('edit-item-trigger-clicked');
-
+            $('.edit-progress').click(function() {
                 $('#modal-edit-progress-weekly').modal('show');
-            });
 
-            $('#modal-edit-progress-weekly').on('show.bs.modal', function() {
-                var element = $('.edit-item-trigger-clicked');
+                var element = $(this);
                 var row = element.closest('.data-row');
 
+                var id = row.attr('data-id');
                 var date = row.children('.date').text();
-                var item = row.children('.item').text();
-                var progressUpdate = row.children('.progress-update').text();
+                date = date.split('/');
+                date = date[2] +'-'+date[1]+'-'+date[0];
+                var week = row.children('.week').text();
+                var item = row.children('.progress-project-substep').attr('data-id');
+                var progressUpdate = row.children('.progress-add').text();
                 var progressDescription = row.children('.progress-description').text();
 
                 $('#modal-progress-weekly-date').val(date);
-                $('#modal-progress-weekly-substep').val(item);
+                $('#modal-progress-weekly-week').val(week);
+                $('#modal-progress-weekly-id').val(id);
+                $('#modal-progress-weekly-week-project_substep_id option[value='+item+']').attr('selected', 'selected');
                 $('#modal-progress-weekly-progress-update').val(progressUpdate);
                 $('#modal-progress-weekly-progress-description').val(progressDescription);
             });

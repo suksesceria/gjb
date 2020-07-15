@@ -8,22 +8,22 @@
             </div>
             <div class="modal-body">
                 <form action="" method="post">
+                    @csrf
                     <div class="form-group">
                         <label>Tanggal</label>
                         <input class="form-control" name="progress_date" type="date" id="modal-progress-weekly-date">
                     </div>
                     <div class="form-group">
                         <label>Minggu ke-</label>
-                        <input class="form-control" name="week" type="date" id="modal-progress-weekly-date">
+                        <input class="form-control" name="week" type="number" id="modal-progress-weekly-date">
                     </div>
                     <div class="form-group">
                         <label>Item Pekerjaan</label>
-                        <select class="form-group">
+                        <select name="project_substep_id" class="form-control">
                             @foreach($project->substeps as $projectSubStep)
                                 <option value="{{$projectSubStep->project_substep_id}}">{{$projectSubStep->project_substep_name}}</option>
                             @endforeach
                         </select>
-                        <input class="form-control" name="project_substep_id" type="text" id="modal-progress-weekly-substep">
                     </div>
                     <div class="form-group">
                         <label>Progress Update</label>
