@@ -16,6 +16,7 @@ use App\ProjectSubStep;
 use App\ProjectType;
 use App\SupportingDocument;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -98,6 +99,99 @@ class ProjectController extends Controller
         $projectTypes = ProjectType::get();
         $employees = Employee::get();
         return view('projects.edit-project', compact(['project', 'projectTypes', 'employees']));
+    }
+
+    public function updateProject(Request $request, $id)
+    {
+        try {
+//            dd($request->all());
+            DB::beginTransaction();
+            $project = Project::findOrFail($id);
+            $project->project_name = $request->get('project_name');
+            $project->cost_total = $request->get('cost_total');
+            $project->project_type_id = $request->get('project_type_id');
+            $project->save();
+            $employees = collect($request->get('project_employees'));
+            $existingEmployees = $project->employees->pluck('employee_id');
+
+            $currentSteps = $project->steps->pluck('project_step_id');
+            $currentSubsteps = $project->substeps->pluck('project_substep_id');
+            $currentProgressPlans = $project->progress_plans->pluck('project_progress_plan_id');
+
+            $project->employees()->detach($existingEmployees->diff($employees));
+            $project->employees()->attach($employees->diff($existingEmployees));
+
+            $projectStepId = $request->get('project_step_id');
+            $projectStepName = $request->get('project_step_name');
+            $countProjectStep = count($projectStepName);
+            $projectSteps = collect();
+            $projectSubsteps = collect();
+            $projectProgressPlans = collect();
+            for ($iProjectStep = 0; $iProjectStep < $countProjectStep; $iProjectStep++) {
+                if ($projectStepId[$iProjectStep]) {
+                    $step = ProjectStep::findOrFail($projectStepId[$iProjectStep]);
+                    $projectSteps->push($step->project_step_id);
+                } else {
+                    $step = new ProjectStep();
+                }
+                $step->project_id = $project->project_id;
+                $step->project_step_name = $projectStepName[$iProjectStep];
+                $step->save();
+
+                $projectSubstepId = $request->get('project_substep_id')[$iProjectStep];
+                $projectSubstepName = $request->get('project_substep_name')[$iProjectStep];
+                $estimatedStartDate = $request->get('estimated_start_date')[$iProjectStep];
+                $estimatedEndDate = $request->get('estimated_end_date')[$iProjectStep];
+                $countProjectSubstep = count($projectSubstepName);
+
+                for ($iProjectSubstep = 0; $iProjectSubstep < $countProjectSubstep; $iProjectSubstep++) {
+                    if ($projectSubstepId) {
+                        $subStep = ProjectSubStep::findOrFail($projectSubstepId[$iProjectSubstep]);
+                        $projectSubsteps->push($subStep->project_substep_id);
+                    } else {
+                        $subStep = new ProjectSubStep();
+                    }
+                    $subStep->project_id = $project->project_id;
+                    $subStep->project_step_id = $step->project_step_id;
+                    $subStep->project_substep_name = $projectSubstepName[$iProjectSubstep];
+                    $subStep->estimated_start_date = Carbon::createFromFormat('Y-m-d', $estimatedStartDate[$iProjectSubstep]);
+                    $subStep->estimated_end_date = Carbon::createFromFormat('Y-m-d', $estimatedEndDate[$iProjectSubstep]);
+                    $subStep->save();
+
+                    $progressPlanId = $request->get('progress_plan_id')[$iProjectStep][$iProjectSubstep];
+                    $weeks = $request->get('week')[$iProjectStep][$iProjectSubstep];
+                    $weights = $request->get('weight')[$iProjectStep][$iProjectSubstep];
+                    $countWeeks = count($weeks);
+
+                    for ($iWeek = 0; $iWeek < $countWeeks; $iWeek++) {
+                        if ($progressPlanId[$iWeek]) {
+                            $progressPlan = ProjectProgressPlan::findOrFail($progressPlanId[$iWeek]);
+                            $projectProgressPlans->push($progressPlan->project_progress_plan_id);
+                        } else {
+                            $progressPlan = new ProjectProgressPlan();
+                        }
+
+                        $progressPlan->project_id = $project->project_id;
+                        $progressPlan->project_step_id = $step->project_step_id;
+                        $progressPlan->project_substep_id = $subStep->project_substep_id;
+                        $progressPlan->week = $weeks[$iWeek];
+                        $progressPlan->weight = $weights[$iWeek];
+                        $progressPlan->save();
+                    }
+                }
+            }
+
+            $project->steps()->whereIn('project_step_id', $currentSteps->diff($projectSteps))->delete();
+            $project->substeps()->whereIn('project_substep_id', $currentSubsteps->diff($projectSubsteps))->delete();
+            $project->progress_plans()->whereIn('project_progress_plan_id', $currentProgressPlans->diff($projectProgressPlans))->delete();
+
+            DB::commit();
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            dd($exception);
+        }
+
+        return redirect("/projects/{$project->project_id}/progress");
     }
 
     public function deleteProgress($id, $progress_id)

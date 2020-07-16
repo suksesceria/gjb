@@ -48,6 +48,7 @@ Route::group(['middleware' => ['auth', 'access_role']], function () {
         Route::get('/tambah-projek', 'ProjectController@addProject')->name('projects');
         Route::post('/tambah-projek', 'ProjectController@storeProject')->name('projects');
         Route::get('/edit-projek/{id}', 'ProjectController@editProject')->name('projects');
+        Route::post('/edit-projek/{id}', 'ProjectController@updateProject')->name('projects');
     });
 
     Route::group(['prefix' => 'material-type'], function() {

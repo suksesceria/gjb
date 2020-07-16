@@ -135,7 +135,8 @@
       <input id="template-progress-plan" type="hidden" value='
         <div class="form-group col-sm-4 bobot">
                     <label>Minggu {progress_plan}</label>
-                    <input type="hidden" name="week[{step_index}][{substep_index}][]" value="{progress_plan}" class="form-control">
+                    <input type="hidden" name="progress_plan_id[{step_index}][{substep_index}][]" value="">
+                    <input type="hidden" name="week[{step_index}][{substep_index}][]" value="{progress_plan}">
                     <input type="number" name="weight[{step_index}][{substep_index}][]" class="form-control">
                   </div>
         '>
@@ -143,6 +144,7 @@
         <div class="col-md-4 substeps">
               <div class="form-group">
                 <label>Nama</label>
+                <input type="hidden" name="project_substep_id[{step_index}]" value="" />
                 <input type="text" name="project_substep_name[{step_index}][]" class="form-control">
               </div>
 
