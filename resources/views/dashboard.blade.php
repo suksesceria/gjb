@@ -205,7 +205,7 @@ $totalJatuhTempo = [];
             type: 'doughnut',
             data: {
                 datasets: [{
-                    data: [{{$totalSubsteps[$index]}}, {{$totalSubstepsPlan[$index] - $totalSubsteps[$index]}}],
+                    data: [{{$totalProgresses[$index]}}, {{$totalProgressPlans[$index] - $totalProgresses[$index]}}],
                     backgroundColor: [
                         '#3BB9FF',
                         '#DCDCDC'
