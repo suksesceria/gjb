@@ -5,7 +5,7 @@ $progressPlanSum = array_fill(0, $totalWeeks, 0);
 
 $emptyWeekProgress = '';
 $totalBobotProgress = 0;
-$progressSum = array_fill(0, $totalWeeksProgress, 0);
+$progressSum = array_fill(0, $totalWeeks, 0);
 @endphp
 <div class="panel panel-default">
     <div class="panel-body">
@@ -191,44 +191,77 @@ $progressSum = array_fill(0, $totalWeeksProgress, 0);
                 @php $noSub = 1; @endphp
                 @foreach($step->substeps as $substep)
                     @php
-                        $startDate = '-';
-                        $endDate = '-';
+                        $start = 0;
+                        $end = 0;
                         $date = '-';
                         $bobot = 0;
+
+                        $cols = "";
+                        if ($progressStartDate) {
+                            if ($substep->progresses->count()) {
+                                $start = floor($progressStartDate->diffInDays($substep->progresses->sortBy('progress_date')->first()->progress_date)/7);
+                                $end = floor($lastProgressDate->diffInDays($substep->progresses->sortByDesc('progress_date')->first()->progress_date)/7);
+                            }
+                        }
+
+                        $startLoop = $start;
+                        $length = $substep->progresses->count();
+                        if (($size = $start + $end + $length) < $totalWeeks) {
+                            $end += $totalWeeks - $size;
+                        }
+                        $padLeft = 0;
+                        $padRight = 0;
                         foreach ($substep->progresses as $progress) {
+                            $progressSum[$startLoop++] += $progress->progress_add;
                             $bobot += $progress->progress_add;
+                            if ($progress->progress_add) {
+                                $col = '<td style="background-color: red;color:white" class="text-center">'. $progress->progress_add .'</td>';
+                                $cols .= $col;
+                                $padLeft += strlen($col);
+                            } else {
+                                $cols .= '<td></td>';
+                                $padLeft += 9;
+                            }
                             $totalBobotProgress += $bobot;
                         }
+                        $padLeft += $start * 9;
+                        $padRight = $padLeft + ($end * 9);
+                        $cols = str_pad($cols, $padLeft, '<td></td>', STR_PAD_LEFT);
+                        $cols = str_pad($cols, $padRight, '<td></td>', STR_PAD_RIGHT);
                     @endphp
                     <tr class="text-center">
                         <td>{{$noSub++}}</td>
                         <td>{{$substep->project_substep_name}}</td>
                         <td>{{$date}}</td>
                         <td>{{$bobot}}</td>
+                        @php echo $cols; @endphp
                     </tr>
                 @endforeach
             @endforeach
                 <tr id="total" class="text-center">
                     <td colspan="2" align="right">Jumlah</td>
-                    <td>{{ number_format(2000000, 0, ',', '.') }}</td>
+                    <td>-</td>
                     <td>{{$totalBobotProgress}}</td>
-                    <td colspan="{{ $totalWeeksProgress }}"></td>
+                    <td colspan="{{ $totalWeeks }}"></td>
                 </tr>
-                <tr class="text-center">
+                <tr class="text-center font-weight-bold">
                     <td colspan="3">Rencana Progress Mingguan (%)</td>
-                    <td></td>
-                    <td>3.2</td>
-                    <td>3.2</td>
-                    <td>3.2</td>
-                    <td>3.2</td>
+                    <td>-</td>
+                    @foreach($progressSum as $sum)
+                        <td>{{$sum}}</td>
+                    @endforeach
                 </tr>
-                <tr class="text-center">
-                    <td colspan="3">Komulatif Progress Mingguan (%)</td>
-                    <td></td>
-                    <td>3.2</td>
-                    <td>3.2</td>
-                    <td>3.2</td>
-                    <td>3.2</td>
+                <tr class="text-center font-weight-bold">
+                    <td colspan="3">Kumulatif Rencana Progress Mingguan (%)</td>
+                    <td>-</td>
+                    @php $kumulatif = 0; @endphp
+                    @for($i = 0; $i < $totalWeeks; $i++)
+                        @if ($i == 0)
+                            <td>{{$kumulatif = $progressSum[$i]}}</td>
+                        @else
+                            <td>{{$kumulatif += $progressSum[$i]}}</td>
+                        @endif
+                    @endfor
                 </tr>
             </tbody>
             </table>
