@@ -22,9 +22,7 @@ $progressSum = array_fill(0, $totalWeeks, 0);
                         Send Date: {{ $progressPlanEndDate->format('d/m/Y') }}
                     </div>
                     <div class="col-md-4">
-                        <button class="btn btn-primary"
-                                data-toggle="modal"
-                                data-target="#modal-edit-project"
+                        <button class="btn btn-primary" onclick="window.location.href='/projects/edit-projek/{{$project->project_id}}'"
                         >Edit Projek</button>
                     </div>
                 </div>

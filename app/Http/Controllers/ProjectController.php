@@ -94,7 +94,10 @@ class ProjectController extends Controller
     }
 
     public function editProject($id) {
-
+        $project = Project::with(['steps', 'steps.substeps', 'steps.substeps.progress_plans'])->findOrFail($id);
+        $projectTypes = ProjectType::get();
+        $employees = Employee::get();
+        return view('projects.edit-project', compact(['project', 'projectTypes', 'employees']));
     }
 
     public function deleteProgress($id, $progress_id)
