@@ -193,14 +193,21 @@ $progressSum = array_fill(0, $totalWeeks, 0);
                     @php
                         $start = 0;
                         $end = 0;
+                        $startDate = null;
+                        $endDate = null;
                         $date = '-';
                         $bobot = 0;
 
                         $cols = "";
                         if ($progressStartDate) {
                             if ($substep->progresses->count()) {
-                                $start = floor($progressStartDate->diffInDays($substep->progresses->sortBy('progress_date')->first()->progress_date)/7);
-                                $end = floor($lastProgressDate->diffInDays($substep->progresses->sortByDesc('progress_date')->first()->progress_date)/7);
+                                $startDate = $substep->progresses->sortBy('progress_date')->first()->progress_date;
+                                $endDate = $substep->progresses->sortByDesc('progress_date')->first()->progress_date;
+                                $start = floor($progressStartDate->diffInDays($startDate)/7);
+                                $end = floor($lastProgressDate->diffInDays($endDate)/7);
+                                if ($substep->progresses->sum('progress_add') < $substep->progress_plans->sum('weight')) {
+                                    $endDate = null;
+                                }
                             }
                         }
 
@@ -222,12 +229,19 @@ $progressSum = array_fill(0, $totalWeeks, 0);
                                 $cols .= '<td></td>';
                                 $padLeft += 9;
                             }
+
                             $totalBobotProgress += $bobot;
                         }
                         $padLeft += $start * 9;
                         $padRight = $padLeft + ($end * 9);
                         $cols = str_pad($cols, $padLeft, '<td></td>', STR_PAD_LEFT);
                         $cols = str_pad($cols, $padRight, '<td></td>', STR_PAD_RIGHT);
+                        if ($startDate) {
+                            $date = $startDate->format('d/m/Y'). ' - ';
+                        }
+                        if ($endDate) {
+                            $date .= $endDate->format("d/m/Y");
+                        }
                     @endphp
                     <tr class="text-center">
                         <td>{{$noSub++}}</td>
