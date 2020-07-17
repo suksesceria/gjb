@@ -8,11 +8,11 @@
         <div class="col-md-6">
 
           <div class="form-group">
-            <label>Nama Projek</label>
+            <label>Nama Proyek</label>
             <input type="text" class="form-control" name="project_name" id="project_name" value="{{$project->project_name}}">
           </div>
           <div class="form-group">
-            <label>Total Biaya Projek</label>
+            <label>Total Biaya Proyek</label>
             <input type="number" min="0" class="form-control" name="cost_total" id="cost_total" value="{{$project->cost_total}}">
           </div>
           

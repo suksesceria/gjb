@@ -161,7 +161,7 @@ $totalJatuhTempo = [];
                             <canvas id="planned-actual-project" class="planned-actual-project-items" ></canvas>
                         </div>
                         <div class="col-md-4">
-                            <span style="font-weight: 500">TUGAS JATUH TEMPO</span>
+                            <span style="font-weight: 500">JATUH TEMPO</span>
                             <div class="overdue-task-text">
                                 {{$totalJatuhTempo[$index]}}
                             </div>
