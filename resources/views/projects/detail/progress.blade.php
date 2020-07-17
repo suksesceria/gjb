@@ -23,7 +23,7 @@ $progressSum = array_fill(0, $totalWeeks, 0);
                     </div>
                     <div class="col-md-4">
                         <button class="btn btn-primary" onclick="window.location.href='/projects/edit-projek/{{$project->project_id}}'"
-                        >Edit Projek</button>
+                        >Edit Proyek</button>
                     </div>
                 </div>
             </div>

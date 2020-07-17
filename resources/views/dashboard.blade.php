@@ -213,7 +213,7 @@ $totalJatuhTempo = [];
                 }],
                 labels: [
                     'Selesai',
-                    'Dalam Pekerjaan',
+                    'Dalam Pelakasanaan',
                 ]
             },
             plugins: [x]
