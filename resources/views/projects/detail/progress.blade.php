@@ -19,7 +19,7 @@ $progressSum = array_fill(0, $totalWeeks, 0);
                         Start Date: {{ $progressPlanStartDate->format('d/m/Y') }}
                     </div>
                     <div class="col-md-4 mt-2">
-                        Send Date: {{ $progressPlanEndDate->format('d/m/Y') }}
+                        End Date: {{ $progressPlanEndDate->format('d/m/Y') }}
                     </div>
                     <div class="col-md-4">
                         <button class="btn btn-primary" onclick="window.location.href='/projects/edit-projek/{{$project->project_id}}'"
