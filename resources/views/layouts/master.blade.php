@@ -36,7 +36,7 @@
         <a href="{{ url('/material-type') }}"
            class="{{ request()->is('material-type*') ? 'active' : '' }} access-role access-material-type">Tipe Material</a>
         <a href="{{ url('/material-unit') }}"
-           class="{{ request()->is('type-material-unit*') ? 'active' : '' }} access-role access-material-unit">Unit Material</a>
+           class="{{ request()->is('material-unit*') ? 'active' : '' }} access-role access-material-unit">Unit Material</a>
         <a href="{{ url('/employees') }}"
             class="{{ (request()->is('employees*')) ? 'active' : '' }} access-role access-employees"
             >Karyawan
