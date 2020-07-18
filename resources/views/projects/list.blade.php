@@ -28,7 +28,7 @@
             <table class="table">
                 <thead>
                     <th>Nama Proyek</th>
-                    <th width="30%">Proses</th>
+                    <th width="30%">Progres</th>
                     <th>Employee</th>
                     <th>Type</th>
                     <th width="20%">Total Cost</th>
@@ -37,13 +37,17 @@
                 <tbody>
                 @if($data->count() > 0)
                     @foreach($data as $index => $project)
+                        @php
+                            $totalProgressPlan = $project->progress_plans->sum('weight');
+                            $totalProgress = $project->progresses->sum('progress_add');
+                        @endphp
                     <tr>
                         <td>{{ $project->project_name }}</td>
                         <td>
                             <div class="row">
                                 <div style="background-color: #3BB9FF; width: {{ $project->progress }}%; max-width: 80%; height: 20px; margin-top: 5px; margin-left: 1em">
                                 </div>
-                                <span style="margin-top: 4px; margin-left: 2px">{{ $project->progress }}</span>
+                                <span style="margin-top: 4px; margin-left: 2px">{{ number_format(($totalProgress/$totalProgressPlan) * 100, 1) }}%</span>
                             </div>
                         </td>
                         <td>{{ implode(", ", $project->employees->pluck('employee_name')->toArray()) }}</td>

@@ -54,14 +54,14 @@ Route::group(['middleware' => ['auth', 'access_role']], function () {
     Route::group(['prefix' => 'material-type'], function() {
         Route::get('/', 'MaterialTypeController@index')->name('material-type');
         Route::post('/', 'MaterialTypeController@store')->name('material-type');
-        Route::delete('/', 'MaterialTypeController@destroy')->name('material-type');
+        Route::delete('/', 'MaterialTypeController@delete')->name('material-type');
         Route::put('/', 'MaterialTypeController@update')->name('material-type');
     });
 
     Route::group(['prefix' => 'material-unit'], function() {
         Route::get('/', 'MaterialUnitController@index')->name('material-unit');
         Route::post('/', 'MaterialUnitController@store')->name('material-unit');
-        Route::delete('/', 'MaterialUnitController@destroy')->name('material-unit');
+        Route::delete('/', 'MaterialUnitController@delete')->name('material-unit');
         Route::put('/', 'MaterialUnitController@update')->name('material-unit');
     });
 

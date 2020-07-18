@@ -57,12 +57,12 @@
 @endsection
 
 @php
-$totalProgressPlans = [];
-$totalProgresses = [];
-$totalSubstepsPlan = [];
-$totalSubsteps = [];
-$percentages = [];
-$totalJatuhTempo = [];
+    $totalProgressPlans = [];
+    $totalProgresses = [];
+    $totalSubstepsPlan = [];
+    $totalSubsteps = [];
+    $percentages = [];
+    $totalJatuhTempo = [];
 @endphp
 
 @section('content')
@@ -124,51 +124,52 @@ $totalJatuhTempo = [];
                         $totalMonthsProgress = 0;
                     }
                 @endphp
-            <div class="panel-body">
-                <div class="col-md-12 text-center">
-                    <div class="project-name">
-                        {{$project->project_name}}
-                    </div>
-                    <div class="start-date-end-date mb-3">
-                        Plan:
-                        {{$progressPlanStartDate->format('d/m/Y')}}
-                        -
-                        {{$progressPlanEndDate->format('d/m/Y')}}
-                        <br />
-                        Real:
-                        {{$progressStartDate ? $progressStartDate->format('d/m/Y') : ''}}
-                        -
-                        {{$progressEndDate ? $progressEndDate->format('d/m/Y') : ''}}
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 progress-bar-project">
+                <div class="panel-body">
+                    <div class="col-md-12 text-center">
+                        <div class="project-name">
+                            {{$project->project_name}}
+                        </div>
+                        <div class="start-date-end-date mb-3">
+                            Plan:
+                            {{$progressPlanStartDate->format('d/m/Y')}}
+                            -
+                            {{$progressPlanEndDate->format('d/m/Y')}}
+                            <br />
+                            Real:
+                            {{$progressStartDate ? $progressStartDate->format('d/m/Y') : ''}}
+                            -
+                            {{$progressEndDate ? $progressEndDate->format('d/m/Y') : ''}}
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 progress-bar-project">
                             <span style="font-weight: 500">
                                 PROGRESS
                             </span>
-                            <br>
-{{--                            <div class="progress-project-text">--}}
-{{--                                <div style="position: relative; text-align: right">--}}
-{{--                                    90%--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-                            <canvas id="progressbar-project" class="progressbar-project-items"></canvas>
-                            <div style="font-size: 12px; margin-top: 1em">{{$totalProgresses[$index]}} / {{$totalProgressPlans[$index]}} in Progress ({{$percentages[$index]}}%)</div>
-                        </div>
-                        <div class="col-md-4 progress-status">
+                                <br>
+                                {{--                            <div class="progress-project-text">--}}
+                                {{--                                <div style="position: relative; text-align: right">--}}
+                                {{--                                    90%--}}
+                                {{--                                </div>--}}
+                                {{--                            </div>--}}
+                                <canvas id="progressbar-project-{{$project->project_id}}" class="progressbar-project-items"></canvas>
+                                <div style="font-size: 12px; margin-top: 1em">{{$totalProgresses[$index]}} / {{$totalProgressPlans[$index]}} in Progress ({{number_format($percentages[$index], 1)}}%)</div>
+                            </div>
+                            <div class="col-md-4 progress-status">
                             <span style="font-weight: 500">
                                 RENCANA VS REALITA
                             </span>
-                            <canvas id="planned-actual-project" class="planned-actual-project-items" ></canvas>
-                        </div>
-                        <div class="col-md-4">
-                            <span style="font-weight: 500">JATUH TEMPO</span>
-                            <div class="overdue-task-text">
-                                {{$totalJatuhTempo[$index]}}
+                                <canvas id="planned-actual-project-{{$project->project_id}}" class="planned-actual-project-items" ></canvas>
+                            </div>
+                            <div class="col-md-4">
+                                <span style="font-weight: 500">JATUH TEMPO</span>
+                                <div class="overdue-task-text">
+                                    {{$totalJatuhTempo[$index]}}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                <br/><br/>
             @endforeach
         </div>
     </div>
@@ -178,8 +179,8 @@ $totalJatuhTempo = [];
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.js" charset="utf-8"></script>
     <script>
             @foreach($data as $index => $project)
-        var progress = document.getElementById("progressbar-project").getContext('2d');
-        var plannedActual = document.getElementById("planned-actual-project").getContext('2d');
+        var progress = document.getElementById("progressbar-project-{{$project->project_id}}").getContext('2d');
+        var plannedActual = document.getElementById("planned-actual-project-{{$project->project_id}}").getContext('2d');
 
         var x = {
             beforeDraw: function(chart) {
