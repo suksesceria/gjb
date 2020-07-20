@@ -15,6 +15,54 @@
         .sidebar {
             z-index: 999;
         }
+
+        .dropdown-submenu {
+            position: relative;
+        }
+
+        .dropdown-submenu>.dropdown-menu {
+            top: 0;
+            left: 100%;
+            margin-top: -6px;
+            margin-left: -1px;
+            -webkit-border-radius: 0 6px 6px 6px;
+            -moz-border-radius: 0 6px 6px;
+            border-radius: 0 6px 6px 6px;
+        }
+
+        .dropdown-submenu:hover>.dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-submenu>a:after {
+            display: block;
+            content: " ";
+            float: right;
+            width: 0;
+            height: 0;
+            border-color: transparent;
+            border-style: solid;
+            border-width: 5px 0 5px 5px;
+            border-left-color: #ccc;
+            margin-top: 5px;
+            margin-right: -10px;
+        }
+
+        .dropdown-submenu:hover>a:after {
+            border-left-color: #fff;
+        }
+
+        .dropdown-submenu.pull-left {
+            float: none;
+        }
+
+        .dropdown-submenu.pull-left>.dropdown-menu {
+            left: -100%;
+            margin-left: 10px;
+            -webkit-border-radius: 6px 0 6px 6px;
+            -moz-border-radius: 6px 0 6px 6px;
+            border-radius: 6px 0 6px 6px;
+        }
     </style>
 </head>
 <body>
@@ -31,12 +79,25 @@
             class="{{ (request()->is('projects*')) ? 'active' : '' }} access-role access-projects"
             >Proyek
         </a>
-        <a href="{{ url('/type-proyek') }}"
+        <!-- <a href="{{ url('/type-proyek') }}"
            class="{{ request()->is('type-proyek*') ? 'active' : '' }} access-role access-type-proyek">Tipe Proyek</a>
         <a href="{{ url('/material-type') }}"
            class="{{ request()->is('material-type*') ? 'active' : '' }} access-role access-material-type">Tipe Material</a>
         <a href="{{ url('/material-unit') }}"
-           class="{{ request()->is('material-unit*') ? 'active' : '' }} access-role access-material-unit">Satuan Material</a>
+           class="{{ request()->is('material-unit*') ? 'active' : '' }} access-role access-material-unit">Satuan Material</a> -->
+           <div class="dropdown">
+            <a id="dLabel" role="button" data-toggle="dropdown" class="btn-{{ ((request()->is('type-proyek*') || request()->is('material-type*') || request()->is('material-unit*')) ? 'primary' : 'light' )}}" data-target="#" href="{{ url('/type-proyek') }}" style="text-align: left; color: #000">
+                Data Master <span class="caret"></span>
+            </a>
+    		<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu" style="font-size:12px">
+                <a href="{{ url('/type-proyek') }}"
+            class="{{ request()->is('type-proyek*') ? 'active' : '' }} access-role access-type-proyek">Tipe Proyek</a>
+                <a href="{{ url('/material-type') }}"
+            class="{{ request()->is('material-type*') ? 'active' : '' }} access-role access-material-type">Tipe Material</a>
+                <a href="{{ url('/material-unit') }}"
+            class="{{ request()->is('material-unit*') ? 'active' : '' }} access-role access-material-unit">Satuan Material</a>
+            </ul>
+        </div>
         <a href="{{ url('/employees') }}"
             class="{{ (request()->is('employees*')) ? 'active' : '' }} access-role access-employees"
             >Karyawan
@@ -58,6 +119,7 @@
 <script>
     $('.access-role').hide();
     var menus = <?= json_encode(Auth::user()->role->menus->pluck('menu_code')) ?>;
+    console.log(menus);
     if (menus.length < 1)
         window.location.href = '/logout';
     menus.forEach(function(menu) {
