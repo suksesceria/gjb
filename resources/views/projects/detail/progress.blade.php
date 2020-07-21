@@ -35,7 +35,7 @@ $progressSum = array_fill(0, $totalWeeks, 0);
                     <th rowspan="3" class="text-center" width="1%">No</th>
                     <th rowspan="3" class="text-center" width="20%">Uraian Pekerjaan</th>
                     <th rowspan="3" class="text-center" width="10%">Tanggal</th>
-                    <th rowspan="3" class="text-center" width="10%">Sisa Hari</th>
+                    <th rowspan="3" class="text-center" width="10%">Jumlah Hari</th>
                     <th rowspan="3" class="text-center" width="5%">Bobot (%)</th>
                     <th colspan="{{ $totalWeeks }}" class="text-center" width="64%">Waktu Pelaksanaan</th>
                 </tr>
@@ -59,6 +59,7 @@ $progressSum = array_fill(0, $totalWeeks, 0);
                     <tr class="text-center font-weight-bold">
                         <td>{{NumConvert::roman($no++)}}</td>
                         <td>{{$step->project_step_name}}</td>
+                        <td></td>
                         <td></td>
                         <td></td>
                         @php echo $emptyWeek; @endphp
@@ -100,12 +101,12 @@ $progressSum = array_fill(0, $totalWeeks, 0);
                             <td>{{$substep->project_substep_name}}</td>
                             <td>{{$substep->estimated_start_date->format('d/m/y').' - '.$substep->estimated_end_date->format('d/m/y')}}</td>
                             @php
-                                $fdate = Carbon\Carbon::now();
+                                $fdate = $substep->estimated_start_date;
                                 $tdate = $substep->estimated_end_date;
                                 $datetime1 = new DateTime($fdate);
                                 $datetime2 = new DateTime($tdate);
                                 $interval = $datetime1->diff($datetime2);
-                                $days = $interval->format('%a');
+                                $days = $interval->format('%a')+1;
                             @endphp
                             <td>{{$days.' hari'}}</td>
                             <td>{{$bobot}}</td>
@@ -115,20 +116,21 @@ $progressSum = array_fill(0, $totalWeeks, 0);
                 @endforeach
 
                 <tr id="total" class="text-center font-weight-bold">
-                    <td colspan="3" align="right">Jumlah</td>
+                    <td colspan="4" align="right">Jumlah</td>
                     <td>{{ $totalBobot }}</td>
-                    <td>100</td>
+                    <td align="center"></td>
+                    <!-- <td colspan="{{ $totalWeeks }}" align="center">100 %</td> -->
                     <td colspan="48"></td>
                 </tr>
                 <tr class="text-center font-weight-bold">
-                    <td colspan="3">Rencana Progress Mingguan (%)</td>
+                    <td colspan="4">Rencana Progress Mingguan (%)</td>
                     <td>-</td>
                     @foreach($progressPlanSum as $sum)
                         <td>{{$sum}}</td>
                     @endforeach
                 </tr>
                 <tr class="text-center font-weight-bold">
-                    <td colspan="3">Kumulatif Rencana Progress Mingguan (%)</td>
+                    <td colspan="4">Kumulatif Rencana Progress Mingguan (%)</td>
                     <td>-</td>
                     @php $kumulatif = 0; @endphp
                     @for($i = 0; $i < $totalWeeks; $i++)
@@ -169,6 +171,7 @@ $progressSum = array_fill(0, $totalWeeks, 0);
                     <th rowspan="3" class="text-center" width="1%">No</th>
                     <th rowspan="3" class="text-center" width="20%">Uraian Pekerjaan</th>
                     <th rowspan="3" class="text-center" width="10%">Tanggal</th>
+                    <th rowspan="3" class="text-center" width="5%">Sisa Hari</th>
                     <th rowspan="3" class="text-center" width="5%">Bobot (%)</th>
                     <th colspan="{{ $totalWeeks }}" class="text-center" width="64%">Waktu Pelaksanaan</th>
                 </tr>
@@ -192,6 +195,7 @@ $progressSum = array_fill(0, $totalWeeks, 0);
                 <tr class="text-center font-weight-bold">
                     <td>{{NumConvert::roman($no++)}}</td>
                     <td>{{$step->project_step_name}}</td>
+                    <td></td>
                     <td></td>
                     <td></td>
                     @php echo $emptyWeekProgress; @endphp
@@ -255,26 +259,35 @@ $progressSum = array_fill(0, $totalWeeks, 0);
                         <td>{{$noSub++}}</td>
                         <td>{{$substep->project_substep_name}}</td>
                         <td>{{$date}}</td>
+                        @php
+                            $fdate = Carbon\Carbon::now();
+                            $tdate = $substep->estimated_end_date;
+                            $datetime1 = new DateTime($fdate);
+                            $datetime2 = new DateTime($tdate);
+                            $interval = $datetime1->diff($datetime2);
+                            $days = $interval->format('%a');
+                        @endphp
+                        <td>{{$days.' hari'}}</td>
                         <td>{{$bobot}}</td>
                         @php echo $cols; @endphp
                     </tr>
                 @endforeach
             @endforeach
                 <tr id="total" class="text-center">
-                    <td colspan="2" align="right">Jumlah</td>
+                    <td colspan="3" align="right">Jumlah</td>
                     <td>-</td>
-                    <td>{{$totalBobotProgress}}</td>
+                    <td >{{$totalBobotProgress}}</td>
                     <td colspan="{{ $totalWeeks }}"></td>
                 </tr>
                 <tr class="text-center font-weight-bold">
-                    <td colspan="3">Rencana Progress Mingguan (%)</td>
+                    <td colspan="4">Rencana Progress Mingguan (%)</td>
                     <td>-</td>
                     @foreach($progressSum as $sum)
                         <td>{{$sum}}</td>
                     @endforeach
                 </tr>
                 <tr class="text-center font-weight-bold">
-                    <td colspan="3">Kumulatif Rencana Progress Mingguan (%)</td>
+                    <td colspan="4">Kumulatif Rencana Progress Mingguan (%)</td>
                     <td>-</td>
                     @php $kumulatif = 0; @endphp
                     @for($i = 0; $i < $totalWeeks; $i++)
