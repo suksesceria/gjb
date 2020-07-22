@@ -18,29 +18,38 @@
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
-
 Route::redirect('home', '/');
-
+// Route::get('test', function () {
+//     // event(new App\Events\StatusLiked('Someone'));
+//     event(new App\Events\MyEvent('Dawi'));
+//     return "Event has been sent!";
+// });
 
 Route::group(['prefix' => 'storages'], function () {
     Route::get('/{path}', 'StorageController@get')->name('storage-get')->where('path', '.*');
 });
 
+Route::get('/testnotif', 'AdminController@testNotif')->name('test');
 Route::group(['middleware' => ['auth', 'access_role']], function () {
 
     Route::get('/', 'AdminController@dashboard')->name('home-dashboard');
-
     Route::group(['prefix' => 'projects'], function() {
         Route::get('/', 'ProjectController@index')->name('projects');
         Route::get('/{id}/progress', 'ProjectController@showProgress')->name('projects');
         Route::post('/{id}/progress', 'ProjectController@storeProgress')->name('projects');
         Route::post('/{id}/progress/update', 'ProjectController@updateProgress')->name('projects');
         Route::get('/{id}/progress/{progress_id}/delete', 'ProjectController@deleteProgress')->name('projects');
+        Route::get('/{id}/detail-keuangan', 'ProjectController@showDetailFinance')->name('projects');
         Route::get('/{id}/keuangan', 'ProjectController@showFinance')->name('projects');
+        Route::get('/{id}/{s}/{p}/verify', 'ProjectController@updateStatusFinance')->name('projects');
         Route::post('/{id}/keuangan', 'ProjectController@storeFinance')->name('projects');
         Route::get('/{id}/keuangan-nyata', 'ProjectController@showFinanceRealtime')->name('projects');
         Route::post('/{id}/keuangan-nyata', 'ProjectController@storeFinanceRealtime')->name('projects');
+        Route::get('/{id}/detail-realtime', 'ProjectController@showDetailRealtime')->name('projects');
+        Route::get('/{id}/{s}/{p}/verify-realtime', 'ProjectController@updateStatusRealtime')->name('projects');
         Route::get('/{id}/laporan-material', 'ProjectController@showMaterial')->name('projects');
+        Route::get('/{id}/detail-material', 'ProjectController@showDetailMaterial')->name('projects');
+        Route::get('/{id}/{s}/{p}/verify-material', 'ProjectController@updateStatusMaterial')->name('projects');
         Route::post('/{id}/laporan-material', 'ProjectController@storeMaterial')->name('projects');
         Route::get('/{id}/dokumen-pendukung', 'ProjectController@showAdditionalDocument')->name('projects');
         Route::post('/{id}/dokumen-pendukung', 'ProjectController@storeAdditionalDocument')->name('projects');

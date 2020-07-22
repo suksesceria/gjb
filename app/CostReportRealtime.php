@@ -23,5 +23,8 @@ class CostReportRealtime extends Model
         'cost_report_cashflow',
         'cost_report_realtime_desc',
         'cost_report_realtime_date',
+        'status',
+        'verify_by_admin',
+        'verify_at_admin',
     ];
 }

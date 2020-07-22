@@ -26,6 +26,9 @@ class CreateMaterialReportTable extends Migration
             $table->text('material_desc');
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
+            $table->unsignedBigInteger('verify_by_admin')->nullable();
+            $table->date('verify_at_admin')->nullable();
+            $table->unsignedBigInteger('status')->nullable();
             $table->string('desc', 300)->nullable();
             $table->unsignedInteger('ver')->nullable(false);
             $table->boolean('delete')->nullable(false);

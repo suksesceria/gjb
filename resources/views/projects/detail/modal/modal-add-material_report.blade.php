@@ -23,7 +23,7 @@
                     </div>
                     <div class="form-group">
                         <label>Nama Material</label>
-                        <input class="form-control" name="material_name" type="text" id="modal-add-material_report-description">
+                        <input class="form-control" name="material_name" type="text" id="modal-add-material_report-description1">
                     </div>
                     <div class="form-group">
                         <label class="mr-1">Unit: </label>
@@ -35,15 +35,15 @@
                     </div>
                     <div class="form-group">
                         <label>Harga Satuan</label>
-                        <input class="form-control" name="material_cost_unit" type="number" id="modal-add-material_report-description">
+                        <input class="form-control" name="material_cost_unit" type="number" id="modal-add-material_report-description2">
                     </div>
                     <div class="form-group">
                         <label>Qty</label>
-                        <input class="form-control" name="material_qty" type="number" id="modal-add-material_report-description">
+                        <input class="form-control" name="material_qty" type="number" id="modal-add-material_report-description3">
                     </div>
                     <div class="form-group">
                         <label>Keterangan</label>
-                        <input class="form-control" name="material_desc" type="text" id="modal-add-material_report-description">
+                        <input class="form-control" name="material_desc" type="text" id="modal-add-material_report-description4">
                     </div>
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary">Tambah</button>

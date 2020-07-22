@@ -10,11 +10,11 @@
                 <form action="">
                     <div class="form-group">
                         <label>Tanggal</label>
-                        <input class="form-control" type="date" id="modal-edit-transaction-date">
+                        <input class="form-control date" type="date" id="modal-edit-transaction-date">
                     </div>
                     <div class="form-group">
                         <label>Keterangan</label>
-                        <input class="form-control" type="text" id="modal-edit-transaction-description">
+                        <input class="form-control description" type="text" id="modal-edit-transaction-description">
                     </div>
                     <div class="form-group">
                         <label>Jumlah</label>

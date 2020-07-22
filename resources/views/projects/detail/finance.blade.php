@@ -1,5 +1,6 @@
 <div class="panel panel-default">
     <div class="panel-body">
+
         <div class="row m-2">
             <div class="col-md-3">
                 <div class="row">
@@ -57,7 +58,8 @@
                         <th>Debit</th>
                         <th>Kredit</th>
                         <th>Saldo Terakhir</th>
-{{--                        <th>Aksi</th>--}}
+                        <th>Status</th>
+                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -90,10 +92,25 @@
                                 <td class="debit-amount">Rp. <span>{{ number_format($debit, 0, ",", ".") }}</span></td>
                                 <td class="kredit-amount">Rp. <span>{{ number_format($kredit, 0, ",", ".") }}</span></td>
                                 <td class="last-deposit">Rp. <span>{{ number_format($datum->balance, 0, ",", ".") }}</span></td>
-{{--                                <td>--}}
-{{--                                    <i class="fas fa-pencil-alt mr-2" style="cursor: pointer;" id="edit-item"></i>--}}
+                                @php
+                                    if($datum->status == 1){
+                                        $status = 'telah diverifikasi';
+                                    }if($datum->status == 2){
+                                        $status = 'ditolak admin';
+                                    }else{
+                                        $status = 'belum diverifikasi';
+                                    }
+                                @endphp
+                                <td class="status">{{ $status }}</td>
+                                <td>
+                                  <?php  if($menu == 'keuangan'){ ?>
+                                       <a href="{{ url('/projects/'.$id.'/detail-keuangan') }}"> <i class="fa fa-search mr-2" style="cursor: pointer;" id="{{ $id }}" ></i></a>
+                                  <?php  } ?>
+                                  <?php  if($menu == 'keuangan-nyata'){ ?>
+                                       <a href="{{ url('/projects/'.$id.'/detail-realtime') }}"> <i class="fa fa-search mr-2" style="cursor: pointer;" id="{{ $id }}" ></i></a>
+                                  <?php  } ?>
 {{--                                    <i class="fas fa-trash" style="cursor: pointer;" id="delete-item"></i>--}}
-{{--                                </td>--}}
+                                </td>
                             </tr>
                         @endforeach
                         <tr class="data-row">
@@ -102,6 +119,8 @@
                             <td class="debit-amount"><b>Rp. <span>{{ number_format($totalDebit, 0, ",", ".") }}</span></b></td>
                             <td class="kredit-amount"><b>Rp. <span>{{ number_format($totalKredit, 0, ",", ".") }}</span></b></td>
                             <td class="last-deposit"><b>Rp. <span>{{ number_format($total, 0, ",", ".") }}</span></b></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                     @else
                         <tr class="data-row">
@@ -116,6 +135,7 @@
 
 @include('projects.detail.modal.modal-add-transaction')
 @include('projects.detail.modal.modal-edit-transaction')
+@include('projects.detail.modal.modal-detail-keuangan-lapangan')
 
 @section('script')
     <script>

@@ -23,6 +23,9 @@ class CostReportOffice extends Model
         'cost_report_cashflow',
         'cost_report_office_desc',
         'cost_report_office_date',
+        'status',
+        'verify_by_admin',
+        'verify_at_admin',
     ];
 
 }

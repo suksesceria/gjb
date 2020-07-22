@@ -265,7 +265,7 @@ $progressSum = array_fill(0, $totalWeeks, 0);
                             $datetime1 = new DateTime($fdate);
                             $datetime2 = new DateTime($tdate);
                             $interval = $datetime1->diff($datetime2);
-                            $days = $interval->format('%a');
+                            $days = $interval->format('%a')+2;
                         @endphp
                         <td>{{$days.' hari'}}</td>
                         <td>{{$bobot}}</td>

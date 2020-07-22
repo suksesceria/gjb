@@ -61,7 +61,8 @@
                         <th>Total Harga</th>
                         <th>Tanggal</th>
                         <th>Keterangan</th>
-{{--                        <th>Aksi</th>--}}
+                        <th>Status</th>
+                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -83,10 +84,22 @@
                                 <td>Rp. <span>{{ number_format(($datum->material_cost_unit * $datum->material_qty), 0, ",", ".") }}</span></td>
                                 <td class="date">{{$datum->material_report_date->format('d-m-Y')}}</td>
                                 <td class="description">{{$datum->material_desc}}</td>
-{{--                                <td>--}}
-{{--                                    <i class="fas fa-pencil-alt mr-2" style="cursor: pointer;" id="edit-item"></i>--}}
-{{--                                    <i class="fas fa-trash" style="cursor: pointer;" id="delete-item"></i>--}}
-{{--                                </td>--}}
+                                @php
+                                    if($datum->status == '1'){
+                                        $status = 'telah diverifikasi';
+                                    }
+                                    if($datum->status == 2){
+                                        $status = 'ditolak admin';
+                                    }
+                                    if($datum->status == 0){
+                                        $status = 'belum diverifikasi';
+                                    }
+                                @endphp
+                                <td class="status">{{ $status }}</td>
+                                <td>
+                                    <a href="{{ url('/projects/'.$datum->material_report_id.'/detail-material') }}"> <i class="fa fa-search mr-2" style="cursor: pointer;" id="{{ $datum->material_report_id }}" ></i></a>
+{{--                                 <i class="fas fa-trash" style="cursor: pointer;" id="delete-item"></i>--}}
+                               </td>
                             </tr>
                         @endforeach
                         <tr class="data-row">
@@ -94,6 +107,8 @@
                             <td><b>TOTAL</b></td>
                             <td><b>Rp. <span>{{ number_format($total, 0, ",", ".") }}</span></b></td>
                             <td colspan="2"></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                     @else
                         <tr class="data-row">

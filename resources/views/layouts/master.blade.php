@@ -85,17 +85,17 @@
            class="{{ request()->is('material-type*') ? 'active' : '' }} access-role access-material-type">Tipe Material</a>
         <a href="{{ url('/material-unit') }}"
            class="{{ request()->is('material-unit*') ? 'active' : '' }} access-role access-material-unit">Satuan Material</a> -->
-           <div class="dropdown">
+           <div class="dropdown {{ request()->is('type-proyek*') ? 'active' : '' }} access-role access-type-proyek">
             <a id="dLabel" role="button" data-toggle="dropdown" class="btn-{{ ((request()->is('type-proyek*') || request()->is('material-type*') || request()->is('material-unit*')) ? 'primary' : 'light' )}}" data-target="#" href="{{ url('/type-proyek') }}" style="text-align: left; color: #000">
                 Data Master <span class="caret"></span>
             </a>
     		<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu" style="font-size:12px">
-                <a href="{{ url('/type-proyek') }}"
-            class="{{ request()->is('type-proyek*') ? 'active' : '' }} access-role access-type-proyek">Tipe Proyek</a>
-                <a href="{{ url('/material-type') }}"
-            class="{{ request()->is('material-type*') ? 'active' : '' }} access-role access-material-type">Tipe Material</a>
-                <a href="{{ url('/material-unit') }}"
-            class="{{ request()->is('material-unit*') ? 'active' : '' }} access-role access-material-unit">Satuan Material</a>
+            <a href="{{ url('/type-proyek') }}"
+           class="{{ request()->is('type-proyek*') ? 'active' : '' }} access-role access-type-proyek">Tipe Proyek</a>
+            <a href="{{ url('/material-type') }}"
+           class="{{ request()->is('material-type*') ? 'active' : '' }} access-role access-material-type">Tipe Material</a>
+              <a href="{{ url('/material-unit') }}"
+           class="{{ request()->is('material-unit*') ? 'active' : '' }} access-role access-material-unit">Satuan Material</a>
             </ul>
         </div>
         <a href="{{ url('/employees') }}"

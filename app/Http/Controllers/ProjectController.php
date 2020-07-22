@@ -16,6 +16,7 @@ use App\ProjectSubStep;
 use App\ProjectType;
 use App\SupportingDocument;
 use Carbon\Carbon;
+// use App\Events\MyEvent;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -241,7 +242,7 @@ class ProjectController extends Controller
         return redirect("projects/{$id}/progress");
     }
 
-    public function showFinance(Request $request, $id)
+    public function showFinance(Request $request, $id, $k = null)
     {
         $dateFrom = $request->get('date-from', null);
         $dateTo = $request->get('date-to', null);
@@ -249,11 +250,55 @@ class ProjectController extends Controller
         if ($dateFrom && $dateTo) {
             $dateFrom = Carbon::createFromFormat('Y-m-d', $dateFrom)->startOfDay();
             $dateTo = Carbon::createFromFormat('Y-m-d', $dateTo)->endOfDay();
-            $data = Project::findOrFail($id)->cost_report_office()->whereBetween('cost_report_office_date', [$dateFrom, $dateTo])->orderBy('cost_report_office_id', 'asc')->get();
+            if(Auth::user()->role_id == 1){
+                $data = Project::findOrFail($id)->cost_report_office()->whereBetween('cost_report_office_date', [$dateFrom, $dateTo])->orderBy('cost_report_office_id', 'asc')->get();
+            }else{
+                $data = Project::findOrFail($id)->cost_report_office()->where('status', 1)->whereBetween('cost_report_office_date', [$dateFrom, $dateTo])->orderBy('cost_report_office_id', 'asc')->get();
+            }
         } else {
-            $data = Project::findOrFail($id)->cost_report_office()->orderBy('cost_report_office_id', 'desc')->get();
+            if(Auth::user()->role_id == 1){
+                $data = Project::findOrFail($id)->cost_report_office()->orderBy('cost_report_office_id', 'desc')->get();
+            }else{
+                $data = Project::findOrFail($id)->cost_report_office()->where('status', 1)->orderBy('cost_report_office_id', 'desc')->get();
+            }
+
         }
-        return view('projects.detail.index', compact(['data']));
+        if($k){
+            $show = 1;
+        }else{
+            $show =0;
+        }
+        // dd($data);
+        return view('projects.detail.index', compact(['data', 'show']));
+    }
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showDetailFinance(Request $request,$id)
+    {
+        $data = CostReportOffice::where('cost_report_office_id', $id)->orderBy('cost_report_office_id', 'desc')->first();
+        return view('projects.detail.detail-finance', compact(['data']));
+    }
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateStatusFinance(Request $request,$id, $s = null, $p = null)
+    {
+        if(Auth::user()->role_id == 1){
+            $data = array();
+            $data['status'] = $s;
+            $data['verify_at_admin'] = date('Y-m-d');
+            $data['verify_by_admin'] = Auth::user()->employee_id;
+        }
+        
+        CostReportOffice::where('cost_report_office_id', $id)->update($data);
+        return redirect("projects/{$p}/keuangan");
     }
 
     public function storeFinance(Request $request, $id)
@@ -274,10 +319,24 @@ class ProjectController extends Controller
             'balance' => $balance,
             'cost_expense' => $cost_expense,
             'cost_report_cashflow' => $cashflow,
+            'status' => ((Auth::user()->role_id == 1) ? 1 : 0),
             'cost_report_office_desc' => $request->get('desc'),
             'cost_report_office_date' => Carbon::createFromFormat('Y-m-d', $request->get('date')),
         ]);
         Project::findOrFail($id)->cost_report_office()->save($cro);
+        
+        // Notifications::create([
+        //     'type' => "Keuangan Lapangan",
+        //     'notifiable_type' => "keuangan_lapangan",
+        //     'notifiable_id' => Auth::user()->jabatan,
+        //     'data' => $request->judul,
+        //     'href' => 'arahanMenteri.modal_detail',
+        //     'id_href' => $data['id_arahan'],
+        //     'created_at' => date("Y-m-d H:i:s"),
+        // ]);
+        // $dataNotif = "Arahan Baru ".$request->judul;
+        // event(new MyEvent($dataNotif));
+
         return redirect("projects/{$id}/keuangan");
     }
 
@@ -289,11 +348,46 @@ class ProjectController extends Controller
         if ($dateFrom && $dateTo) {
             $dateFrom = Carbon::createFromFormat('Y-m-d', $dateFrom)->startOfDay();
             $dateTo = Carbon::createFromFormat('Y-m-d', $dateTo)->endOfDay();
-            $data = Project::findOrFail($id)->cost_report_realtime()->whereBetween('cost_report_realtime_date', [$dateFrom, $dateTo])->orderBy('cost_report_realtime_id', 'asc')->get();
+            if(Auth::user()->role_id == 1){
+                $data = Project::findOrFail($id)->cost_report_realtime()->whereBetween('cost_report_realtime_date', [$dateFrom, $dateTo])->orderBy('cost_report_realtime_id', 'asc')->get();
+            }else{
+                $data = Project::findOrFail($id)->cost_report_realtime()->where('status', 1)->whereBetween('cost_report_realtime_date', [$dateFrom, $dateTo])->orderBy('cost_report_realtime_id', 'asc')->get();
+
+            }
         } else {
-            $data = Project::findOrFail($id)->cost_report_realtime()->orderBy('cost_report_realtime_id', 'desc')->get();
+            if(Auth::user()->role_id == 1){
+                $data = Project::findOrFail($id)->cost_report_realtime()->orderBy('cost_report_realtime_id', 'desc')->get();
+            }else{
+                $data = Project::findOrFail($id)->cost_report_realtime()->where('status', 1)->orderBy('cost_report_realtime_id', 'desc')->get();
+            }
         }
         return view('projects.detail.index', compact(['data']));
+    }
+
+    public function showDetailRealtime(Request $request, $id)
+    {
+        $data = CostReportRealtime::where('cost_report_realtime_id', $id)->orderBy('cost_report_realtime_id', 'desc')->first();
+        // dd($data);
+        return view('projects.detail.detail-realtime', compact(['data']));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateStatusRealtime(Request $request,$id, $s = null, $p = null)
+    {
+        if(Auth::user()->role_id == 1){
+            $data = array();
+            $data['status'] = $s;
+            $data['verify_at_admin'] = date('Y-m-d');
+            $data['verify_by_admin'] = Auth::user()->employee_id;
+        }
+        
+        CostReportRealtime::where('cost_report_realtime_id', $id)->update($data);
+        return redirect("projects/{$p}/keuangan-nyata");
     }
 
     public function storeFinanceRealtime(Request $request, $id)
@@ -316,6 +410,7 @@ class ProjectController extends Controller
             'cost_report_cashflow' => $cashflow,
             'cost_report_realtime_desc' => $request->get('desc'),
             'cost_report_realtime_date' => Carbon::createFromFormat('Y-m-d', $request->get('date')),
+            'status' => ((Auth::user()->role_id == 1) ? 1 : 0)
         ]);
         Project::findOrFail($id)->cost_report_realtime()->save($cro);
         return redirect("projects/{$id}/keuangan-nyata");
@@ -329,15 +424,49 @@ class ProjectController extends Controller
         if ($dateFrom && $dateTo) {
             $dateFrom = Carbon::createFromFormat('Y-m-d', $dateFrom)->startOfDay();
             $dateTo = Carbon::createFromFormat('Y-m-d', $dateTo)->endOfDay();
-            $data = Project::findOrFail($id)->material_report()->whereBetween('material_report_date', [$dateFrom, $dateTo])->orderBy('material_report_id', 'asc')->get();
+            if(Auth::user()->role_id == 1){
+                $data = Project::findOrFail($id)->material_report()->whereBetween('material_report_date', [$dateFrom, $dateTo])->orderBy('material_report_id', 'asc')->get();
+            }else{
+                $data = Project::findOrFail($id)->material_report()->where('status', 1)->whereBetween('material_report_date', [$dateFrom, $dateTo])->orderBy('material_report_id', 'asc')->get();
+            }
         } else {
-            $data = Project::findOrFail($id)->material_report()->orderBy('material_report_id', 'asc')->get();
+            if(Auth::user()->role_id == 1){
+                $data = Project::findOrFail($id)->material_report()->orderBy('material_report_id', 'asc')->get();
+            }else{
+                $data = Project::findOrFail($id)->material_report()->where('status', 1)->orderBy('material_report_id', 'asc')->get();
+            }
         }
         $materialTypes = MaterialType::get();
         $materialUnits = MaterialUnit::get();
         return view('projects.detail.index', compact(['data', 'materialTypes', 'materialUnits']));
     }
+    public function showDetailMaterial(Request $request, $id)
+    {
+        $data = MaterialReport::where('material_report_id', $id)->orderBy('material_report_id', 'asc')->first();
+        // dd($data);
+        $materialTypes = MaterialType::get();
+        $materialUnits = MaterialUnit::get();
+        return view('projects.detail.detail-material', compact(['data', 'materialTypes', 'materialUnits']));
+    }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateStatusMaterial(Request $request,$id, $s = null, $p = null)
+    {
+        if(Auth::user()->role_id == 1){
+            $data = array();
+            $data['status'] = $s;
+            $data['verify_at_admin'] = date('Y-m-d');
+            $data['verify_by_admin'] = Auth::user()->employee_id;
+        }
+        
+        MaterialReport::where('material_report_id', $id)->update($data);
+        return redirect("projects/{$p}/laporan-material");
+    }
     public function storeMaterial(Request $request, $id)
     {
         $material_report_date = Carbon::createFromFormat('Y-m-d', $request->get('material_report_date'));

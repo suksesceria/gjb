@@ -26,6 +26,9 @@ class MaterialReport extends Model
         'material_cost_unit',
         'material_qty',
         'material_desc',
+        'status',
+        'verify_by_admin',
+        'verify_at_admin',
     ];
 
     public function unit()
