@@ -112,7 +112,7 @@
                         </tr>
                     @else
                         <tr class="data-row">
-                            <td class="date" colspan="9">Data tidak ditemukan</td>
+                            <td class="date" colspan="11">Data tidak ditemukan</td>
                         </tr>
                     @endif
                 </tbody>

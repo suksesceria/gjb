@@ -45,7 +45,7 @@
                         @php
                             if($data->status == 1){
                                 $status = 'telah diverifikasi';
-                            }if($data->status == 2){
+                            }else if($data->status == 2){
                                 $status = 'ditolak admin';
                             }else{
                                 $status = ' belum diverifikasi';
@@ -66,7 +66,7 @@
                             <button type="button" class="btn btn-primary">Verifikasi</button>
                         </a>
                         @php }else{ @endphp
-                            <a href="{{ url('/projects/'.$data->cost_report_office_id.'/keuangan') }}">
+                            <a href="{{ url('/projects/'.$data->project_id.'/keuangan') }}">
                                 <button type="button" class="btn btn-primary">Kembali</button>
                             </a>
                         @php } @endphp

@@ -92,15 +92,15 @@
                                 <td class="debit-amount">Rp. <span>{{ number_format($debit, 0, ",", ".") }}</span></td>
                                 <td class="kredit-amount">Rp. <span>{{ number_format($kredit, 0, ",", ".") }}</span></td>
                                 <td class="last-deposit">Rp. <span>{{ number_format($datum->balance, 0, ",", ".") }}</span></td>
-                                @php
+                                <?php
                                     if($datum->status == 1){
                                         $status = 'telah diverifikasi';
-                                    }if($datum->status == 2){
+                                    }else if($datum->status == 2){
                                         $status = 'ditolak admin';
                                     }else{
                                         $status = 'belum diverifikasi';
                                     }
-                                @endphp
+                                ?>
                                 <td class="status">{{ $status }}</td>
                                 <td>
                                   <?php  if($menu == 'keuangan'){ ?>
@@ -124,7 +124,7 @@
                         </tr>
                     @else
                         <tr class="data-row">
-                            <td class="date" colspan="5">Data tidak ditemukan</td>
+                            <td class="date" colspan="7">Data tidak ditemukan</td>
                         </tr>
                     @endif
                 </tbody>

@@ -252,18 +252,9 @@ class ProjectController extends Controller
         if ($dateFrom && $dateTo) {
             $dateFrom = Carbon::createFromFormat('Y-m-d', $dateFrom)->startOfDay();
             $dateTo = Carbon::createFromFormat('Y-m-d', $dateTo)->endOfDay();
-            if(Auth::user()->role_id == 1){
-                $data = Project::findOrFail($id)->cost_report_office()->whereBetween('cost_report_office_date', [$dateFrom, $dateTo])->orderBy('cost_report_office_id', 'asc')->get();
-            }else{
-                $data = Project::findOrFail($id)->cost_report_office()->where('status', 1)->whereBetween('cost_report_office_date', [$dateFrom, $dateTo])->orderBy('cost_report_office_id', 'asc')->get();
-            }
+            $data = Project::findOrFail($id)->cost_report_office()->whereBetween('cost_report_office_date', [$dateFrom, $dateTo])->orderBy('cost_report_office_id', 'asc')->get();
         } else {
-            if(Auth::user()->role_id == 1){
-                $data = Project::findOrFail($id)->cost_report_office()->orderBy('cost_report_office_id', 'desc')->get();
-            }else{
-                $data = Project::findOrFail($id)->cost_report_office()->where('status', 1)->orderBy('cost_report_office_id', 'desc')->get();
-            }
-
+            $data = Project::findOrFail($id)->cost_report_office()->orderBy('cost_report_office_id', 'desc')->get();
         }
         if($k){
             $show = 1;
@@ -299,6 +290,7 @@ class ProjectController extends Controller
             $data['verify_by_admin'] = Auth::user()->employee_id;
         }
         
+        $this->checkLimitFinance($id);
         CostReportOffice::where('cost_report_office_id', $id)->update($data);
         return redirect("projects/{$p}/keuangan");
     }
@@ -338,36 +330,40 @@ class ProjectController extends Controller
         ]);
         $dataNotif = "Keuangan Lapangan ".$request->get('cost_report_office_desc');
         event(new MyEvent($dataNotif));
-
-        $cost = CostReportOffice::orderBy('cost_report_office_id', 'desc')->first();
-        $role = Role::get();
-        $datamin = $cost->balance*0.2;
-        if($cost->balance <= $datamin){
-            $project = Project::where('project_id', $id)->first();
-
-            if($cost->balance <= 0){
-                $desc_notif = "Keuangan Lapangan ".$project->project_name." Over";
-            }else{
-                $desc_notif  = "Keuangan Lapangan ".$project->project_name." Kurang lebih 20% lagi";
-            }
-            foreach($role as $row){
-                Notifications::create([
-                    'type' => "Keuangan Lapangan Mendekati limit",
-                    'notifiable_type' => "keuangan_lapangan_over",
-                    'notifiable_id' => $row->role_id,
-                    'data' => $desc_notif,
-                    'href' => '/projects/'.$id.'/keuangan',
-                    'id_href' => $id,
-                    'created_at' => date("Y-m-d H:i:s"),
-                ]);
-                $dataNotif = "Keuangan Lapangan Mendekati limit";
-                event(new MyEvent($dataNotif));
-            }
+        if(Auth::user()->role_id == 1){
+            $this->checkLimitFinance($id);
         }
 
         return redirect("projects/{$id}/keuangan");
     }
 
+    public function checkLimitFinance($id){
+        $cost = CostReportOffice::select(DB::raw('sum(cost_expense) as total'))->where('status', 1)->where('cost_report_cashflow', 0)->first();
+            $role = Role::get();
+            $project = Project::where('project_id', $id)->first();
+            $datamax = $project->cost_total - $project->cost_total*0.2;
+
+            if($cost->total >= $datamax ){
+                if($cost->total > $project->cost_total){
+                    $desc_notif = "Keuangan Lapangan ".$project->project_name." Over";
+                }else{
+                    $desc_notif  = "Keuangan Lapangan ".$project->project_name." Kurang lebih 20% lagi";
+                }
+                foreach($role as $row){
+                    Notifications::create([
+                        'type' => "Keuangan Lapangan Mendekati limit",
+                        'notifiable_type' => "keuangan_lapangan_over",
+                        'notifiable_id' => $row->role_id,
+                        'data' => $desc_notif,
+                        'href' => '/projects/'.$id.'/keuangan',
+                        'id_href' => $id,
+                        'created_at' => date("Y-m-d H:i:s"),
+                    ]);
+                    $dataNotif = "Keuangan Lapangan Mendekati limit";
+                    event(new MyEvent($dataNotif));
+                }
+            }
+    }
     public function showFinanceRealtime(Request $request, $id)
     {
         $dateFrom = $request->get('date-from', null);
@@ -376,18 +372,10 @@ class ProjectController extends Controller
         if ($dateFrom && $dateTo) {
             $dateFrom = Carbon::createFromFormat('Y-m-d', $dateFrom)->startOfDay();
             $dateTo = Carbon::createFromFormat('Y-m-d', $dateTo)->endOfDay();
-            if(Auth::user()->role_id == 1){
-                $data = Project::findOrFail($id)->cost_report_realtime()->whereBetween('cost_report_realtime_date', [$dateFrom, $dateTo])->orderBy('cost_report_realtime_id', 'asc')->get();
-            }else{
-                $data = Project::findOrFail($id)->cost_report_realtime()->where('status', 1)->whereBetween('cost_report_realtime_date', [$dateFrom, $dateTo])->orderBy('cost_report_realtime_id', 'asc')->get();
 
-            }
+            $data = Project::findOrFail($id)->cost_report_realtime()->whereBetween('cost_report_realtime_date', [$dateFrom, $dateTo])->orderBy('cost_report_realtime_id', 'asc')->get();
         } else {
-            if(Auth::user()->role_id == 1){
-                $data = Project::findOrFail($id)->cost_report_realtime()->orderBy('cost_report_realtime_id', 'desc')->get();
-            }else{
-                $data = Project::findOrFail($id)->cost_report_realtime()->where('status', 1)->orderBy('cost_report_realtime_id', 'desc')->get();
-            }
+            $data = Project::findOrFail($id)->cost_report_realtime()->orderBy('cost_report_realtime_id', 'desc')->get();
         }
         return view('projects.detail.index', compact(['data']));
     }
@@ -413,10 +401,40 @@ class ProjectController extends Controller
             $data['verify_at_admin'] = date('Y-m-d');
             $data['verify_by_admin'] = Auth::user()->employee_id;
         }
-        
         CostReportRealtime::where('cost_report_realtime_id', $id)->update($data);
+        $this->checkLimitRealtime($p);
         return redirect("projects/{$p}/keuangan-nyata");
     }
+
+    public function checkLimitRealtime($id){
+        $cost = CostReportRealtime::select(DB::raw('sum(cost_expense) as total'))->where('status', 1)->where('cost_report_cashflow', 0)->first();
+        $role = Role::get();
+        $project = Project::where('project_id', $id)->first();
+        $datamax = $project->cost_total - $project->cost_total*0.2;
+
+        if($cost->total >= $datamax ){
+            if($cost->total > $project->cost_total){
+                $desc_notif = "Keuangan Kantor ".$project->project_name." Over";
+            }else{
+                $desc_notif  = "Keuangan Kantor ".$project->project_name." Kurang lebih 20% lagi";
+            }
+            foreach($role as $row){
+                Notifications::create([
+                    'type' => "Keuangan Kantor Mendekati limit",
+                    'notifiable_type' => "keuangan_kantor_over",
+                    'notifiable_id' => $row->role_id,
+                    'data' => $desc_notif,
+                    'href' => '/projects/'.$id.'/keuangan-nyata',
+                    'id_href' => $id,
+                    'created_at' => date("Y-m-d H:i:s"),
+                ]);
+                $dataNotif = "Keuangan Kantor Mendekati limit";
+                event(new MyEvent($dataNotif));
+            }
+        }
+        return 1;
+    }
+
 
     public function storeFinanceRealtime(Request $request, $id)
     {
@@ -453,7 +471,11 @@ class ProjectController extends Controller
         ]);
         $dataNotif = "Keuangan Lapangan ".$request->get('desc');
         event(new MyEvent($dataNotif));
-
+        
+        if(Auth::user()->role_id == 1){
+            $this->checkLimitRealtime($id);
+        }
+       
         return redirect("projects/{$id}/keuangan-nyata");
     }
 
@@ -465,17 +487,12 @@ class ProjectController extends Controller
         if ($dateFrom && $dateTo) {
             $dateFrom = Carbon::createFromFormat('Y-m-d', $dateFrom)->startOfDay();
             $dateTo = Carbon::createFromFormat('Y-m-d', $dateTo)->endOfDay();
-            if(Auth::user()->role_id == 1){
-                $data = Project::findOrFail($id)->material_report()->whereBetween('material_report_date', [$dateFrom, $dateTo])->orderBy('material_report_id', 'asc')->get();
-            }else{
-                $data = Project::findOrFail($id)->material_report()->where('status', 1)->whereBetween('material_report_date', [$dateFrom, $dateTo])->orderBy('material_report_id', 'asc')->get();
-            }
+            
+            $data = Project::findOrFail($id)->material_report()->whereBetween('material_report_date', [$dateFrom, $dateTo])->orderBy('material_report_id', 'asc')->get();
+            
         } else {
-            if(Auth::user()->role_id == 1){
-                $data = Project::findOrFail($id)->material_report()->orderBy('material_report_id', 'asc')->get();
-            }else{
-                $data = Project::findOrFail($id)->material_report()->where('status', 1)->orderBy('material_report_id', 'asc')->get();
-            }
+            $data = Project::findOrFail($id)->material_report()->orderBy('material_report_id', 'asc')->get();
+            
         }
         $materialTypes = MaterialType::get();
         $materialUnits = MaterialUnit::get();
@@ -506,8 +523,11 @@ class ProjectController extends Controller
         }
         
         MaterialReport::where('material_report_id', $id)->update($data);
+
+        $this->checkLimitMaterial($p);
         return redirect("projects/{$p}/laporan-material");
     }
+
     public function storeMaterial(Request $request, $id)
     {
         $material_report_date = Carbon::createFromFormat('Y-m-d', $request->get('material_report_date'));
@@ -547,10 +567,41 @@ class ProjectController extends Controller
             'id_href' => DB::getPDO()->lastInsertId(),
             'created_at' => date("Y-m-d H:i:s"),
         ]);
-        $dataNotif = "Keuangan Lapangan ".$request->get('material_desc');
+        $dataNotif = "Laporan Material ".$request->get('material_desc');
         event(new MyEvent($dataNotif));
 
+        if(Auth::user()->role_id == 1){
+            $this->checkLimitMaterial();
+        }
         return redirect("projects/{$id}/laporan-material");
+    }
+
+    public function checkLimitMaterial($id){
+        $cost = MaterialReport::select(DB::raw('sum(material_cost_unit * material_qty) as total'))->where('status', 1)->first();
+        $role = Role::get();
+        $project = Project::where('project_id', $id)->first();
+        $datamax = $project->cost_total - $project->cost_total*0.2;
+        if($cost->total >= $datamax ){
+            if($cost->total > $project->cost_total){
+                $desc_notif = "Material ".$project->project_name." Over";
+            }else{
+                $desc_notif  = "Material ".$project->project_name." Kurang lebih 20% lagi";
+            }
+            foreach($role as $row){
+                Notifications::create([
+                    'type' => "Material Mendekati limit",
+                    'notifiable_type' => "laporan_material_over",
+                    'notifiable_id' => $row->role_id,
+                    'data' => $desc_notif,
+                    'href' => '/projects/'.$id.'/laporan-material',
+                    'id_href' => $id,
+                    'created_at' => date("Y-m-d H:i:s"),
+                ]);
+                $dataNotif = "Material Mendekati limit";
+                event(new MyEvent($dataNotif));
+            }
+        }
+        return 1;
     }
 
     public function showAdditionalDocument($id)
