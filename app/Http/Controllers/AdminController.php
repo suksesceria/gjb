@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Events\MyEvent;
 
 class AdminController extends Controller
 {
@@ -11,5 +12,11 @@ class AdminController extends Controller
     {
         $data = Auth::user()->projects;
         return view('dashboard', compact(['data']));
+    }
+
+    public function testNotif()
+    {
+        $data = Auth::user()->projects;
+        return view('test', compact(['data']));
     }
 }

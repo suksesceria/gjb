@@ -19,6 +19,9 @@ Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 Route::redirect('home', '/');
+Route::get('home/getNotif', 'HomeController@getNotif')->name('home.getNotif');
+Route::get('home/getSemuaNotif', 'HomeController@getSemuaNotif')->name('home.getSemuaNotif');
+Route::get('home/count', 'HomeController@count')->name('home.count');
 // Route::get('test', function () {
 //     // event(new App\Events\StatusLiked('Someone'));
 //     event(new App\Events\MyEvent('Dawi'));

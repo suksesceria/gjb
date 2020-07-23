@@ -14,9 +14,10 @@ use App\ProjectProgressPlan;
 use App\ProjectStep;
 use App\ProjectSubStep;
 use App\ProjectType;
+use App\Notifications;
 use App\SupportingDocument;
 use Carbon\Carbon;
-// use App\Events\MyEvent;
+use App\Events\MyEvent;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -325,17 +326,17 @@ class ProjectController extends Controller
         ]);
         Project::findOrFail($id)->cost_report_office()->save($cro);
         
-        // Notifications::create([
-        //     'type' => "Keuangan Lapangan",
-        //     'notifiable_type' => "keuangan_lapangan",
-        //     'notifiable_id' => Auth::user()->jabatan,
-        //     'data' => $request->judul,
-        //     'href' => 'arahanMenteri.modal_detail',
-        //     'id_href' => $data['id_arahan'],
-        //     'created_at' => date("Y-m-d H:i:s"),
-        // ]);
-        // $dataNotif = "Arahan Baru ".$request->judul;
-        // event(new MyEvent($dataNotif));
+        Notifications::create([
+            'type' => "Keuangan Lapangan",
+            'notifiable_type' => "keuangan_lapangan",
+            'notifiable_id' => 1,
+            'data' => $request->get('desc'),
+            'href' => '/projects/'.DB::getPDO()->lastInsertId().'/detail-keuangan',
+            'id_href' => DB::getPDO()->lastInsertId(),
+            'created_at' => date("Y-m-d H:i:s"),
+        ]);
+        $dataNotif = "Keuangan Lapangan ".$request->get('cost_report_office_desc');
+        event(new MyEvent($dataNotif));
 
         return redirect("projects/{$id}/keuangan");
     }
@@ -413,6 +414,19 @@ class ProjectController extends Controller
             'status' => ((Auth::user()->role_id == 1) ? 1 : 0)
         ]);
         Project::findOrFail($id)->cost_report_realtime()->save($cro);
+
+        Notifications::create([
+            'type' => "Keuangan Kantor",
+            'notifiable_type' => "keuangan_kantor",
+            'notifiable_id' => 1,
+            'data' => $request->get('desc'),
+            'href' => '/projects/'.DB::getPDO()->lastInsertId().'/detail-realtime',
+            'id_href' => DB::getPDO()->lastInsertId(),
+            'created_at' => date("Y-m-d H:i:s"),
+        ]);
+        $dataNotif = "Keuangan Lapangan ".$request->get('desc');
+        event(new MyEvent($dataNotif));
+
         return redirect("projects/{$id}/keuangan-nyata");
     }
 
@@ -496,6 +510,19 @@ class ProjectController extends Controller
             'material_desc' => $request->get('material_desc'),
         ]);
         Project::findOrFail($id)->material_report()->save($mr);
+
+        Notifications::create([
+            'type' => "Laporan Material",
+            'notifiable_type' => "laporan_material",
+            'notifiable_id' => 1,
+            'data' => $request->get('material_desc'),
+            'href' => '/projects/'.DB::getPDO()->lastInsertId().'/detail-material',
+            'id_href' => DB::getPDO()->lastInsertId(),
+            'created_at' => date("Y-m-d H:i:s"),
+        ]);
+        $dataNotif = "Keuangan Lapangan ".$request->get('material_desc');
+        event(new MyEvent($dataNotif));
+        
         return redirect("projects/{$id}/laporan-material");
     }
 
