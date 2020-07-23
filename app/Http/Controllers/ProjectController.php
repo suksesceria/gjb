@@ -15,6 +15,7 @@ use App\ProjectStep;
 use App\ProjectSubStep;
 use App\ProjectType;
 use App\Notifications;
+use App\Role;
 use App\SupportingDocument;
 use Carbon\Carbon;
 use App\Events\MyEvent;
@@ -338,6 +339,32 @@ class ProjectController extends Controller
         $dataNotif = "Keuangan Lapangan ".$request->get('cost_report_office_desc');
         event(new MyEvent($dataNotif));
 
+        $cost = CostReportOffice::orderBy('cost_report_office_id', 'desc')->first();
+        $role = Role::get();
+        $datamin = $cost->balance*0.2;
+        if($cost->balance <= $datamin){
+            $project = Project::where('project_id', $id)->first();
+
+            if($cost->balance <= 0){
+                $desc_notif = "Keuangan Lapangan ".$project->project_name." Over";
+            }else{
+                $desc_notif  = "Keuangan Lapangan ".$project->project_name." Kurang lebih 20% lagi";
+            }
+            foreach($role as $row){
+                Notifications::create([
+                    'type' => "Keuangan Lapangan Mendekati limit",
+                    'notifiable_type' => "keuangan_lapangan_over",
+                    'notifiable_id' => $row->role_id,
+                    'data' => $desc_notif,
+                    'href' => '/projects/'.$id.'/keuangan',
+                    'id_href' => $id,
+                    'created_at' => date("Y-m-d H:i:s"),
+                ]);
+                $dataNotif = "Keuangan Lapangan Mendekati limit";
+                event(new MyEvent($dataNotif));
+            }
+        }
+
         return redirect("projects/{$id}/keuangan");
     }
 
@@ -522,7 +549,7 @@ class ProjectController extends Controller
         ]);
         $dataNotif = "Keuangan Lapangan ".$request->get('material_desc');
         event(new MyEvent($dataNotif));
-        
+
         return redirect("projects/{$id}/laporan-material");
     }
 
