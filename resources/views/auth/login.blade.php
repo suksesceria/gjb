@@ -10,7 +10,7 @@ box-shadow: 11px 19px 30px -4px rgba(139,144,145,1);">
                 <div class="card-header" style="text-align: center;
     font-size: x-large;
     font-family: inherit;
-    background-color: #000;
+    background-color: rgb(59 185 255);
     color: #fff;">{{ __('Gapeksindo Jaya Bersama') }}</div>
 
                 <div class="card-body">
