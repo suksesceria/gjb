@@ -3,10 +3,11 @@
 @section('content')
     <div class="container">
         <div class="panel panel-default">
+            <div class="panel-header" style="margin-top: 3%;margin-left: 3%;margin-bottom: -3%;">
+                <h4>Material Unit</h4>
+            </div>
             <div class="panel-body">
-                <button class="btn btn-primary"
-                        data-toggle="modal"
-                        style="float:right;margin:2%"
+                <button class="btn btn-primary" data-toggle="modal" style="float:right;margin:2%"
                 ><i class="fa fa-plus" aria-hidden="true"></i>Membuat Satuan Material</button>
                 <table class="table mt-3">
                     <thead>

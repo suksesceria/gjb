@@ -3,12 +3,14 @@
 @section('content')
     <div class="container">
         <div class="panel panel-default">
+            <div class="panel-header" style="margin-top: 3%;margin-left: 3%;margin-bottom: -3%;">
+                <h4>Tipe Material</h4>
+            </div>
             <div class="panel-body">
                 <button class="btn btn-primary"
                         data-toggle="modal"
                         data-target="#modal-create-material-type"
-                        style="float:right;margin:2%"
-                ><i class="fa fa-plus" aria-hidden="true"></i>Membuat Tipe Material</button>
+                        style="float:right;margin:2%" ><i class="fa fa-plus" aria-hidden="true"></i>Membuat Tipe Material</button>
                 <table class="table mt-3">
                     <thead>
                         <tr>

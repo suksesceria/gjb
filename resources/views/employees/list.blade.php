@@ -3,6 +3,9 @@
 @section('content')
     <div class="container">
         <div class="panel panel-default">
+            <div class="panel-header" style="margin-top: 3%;margin-left: 3%;margin-bottom: -3%;">
+                <h4>Karyawan</h4>
+            </div>
             <div class="panel-body">
                 <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#modal-add-employees" style="float:right;margin:2%"
                 ><i class="fa fa-plus" aria-hidden="true"></i>Tambah Karyawan</button>

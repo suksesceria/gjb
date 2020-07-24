@@ -3,6 +3,9 @@
 @section('content')
     <div class="container">
         <div class="panel panel-default">
+            <div class="panel-header" style="margin-top: 3%;margin-left: 3%;margin-bottom: -3%;">
+                <h4>Akses Role</h4>
+            </div>
             <div class="panel-body">
                 <button class="btn btn-primary"
                         data-toggle="modal"

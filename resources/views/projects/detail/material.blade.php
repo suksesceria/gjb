@@ -72,7 +72,9 @@
                         ?>
                         @foreach($data as $index => $datum)
                             <?php
-                            $total += ($datum->material_cost_unit * $datum->material_qty);
+                            if($datum->status == 1){
+                                $total += ($datum->material_cost_unit * $datum->material_qty);
+                            }
                             ?>
                             <tr class="data-row">
                                 <td>{{$index + 1}}</td>

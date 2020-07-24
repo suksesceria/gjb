@@ -1,6 +1,5 @@
 <div class="panel panel-default">
     <div class="panel-body">
-
         <div class="row m-2">
             <div class="col-md-3">
                 <div class="row">
@@ -74,8 +73,11 @@
                             <?php
                                 $debit = $datum->cost_report_cashflow ? $datum->cost_expense : 0;
                                 $kredit = !$datum->cost_report_cashflow ? $datum->cost_expense : 0;
-                                $totalDebit += $debit;
-                                $totalKredit += $kredit;
+                                if($datum->status == 1){
+                                    $totalDebit += $debit;
+                                    $totalKredit += $kredit;
+                                    $total = $datum->balance;
+                                }
                                 if ($datum instanceof \App\CostReportOffice){
                                     $id = $datum->cost_report_office_id;
                                     $desc = $datum->cost_report_office_desc;
@@ -85,7 +87,6 @@
                                     $desc = $datum->cost_report_realtime_desc;
                                     $date = $datum->cost_report_realtime_date;
                                 }
-                                $total = $datum->balance;
                             ?>
                             <tr class="data-row">
                                 <td class="date">{{$date->format('d-m-Y')}}</td>

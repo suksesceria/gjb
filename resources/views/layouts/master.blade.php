@@ -261,7 +261,7 @@
                                     <li>Message 5</li>
                                 </ul>
                             </div>
-                            <div id="notificationFooter"><a href="#" id='AddNew'>See All</a></div>
+                            <div id="notificationFooter"><a href="{{ url('/notification/all')}}" id='AddNew'>See All</a></div>
                     </div>
             </li>
         </ul>

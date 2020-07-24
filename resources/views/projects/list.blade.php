@@ -22,6 +22,9 @@
 @section('content')
 <div class="container">
     <div class="panel panel-default">
+        <div class="panel-header" style="margin-top: 3%;margin-left: 3%;margin-bottom: -3%;">
+                <h4>Proyek</h4>
+            </div>
         <div class="panel-body">
             <a class="btn btn-primary btn-large mb-4 btn-add-product"
                     href="{{ url('/projects/tambah-projek') }}"
