@@ -4,7 +4,8 @@
     <div class="container">
         <div class="panel panel-default">
             <div class="panel-body">
-                <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#modal-add-employees">Tambah Karyawan</button>
+                <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#modal-add-employees" style="float:right;margin:2%"
+                ><i class="fa fa-plus" aria-hidden="true"></i>Tambah Karyawan</button>
                 <table class="table">
                     <thead>
                         <tr>

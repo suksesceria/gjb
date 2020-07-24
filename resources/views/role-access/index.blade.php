@@ -6,8 +6,8 @@
             <div class="panel-body">
                 <button class="btn btn-primary"
                         data-toggle="modal"
-                        data-target="#modal-create-role"
-                >Membuat Role</button>
+                        data-target="#modal-create-role"style="float:right;margin:2%"
+                ><i class="fa fa-plus" aria-hidden="true"></i>Membuat Role</button>
                 <table class="table mt-3">
                     <thead>
                         <tr>

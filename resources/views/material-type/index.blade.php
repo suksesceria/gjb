@@ -7,7 +7,8 @@
                 <button class="btn btn-primary"
                         data-toggle="modal"
                         data-target="#modal-create-material-type"
-                >Membuat Tipe Material</button>
+                        style="float:right;margin:2%"
+                ><i class="fa fa-plus" aria-hidden="true"></i>Membuat Tipe Material</button>
                 <table class="table mt-3">
                     <thead>
                         <tr>
