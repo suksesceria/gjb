@@ -85,7 +85,7 @@ class HomeController extends Controller
                         
                     }
                 }
-                $huruf_maksimal=30;
+                $huruf_maksimal=100;
                 $jml_karakter = strlen($row->data);
                 $kalimat = substr($row->data, 0, $huruf_maksimal);
                 if($jml_karakter > $huruf_maksimal)

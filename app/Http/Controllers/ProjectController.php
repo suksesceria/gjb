@@ -348,7 +348,7 @@ class ProjectController extends Controller
                 if($cost->total > $project->cost_total){
                     $desc_notif = "Keuangan Lapangan ".$project->project_name." Over";
                 }else{
-                    $desc_notif  = "Keuangan Lapangan ".$project->project_name." Kurang lebih 20% lagi";
+                    $desc_notif  = "Keuangan Lapangan ".$project->project_name." 20 % lagi";
                 }
                 foreach($role as $row){
                     Notifications::create([
@@ -417,7 +417,7 @@ class ProjectController extends Controller
             if($cost->total > $project->cost_total){
                 $desc_notif = "Keuangan Kantor ".$project->project_name." Over";
             }else{
-                $desc_notif  = "Keuangan Kantor ".$project->project_name." Kurang lebih 20% lagi";
+                $desc_notif  = "Keuangan Kantor ".$project->project_name." 20 % lagi";
             }
             foreach($role as $row){
                 Notifications::create([
@@ -586,7 +586,7 @@ class ProjectController extends Controller
             if($cost->total > $project->cost_total){
                 $desc_notif = "Material ".$project->project_name." Over";
             }else{
-                $desc_notif  = "Material ".$project->project_name." Kurang lebih 20% lagi";
+                $desc_notif  = "Material ".$project->project_name." 20 % lagi";
             }
             foreach($role as $row){
                 Notifications::create([
@@ -707,7 +707,7 @@ class ProjectController extends Controller
             if($cost->total > $project->cost_total){
                 $desc_notif = "Material ".$project->project_name." Over";
             }else{
-                $desc_notif  = "Material ".$project->project_name." Kurang lebih 20% lagi";
+                $desc_notif  = "Material ".$project->project_name." 20 % lagi";
             }
             foreach($role as $row){
                 Notifications::create([

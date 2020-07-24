@@ -239,20 +239,20 @@
             >Akses Role</a>
         <a href="{{ url('/logout') }}">Log out</a>
     </div>
-    <div class="content">
-    <div style="float:right; margin:1%">
+    <div class="content" style="z-index:1;">
+    <div style="float:right; margin:1%;z-index:2;">
         <!-- <i style='font-size:24px' class='fas'>&#xf0f3;</i> -->
             <!-- <span style = "font-weight: 500;color: #e62540;" class="count" id="count"></span>
             <span style = "font-weight: 500;" class="notif" id="notif"></span> -->
-            <ul id="nav">
+            <ul id="nav" style="z-index:3;">
             
-            <li id="notification_li">
+            <li id="notification_li" style="z-index:4;">
                 <span id="notification_count"></span>
 
                 <a href="#" id="notificationLink"><i class="fa fa-bell"></i></a>
-                        <div id="notificationContainer">
+                        <div id="notificationContainer" style="z-index:5;margin-left: -360px;">
                             <div id="notificationTitle">Notifikasi Terbaru</div>
-                            <div id="notificationsBody" class="notifications">
+                            <div id="notificationsBody" class="notifications" style="z-index:5;margin:1%">
                                 <ul>
                                     <li>Message 1</li>
                                     <li>Message 2</li>
@@ -261,10 +261,8 @@
                                     <li>Message 5</li>
                                 </ul>
                             </div>
-                            <div id="notificationFooter"><a href="#" id='AddNew'>See All</a>
-
-                            </div>
-                </div>
+                            <div id="notificationFooter"><a href="#" id='AddNew'>See All</a></div>
+                    </div>
             </li>
         </ul>
     </div>
