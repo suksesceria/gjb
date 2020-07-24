@@ -23,7 +23,7 @@ $progressSum = array_fill(0, $totalWeeks, 0);
                     </div>
                     <div class="col-md-4">
                         <button class="btn btn-primary" onclick="window.location.href='/projects/edit-projek/{{$project->project_id}}'"
-                        >Edit Proyek</button>
+                        ><i class="fas fa-pencil-alt mr-2" aria-hidden="true"></i>Edit Proyek</button>
                     </div>
                 </div>
             </div>
@@ -316,7 +316,7 @@ $progressSum = array_fill(0, $totalWeeks, 0);
                         <button class="btn btn-primary float-right"
                                 data-target="#modal-add-progress-weekly"
                                 data-toggle="modal"
-                        >Tambah</button>
+                        ><i class="fa fa-plus" aria-hidden="true"></i>Tambah</button>
                         <div class="clearfix"></div>
                     </div>
                 </div>

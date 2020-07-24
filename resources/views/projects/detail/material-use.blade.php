@@ -55,7 +55,6 @@
                     <tr>
                         <th>No</th>
                         <th>Uraian</th>
-                        <th>Kode</th>
                         <th>Satuan</th>
                         <th>Qty</th>
                         <th>Harga Satuan</th>

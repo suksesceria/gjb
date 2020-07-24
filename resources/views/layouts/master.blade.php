@@ -10,7 +10,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('css/admin/index.css') }}">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" >
     <!-- <link rel="stylesheet" href="{{ asset('css/bootstrap-notification.css') }}"> -->
     @yield('style')
     <style>
@@ -176,6 +177,12 @@
     display: block;
     padding: 4px;
 }
+.dataTables_wrapper {
+    margin: 2%;
+}
+.dropdown-menu{
+    background-color:#e6e1e1;
+}
 
         /* .count {
         display: none;
@@ -189,9 +196,9 @@
 </head>
 <body>
 
-    <div class="sidebar" style="margin-top:3%">
+    <div class="sidebar" style="background-image: url('{{ asset('69.jpg') }}');background-size:cover;font-weight: 700;">
         
-        <div class="title">
+        <div class="title" style="color:#020608">
             {{ __('GJB') }}
             <hr>
         </div>
@@ -211,7 +218,7 @@
         <a href="{{ url('/material-unit') }}"
            class="{{ request()->is('material-unit*') ? 'active' : '' }} access-role access-material-unit">Satuan Material</a> -->
            <div class="dropdown {{ request()->is('type-proyek*') ? 'active' : '' }} access-role access-type-proyek">
-            <a id="dLabel" role="button" data-toggle="dropdown" class="btn-{{ ((request()->is('type-proyek*') || request()->is('material-type*') || request()->is('material-unit*')) ? 'primary' : 'light' )}}" data-target="#" href="{{ url('/type-proyek') }}" style="text-align: left; color: #000">
+            <a id="dLabel" role="button" data-toggle="dropdown" class="btn-{{ ((request()->is('type-proyek*') || request()->is('material-type*') || request()->is('material-unit*')) ? 'primary' : '' )}}" data-target="#" href="{{ url('/type-proyek') }}" style="text-align: left; color: #000">
                 Data Master <span class="caret"></span>
             </a>
     		<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu" style="font-size:12px">
@@ -270,6 +277,7 @@
 <script src="/js/moment.min.js" crossorigin="anonymous"></script>
 <script src="https://js.pusher.com/5.0/pusher.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 @yield('script')
 <script>
     $('.access-role').hide();
@@ -284,6 +292,11 @@
 
 <script>
 	$(document).ready(function(){
+        $(document).ready(function() {
+            $('.table').DataTable({
+                "order": []
+            });
+        } );
 		$.ajax({
 				type:'GET',
                 url:'{{ route('home.getNotif')}}',

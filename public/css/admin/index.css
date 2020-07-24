@@ -1,7 +1,7 @@
 /* The side navigation menu */
 
 body {
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .sidebar {
@@ -12,7 +12,7 @@ body {
   position: fixed;
   height: 100%;
   overflow: auto;
-  font-size: 12px;
+  font-size: 14px;
   box-shadow: 1px 0px 5px -1px rgba(0, 0, 0, 0.68);
 }
 
@@ -80,8 +80,8 @@ div.content {
 }
 
 .btn {
-  padding: 5px 10px !important;
-  font-size: 12px;
+  padding: 6px 13px !important;
+  font-size: 14px;
 }
 
 a.btn {
@@ -107,11 +107,11 @@ a.tab.active {
 }
 
 label {
-  font-size: 12px !important;
+  font-size: 13px !important;
 }
 
 .form-control {
-  height: 2.3em !important;
+  height: 3em !important;
 }
 
 .form-group {
@@ -119,11 +119,11 @@ label {
 }
 
 select {
-  font-size: 12px !important;
+  font-size: 13px !important;
 }
 
 input {
-  font-size: 12px !important;
+  font-size: 13px !important;
 }
 
 .table thead th {

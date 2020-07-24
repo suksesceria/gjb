@@ -44,7 +44,8 @@
                         <button class="btn btn-primary"
                                 data-toggle="modal"
                                 data-target="#modal-add-transaction"
-                        >Tambah baru</button>
+                                style="float:right;"
+                        ><i class="fa fa-plus" aria-hidden="true"></i>Tambah baru</button>
                     </div>
                 </div>
             </div>

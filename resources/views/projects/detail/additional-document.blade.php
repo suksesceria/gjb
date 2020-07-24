@@ -6,7 +6,7 @@
                 <button class="btn btn-primary"
                         data-toggle="modal"
                         data-target="#modal-add-supporting_document"
-                >Tambah baru</button>
+                ><i class="fa fa-plus" aria-hidden="true"></i>Tambah baru</button>
             </div>
         </div>
         <div class="overflow-x">

@@ -20,7 +20,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <!-- style=" background: linear-gradient(to bottom, #fff, #3bb9ff); " -->
-<body class="login">
+<body class="login"  style="background-image: url('{{ asset('69.jpg') }}');background-size:cover">
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light">
             <div class="container">

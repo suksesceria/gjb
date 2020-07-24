@@ -40,16 +40,17 @@
       <div style="font-size: 12px;font-weight: bold;margin-top: 20px;">Langkah</div>
 
       <div class="" style="margin-top: 20px;">
-        <button type="button" id="add-steps" onclick="addStep()" class="btn btn-primary" style="padding: 2px; font-size: 10px;">Tambah Langkah</button>
-        <button type="button" id="add-steps" onclick="removeStep()" class="btn btn-danger" style="padding: 2px; font-size: 10px;">Hapus Langkah</button>
+        <button type="button" id="add-steps" onclick="addStep()" class="btn btn-primary" style="padding: 2px; font-size: 13px;"><i class="fa fa-plus" aria-hidden="true"></i>Tambah Langkah</button>
+        <button type="button" id="add-steps" onclick="removeStep()" class="btn btn-danger" style="padding: 2px; font-size: 13px;"><i class="fa fa-trash" aria-hidden="true"></i>Hapus Langkah</button>
       </div>
 
       <div class="row" id="steps-container">
       </div>
 
       <div style="margin-top: 30px;">
-        <button type="submit" style="padding: 6px 20px !important;" class="btn btn-primary">Buat</button>
+        <button type="submit" style="padding: 6px 20px !important;float:right" class="btn btn-primary">Simpan</button>
       </div>
+      <br>
     </form>
       <input id="template-progress-plan" type="hidden" value='
         <div class="form-group col-sm-4 bobot">
@@ -81,9 +82,9 @@
               </div>
 
               <div class="bobot-per-minggu">
-                <div style="font-size: 12px;margin-bottom: 10px;margin-top: 10px;font-weight: bold;">Bobot per Minggu</div>
-                <!--button type="button" onclick="addProgressPlan(this, {step_index}, {substep_index})" class="btn btn-primary" style="padding: 2px; font-size: 10px;">+</button-->
-                <!--button type="button" onclick="removeProgressPlan(this)" class="btn btn-danger" style="padding: 2px; font-size: 10px;">-</button-->
+                <div style="font-size: 12px;margin-bottom: 12px;margin-top: 12px;font-weight: bold;">Bobot per Minggu</div>
+                <!--button type="button" onclick="addProgressPlan(this, {step_index}, {substep_index})" class="btn btn-primary" style="padding: 2px; font-size: 12px;">+</button-->
+                <!--button type="button" onclick="removeProgressPlan(this)" class="btn btn-danger" style="padding: 2px; font-size: 12px;">-</button-->
                 <div class="row bobot-container">
 
                 </div>
@@ -99,14 +100,14 @@
 
           <div style="font-size: 12px;font-weight: bold;margin-top: 20px;">Item Pekerjaan</div>
 
-          <div class="" style="margin-top: 10px;">
-            <button type="button" onclick="addSubstep(this, {step_index})" class="btn btn-primary" style="padding: 2px; font-size: 10px;"
-            >Tambah Item Pekerjaan</button>
-            <button type="button" onclick="removeSubstep(this)" class="btn btn-danger" style="padding: 2px; font-size: 10px;"
-            >Hapus Item Pekerjaan</button>
+          <div class="" style="margin-top: 12px;">
+            <button type="button" onclick="addSubstep(this, {step_index})" class="btn btn-primary" style="padding: 2px; font-size: 12px;"
+            ><i class="fa fa-plus" aria-hidden="true"></i>Tambah Item Pekerjaan</button>
+            <button type="button" onclick="removeSubstep(this)" class="btn btn-danger" style="padding: 2px; font-size: 12px;"
+            ><i class="fa fa-trash" aria-hidden="true"></i>Hapus Item Pekerjaan</button>
           </div>
 
-          <div class="row substeps-container" style="padding: 10px;">
+          <div class="row substeps-container" style="padding: 12px;">
 
           </div>
 

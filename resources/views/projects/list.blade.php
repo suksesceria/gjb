@@ -3,13 +3,14 @@
 @section('style')
     <style>
         .btn-add-product {
-            font-size: 12px;
+            font-size: 14px;
+            float: right;
         }
         .table {
             border: 1px solid #ddd;
         }
         .btn-details {
-            font-size: 10px;
+            font-size: 12px;
         }
         canvas {
             max-height: 40px;
@@ -24,7 +25,7 @@
         <div class="panel-body">
             <a class="btn btn-primary btn-large mb-4 btn-add-product"
                     href="{{ url('/projects/tambah-projek') }}"
-            >BUAT PROYEK BARU</a>
+            ><i class="fa fa-plus" aria-hidden="true"></i> BUAT PROYEK BARU</a>
             <table class="table">
                 <thead>
                     <th>Nama Proyek</th>
@@ -56,7 +57,7 @@
                             {{number_format($project->cost_total, 0, ",", ".")}}
                         </td>
                         <td>
-                            <a href="{{ url('/projects/'. $project->project_id .'/progress') }}" class="btn btn-primary btn-details">See details</button>
+                            <a href="{{ url('/projects/'. $project->project_id .'/progress') }}" class="btn btn-primary btn-details"><i class="fa fa-search" aria-hidden="true"></i> details</button>
                         </td>
                     </tr>
                     @endforeach
