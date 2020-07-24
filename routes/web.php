@@ -54,6 +54,10 @@ Route::group(['middleware' => ['auth', 'access_role']], function () {
         Route::get('/{id}/detail-material', 'ProjectController@showDetailMaterial')->name('projects');
         Route::get('/{id}/{s}/{p}/verify-material', 'ProjectController@updateStatusMaterial')->name('projects');
         Route::post('/{id}/laporan-material', 'ProjectController@storeMaterial')->name('projects');
+        Route::get('/{id}/laporan-material-use', 'ProjectController@showMaterialUse')->name('projects');
+        Route::get('/{id}/detail-material-use', 'ProjectController@showDetailMaterialUse')->name('projects');
+        Route::get('/{id}/{s}/{p}/verify-material-use', 'ProjectController@updateStatusMaterialUse')->name('projects');
+        Route::post('/{id}/laporan-material-use', 'ProjectController@storeMaterialUse')->name('projects');
         Route::get('/{id}/dokumen-pendukung', 'ProjectController@showAdditionalDocument')->name('projects');
         Route::post('/{id}/dokumen-pendukung', 'ProjectController@storeAdditionalDocument')->name('projects');
         Route::get('/{id}/dokumen-pendukung/{idSupportingDoc}/delete', 'ProjectController@deleteAdditionalDocument')->name('projects');
