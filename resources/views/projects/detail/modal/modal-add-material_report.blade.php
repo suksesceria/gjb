@@ -11,11 +11,11 @@
                     @csrf
                     <div class="form-group">
                         <label>Tanggal</label>
-                        <input class="form-control" name="material_report_date" type="date" id="modal-add-material_report-date">
+                        <input class="form-control" name="material_report_date" type="date" id="modal-add-material_report-date" required>
                     </div>
                     <div class="form-group">
                         <label class="mr-1">Tipe: </label>
-                        <select class="form-control" name="material_type_id">
+                        <select class="form-control" name="material_type_id" required>
                             @foreach($materialTypes as $materialType)
                                 <option value="{{$materialType->material_type_id}}">{{$materialType->material_type_name}}</option>
                             @endforeach
@@ -23,11 +23,11 @@
                     </div>
                     <div class="form-group">
                         <label>Nama Material</label>
-                        <input class="form-control" name="material_name" type="text" id="modal-add-material_report-description1">
+                        <input class="form-control" name="material_name" type="text" id="modal-add-material_report-description1" required>
                     </div>
                     <div class="form-group">
                         <label class="mr-1">Unit: </label>
-                        <select class="form-control" name="material_unit_id">
+                        <select class="form-control" name="material_unit_id" required>
                             @foreach($materialUnits as $materialUnit)
                                 <option value="{{$materialUnit->material_unit_id}}">{{$materialUnit->material_unit_name}}</option>
                             @endforeach
@@ -35,11 +35,11 @@
                     </div>
                     <div class="form-group">
                         <label>Harga Satuan</label>
-                        <input class="form-control" name="material_cost_unit" type="number" id="modal-add-material_report-description2">
+                        <input class="form-control" name="material_cost_unit" required type="number" id="modal-add-material_report-description2">
                     </div>
                     <div class="form-group">
                         <label>Qty</label>
-                        <input class="form-control" name="material_qty" type="number" id="modal-add-material_report-description3">
+                        <input class="form-control" name="material_qty" required type="number" id="modal-add-material_report-description3">
                     </div>
                     <div class="form-group">
                         <label>Keterangan</label>

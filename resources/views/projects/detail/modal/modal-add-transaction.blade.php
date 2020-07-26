@@ -11,15 +11,15 @@
                     @csrf
                     <div class="form-group">
                         <label>Tanggal</label>
-                        <input class="form-control" name="date" type="date" id="modal-add-transaction-date">
+                        <input class="form-control" name="date" type="date" id="modal-add-transaction-date" required>
                     </div>
                     <div class="form-group">
                         <label>Keterangan</label>
-                        <input class="form-control" name="desc" type="text" id="modal-add-transaction-description">
+                        <input class="form-control" name="desc" type="text" id="modal-add-transaction-description" required>
                     </div>
                     <div class="form-group">
                         <label>Jumlah</label>
-                        <input class="form-control" name="cost_expense" type="number" id="modal-add-transaction-total">
+                        <input class="form-control" name="cost_expense" type="number" id="modal-add-transaction-total" required>
                     </div>
                     <div class="form-group">
                         <label class="mr-1">Jenis Transaksi: </label>

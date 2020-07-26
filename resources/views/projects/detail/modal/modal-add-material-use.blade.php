@@ -11,11 +11,11 @@
                     @csrf
                     <div class="form-group">
                         <label>Tanggal</label>
-                        <input class="form-control" name="material_use_date" type="date" id="modal-add-material_use-date">
+                        <input class="form-control" name="material_use_date" type="date" id="modal-add-material_use-date" required>
                     </div>
                     <div class="form-group">
                         <label class="mr-1">Material Report: </label>
-                        <select class="form-control" name="material_report_id">
+                        <select class="form-control" name="material_report_id" required>
                             @foreach($materialReport as $row)
                                 <option value="{{$row->material_report_id}}">{{$row->material_name}}</option>
                             @endforeach
@@ -23,11 +23,11 @@
                     </div>
                     <div class="form-group">
                         <label>Qty</label>
-                        <input class="form-control" name="material_qty" type="number" id="modal-add-material_use-description3">
+                        <input class="form-control" name="material_qty" type="number" id="modal-add-material_use-description3" required>
                     </div>
                     <div class="form-group">
                         <label>Keterangan</label>
-                        <input class="form-control" name="material_desc" type="text" id="modal-add-material_use-description4">
+                        <input class="form-control" name="material_desc" type="text" id="modal-add-material_use-description4" required>
                     </div>
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary">Tambah</button>
