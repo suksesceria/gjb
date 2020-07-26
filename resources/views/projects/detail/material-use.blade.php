@@ -12,7 +12,7 @@
                             <option value="keuangan" {{ $menu == 'keuangan' ? 'selected' : '' }}>Keuangan Lapangan</option>
                             <option value="keuangan-nyata" {{ $menu == 'keuangan-nyata' ? 'selected' : '' }}>Keuangan Kantor</option>
                             <option value="laporan-material" {{ $menu == 'laporan-material' ? 'selected' : '' }}>Laporan Material</option>
-                            <option value="laporan-material-use" {{ $menu == 'laporan-material-use' ? 'selected' : '' }}>Laporan Penggunaan Material</option>
+                            <option value="laporan-material-use" {{ $menu == 'laporan-material-use' ? 'selected' : '' }}>Stock Material</option>
                         </select>
                     </div>
                 </div>
@@ -56,12 +56,11 @@
                         <th>No</th>
                         <th>Uraian</th>
                         <th>Stock</th>
-                        <th>Satuan</th>
                         <th>Qty</th>
-                        <th>Harga Satuan</th>
-                        <th>Tanggal</th>
+                        <th>Satuan</th>
                         <th>Total Pembelian</th>
                         <th>Sisa Stock</th>
+                        <th>Tanggal</th>
                         <th>Keterangan</th>
                         <th>Status</th>
                         <th>Aksi</th>
@@ -80,14 +79,14 @@
                             ?>
                             <tr class="data-row">
                                 <td>{{$index + 1}}</td>
-                                <td>{{$datum->material_name}}</td>
-                                <td>{{$datum->material_code}}</td>
-                                <td>{{$datum->unit->material_unit_name}}</td>
+                                <td>{{$datum->material_report->material_name}}</td>
+                                <td>{{$datum->stock}}</td>
                                 <td>{{$datum->material_qty}}</td>
                                 <td>Rp. <span>{{ number_format($datum->material_cost_unit, 0, ",", ".") }}</span></td>
                                 <td>Rp. <span>{{ number_format(($datum->material_cost_unit * $datum->material_qty), 0, ",", ".") }}</span></td>
-                                <td class="date">{{$datum->material_report_date->format('d-m-Y')}}</td>
-                                <td class="description">{{$datum->material_desc}}</td>
+                                <td>{{ ($datum->status == 1) ? $datum->residue : ''}}</td>
+                                <td class="date">{{$datum->material_use_date->format('d-m-Y')}}</td>
+                                <td class="description">{{$datum->desc}}</td>
                                 @php
                                     if($datum->status == '1'){
                                         $status = 'telah diverifikasi';
@@ -101,18 +100,16 @@
                                 @endphp
                                 <td class="status">{{ $status }}</td>
                                 <td>
-                                    <a href="{{ url('/projects/'.$datum->material_report_id.'/detail-material') }}"> <i class="fa fa-search mr-2" style="cursor: pointer;" id="{{ $datum->material_report_id }}" ></i></a>
+                                    <a href="{{ url('/projects/'.$datum->material_use_id.'/detail-material-use') }}"> <i class="fa fa-search mr-2" style="cursor: pointer;" id="{{ $datum->material_report_id }}" ></i></a>
 {{--                                 <i class="fas fa-trash" style="cursor: pointer;" id="delete-item"></i>--}}
                                </td>
                             </tr>
                         @endforeach
                         <tr class="data-row">
-                            <td colspan="5"></td>
+                            <td colspan="4"></td>
                             <td><b>TOTAL</b></td>
                             <td><b>Rp. <span>{{ number_format($total, 0, ",", ".") }}</span></b></td>
-                            <td colspan="2"></td>
-                            <td></td>
-                            <td></td>
+                            <td colspan="6"></td>
                         </tr>
                     @else
                         <tr class="data-row">
@@ -125,7 +122,7 @@
     </div>
 </div>
 
-@include('projects.detail.modal.modal-add-material_report')
+@include('projects.detail.modal.modal-add-material-use')
 
 @section('script')
     <script>

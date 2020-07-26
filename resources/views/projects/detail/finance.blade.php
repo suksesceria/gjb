@@ -12,7 +12,7 @@
                             <option value="keuangan" {{ $menu == 'keuangan' ? 'selected' : '' }}>Keuangan Lapangan</option>
                             <option value="keuangan-nyata" {{ $menu == 'keuangan-nyata' ? 'selected' : '' }}>Keuangan Kantor</option>
                             <option value="laporan-material" {{ $menu == 'laporan-material' ? 'selected' : '' }}>Laporan Material</option>
-                            <option value="laporan-material-use" {{ $menu == 'laporan-material-use' ? 'selected' : '' }}>Laporan Penggunaan Material</option>
+                            <option value="laporan-material-use" {{ $menu == 'laporan-material-use' ? 'selected' : '' }}>Stock Material</option>
                         </select>
                     </div>
                 </div>

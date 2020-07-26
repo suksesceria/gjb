@@ -5,56 +5,48 @@
     <div class="container">
         <div class="panel panel-default">
         <div class="panel-header" style="margin:2%">
-            <h4>Detail Laporan Material</h4>
+            <h4>Detail Stock Material</h4>
         </div>
             <div class="panel-body">
             <form action="">
                 <div class="form-group">
                     <label>Tanggal</label>
-                    <input class="form-control" name="material_report_date" type="date" id="modal-add-material_report-date"  value="{{ date_format($data->material_report_date,'Y-m-d') }}" readonly>
+                    <input class="form-control" name="material_use_date" type="date" id="modal-add-material_use-date"  value="{{ date_format($data->material_use_date,'Y-m-d') }}" readonly>
                 </div>
                 <div class="form-group">
-                    <label class="mr-1">Tipe: </label>
-                    <select class="form-control" name="material_type_id" disabled>
-                        @foreach($materialTypes as $materialType)
-                            <option value="{{$materialType->material_type_id}}" {{ ($data->material_type_id == $materialType->material_type_id) ? 'selected' : '' }}>{{$materialType->material_type_name}}</option>
+                    <label class="mr-1">Material Report: </label>
+                    <select class="form-control" name="material_report_id" disabled>
+                        @foreach($materialReport as $row)
+                            <option value="{{$row->material_report_id}}"  {{ ($data->material_report_id == $row->material_report_id) ? 'selected' : '' }}>{{$row->material_name}}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="form-group">
                     <label>Nama Material</label>
-                    <input class="form-control" name="material_name" readonly value="{{ $data->material_name}}" type="text" id="modal-add-material_report-description">
-                </div>
-                <div class="form-group">
-                    <label class="mr-1">Unit: </label>
-                    <select class="form-control" name="material_unit_id" disabled>
-                        @foreach($materialUnits as $materialUnit)
-                            <option value="{{$materialUnit->material_unit_id}}" {{ ($data->material_unit_id == $materialType->material_unit_id) ? 'selected' : '' }}>{{$materialUnit->material_unit_name}}</option>
-                        @endforeach
-                    </select>
+                    <input class="form-control" name="material_name" readonly value="{{ $data->material_report->material_name}}" type="text" id="modal-add-material_use-description">
                 </div>
                 <div class="form-group">
                     <label>Harga Satuan</label>
-                    <input class="form-control" name="material_cost_unit" type="number" readonly value="{{ $data->material_cost_unit}}" id="modal-add-material_report-description">
+                    <input class="form-control" name="material_cost_unit" type="number" readonly value="{{ $data->material_report->material_cost_unit}}" id="modal-add-material_use-description">
                 </div>
                 <div class="form-group">
                     <label>Qty</label>
-                    <input class="form-control" name="material_qty" type="number" readonly value="{{ $data->material_qty}}" id="modal-add-material_report-description">
+                    <input class="form-control" name="material_qty" type="number" readonly value="{{ $data->material_qty}}" id="modal-add-material_use-description">
                 </div>
                 <div class="form-group">
                     <label>Keterangan</label>
-                    <input class="form-control" name="material_desc" type="text" readonly value="{{ $data->material_desc}}" id="modal-add-material_report-description">
+                    <input class="form-control" name="material_desc" type="text" readonly value="{{ $data->desc}}" id="modal-add-material_use-description">
                 </div>
                     <div class="form-group">
                         <label>Status</label>
                         @php
-                            if($data->status == '1'){
+                            if($data->status == 1){
                                 $status = 'telah diverifikasi';
                             }
                             else if($data->status == 2){
                                 $status = 'ditolak admin';
                             }
-                            else{
+                           else{
                                 $status = 'belum diverifikasi';
                             }
                         @endphp
@@ -66,14 +58,14 @@
                             $verif = 1;
                             $tolak = 2;
                         @endphp
-                        <a href="{{ url('/projects/'.$data->material_report_id.'/'.$tolak.'/'.$data->project_id.'/verify-material') }}">
+                        <a href="{{ url('/projects/'.$data->material_use_id.'/'.$tolak.'/'.$data->project_id.'/verify-material-use') }}">
                             <button type="button" class="btn btn-danger">Tolak</button>
                         </a>
-                        <a href="{{ url('/projects/'.$data->material_report_id.'/'.$verif.'/'.$data->project_id.'/verify-material') }}">
+                        <a href="{{ url('/projects/'.$data->material_use_id.'/'.$verif.'/'.$data->project_id.'/verify-material-use') }}">
                             <button type="button" class="btn btn-primary">Verifikasi</button>
                         </a>
                         @php }else{ @endphp
-                            <a href="{{ url('/projects/'.$data->project_id.'/laporan-material') }}">
+                            <a href="{{ url('/projects/'.$data->project_id.'/laporan-material-use') }}">
                                 <button type="button" class="btn btn-primary">Kembali</button>
                             </a>
                         @php } @endphp
@@ -97,7 +89,7 @@
     </script>
 @endsection
 
-<div id="modal-add-material_report" class="modal fade" role="dialog">
+<div id="modal-add-material_use" class="modal fade" role="dialog">
     <div class="modal-dialog">
         
         <div class="modal-content">
@@ -110,23 +102,23 @@
                     @csrf
                     <div class="form-group">
                         <label>Tanggal</label>
-                        <input class="form-control" name="material_report_date" type="date" id="modal-add-material_report-date">
+                        <input class="form-control" name="material_use_date" type="date" id="modal-add-material_use-date">
                     </div>
                     <div class="form-group">
                         <label>Keterangan</label>
-                        <input class="form-control" name="material_name" type="text" id="modal-add-material_report-description">
+                        <input class="form-control" name="material_name" type="text" id="modal-add-material_use-description">
                     </div>
                     <div class="form-group">
                         <label>Debit</label>
-                        <input class="form-control" name="material_cost_unit" type="number" id="modal-add-material_report-description">
+                        <input class="form-control" name="material_cost_unit" type="number" id="modal-add-material_use-description">
                     </div>
                     <div class="form-group">
                         <label>Kredit</label>
-                        <input class="form-control" name="material_qty" type="number" id="modal-add-material_report-description">
+                        <input class="form-control" name="material_qty" type="number" id="modal-add-material_use-description">
                     </div>
                     <div class="form-group">
                         <label>Saldo Terakhir</label>
-                        <input class="form-control" name="material_desc" type="text" id="modal-add-material_report-description">
+                        <input class="form-control" name="material_desc" type="text" id="modal-add-material_use-description">
                     </div>
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary">Tambah</button>

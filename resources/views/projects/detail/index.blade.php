@@ -22,6 +22,8 @@
             @include('projects.detail.finance')
         @elseif (request()->is('projects/*/laporan-material'))
             @include('projects.detail.material')
+        @elseif (request()->is('projects/*/laporan-material-use'))
+            @include('projects.detail.material-use')
         @elseif (request()->is('projects/*/dokumen-pendukung'))
             @include('projects.detail.additional-document')
         @endif

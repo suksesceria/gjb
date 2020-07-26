@@ -602,11 +602,11 @@ class ProjectController extends Controller
             'material_cost_unit' => $request->get('material_cost_unit'),
             'material_qty' => $request->get('material_qty'),
             'material_desc' => $request->get('material_desc'),
+            'status' => ((Auth::user()->role_id == 1) ? 1 : 0),
         ]);
         if(Auth::user()->role_id == 1){
             $mr['verify_by_admin'] = Auth::user()->employee_id;
             $mr['verify_at_admin'] = now();
-            $mr['status'] = 1;
         }
         Project::findOrFail($id)->material_report()->save($mr);
 
@@ -665,25 +665,24 @@ class ProjectController extends Controller
             $dateFrom = Carbon::createFromFormat('Y-m-d', $dateFrom)->startOfDay();
             $dateTo = Carbon::createFromFormat('Y-m-d', $dateTo)->endOfDay();
             // $data = Project::with(['material_use', 'material_use.material_report'])->findOrFail($id)->whereBetween('material_use.material_use_date', [$dateFrom, $dateTo])->orderBy('material_use.material_use_id', 'asc')->get();
-            $data = Project::findOrFail($id)->material_use()->material_report()->whereBetween('material_use_date', [$dateFrom, $dateTo])->orderBy('material_use_id', 'asc')->get();
+            $data = Project::findOrFail($id)->material_use()->whereBetween('material_use_date', [$dateFrom, $dateTo])->orderBy('verify_at_admin', 'desc')->get();
             
         } else {
             // $data = Project::with(['material_use', 'material_use.material_report'])->findOrFail($id)->orderBy('material_use.material_use_id', 'asc')->get();
             // dd($data);
-            $data = Project::findOrFail($id)->material_use()->material_report()->orderBy('material_use_id', 'asc')->get();
+            $data = Project::findOrFail($id)->material_use()->orderBy('verify_at_admin', 'desc')->get();
             // $data = Project::with(['material_use', 'material_use.material_report'])->findOrFail($id)->material_use()->orderBy('material_use_id', 'asc')->get();
             
         }
-        dd($data);
         $materialReport = MaterialReport::get();
-        return view('projects.detail.index', compact(['data', 'materialTypes']));
+        return view('projects.detail.index', compact(['data', 'materialReport']));
     }
     public function showDetailMaterialUse(Request $request, $id)
     {
         $data = MaterialUse::where('material_use_id', $id)->orderBy('material_use_id', 'asc')->first();
         // dd($data);
-        $materialTypes = MaterialType::get();
-        return view('projects.detail.detail-material', compact(['data', 'materialTypes']));
+        $materialReport = MaterialReport::get();
+        return view('projects.detail.detail-material-use', compact(['data', 'materialReport']));
     }
 
     /**
@@ -694,52 +693,72 @@ class ProjectController extends Controller
      */
     public function updateStatusMaterialUse(Request $request,$id, $s = null, $p = null)
     {
+        $material_use = Materialuse::where('material_use_id', $id)->first();
+        $material_report = MaterialReport::where('material_report_id', $material_use->material_report_id)->first();
+        $residue = MaterialUse::where('project_id', $material_report->project_id)->where('material_report_id', $material_use->material_report_id)->where('status', 1)->orderBy('verify_at_admin', 'desc')->first(); 
+        $total = MaterialUse::where('project_id', $material_report->project_id)->where('material_report_id', $material_use->material_report_id)->where('status', 1)->orderBy('verify_at_admin', 'desc')->get()->sum('material_qty'); 
+        if($residue){
+            $residue = $residue->residue -$material_use->material_qty;
+        }else{
+            $residue = $material_report->material_qty - $material_use->material_qty;
+            // dd($residue.' = '.$material_report->material_qty.' - '.$material_use->material_qty);
+        }
+
         if(Auth::user()->role_id == 1){
             $data = array();
             $data['status'] = $s;
-            $data['verify_at_admin'] = date('Y-m-d');
+            $data['verify_at_admin'] = now();
             $data['verify_by_admin'] = Auth::user()->employee_id;
+            $data['residue'] = $residue;
+            $data['total'] = $material_use->material_qty * $material_report->material_cost_unit;
         }
         
         MaterialUse::where('material_use_id', $id)->update($data);
 
-        $this->checkLimitMaterial($p);
-        return redirect("projects/{$p}/laporan-material");
+        $this->checkLimitMaterialUse($p);
+        return redirect("projects/{$p}/laporan-material-use");
     }
 
     public function storeMaterialUse(Request $request, $id)
     {
         $material_use_date = Carbon::createFromFormat('Y-m-d', $request->get('material_use_date'));
-        $material_type = MaterialType::findOrFail($request->get('material_type_id'));
-        $splited_material_type_name = explode(' ', $material_type->material_type_name);
-        $initial_material_type_name = '';
-        foreach ($splited_material_type_name as $val) {
-            $initial_material_type_name .= $val[0];
+        $material_report = MaterialReport::where('material_report_id',$request->get('material_report_id'))->first();
+        
+        $residue = MaterialUse::where('project_id', $id)->where('material_report_id', $request->get('material_report_id'))->where('status', 1)->orderBy('verify_at_admin', 'desc')->first(); 
+        $total = MaterialUse::where('project_id', $id)->where('material_report_id', $request->get('material_report_id'))->where('status', 1)->orderBy('verify_at_admin', 'desc')->get()->sum('material_qty'); 
+
+        if($residue){
+            $residue = $residue->residue -$request->get('material_qty');
+        }else{
+            $residue = $material_report->material_qty - $request->get('material_qty');
         }
-        $initial_material_type_name = strtoupper($initial_material_type_name);
-        $material_type_name = $initial_material_type_name . '-';
-        $number = 1;
-        // <!-- $last = Project::findOrFail($id)->material_use()->where('material_code', 'like', $material_type_name. '%')->orderBy('material_use_id', 'desc')->first();
-        // if ($last) {
-        //     $number = ((int)(explode('-', $last->material_code)[1])) + 1;
-        // }
-        // $material_code = $material_type_name . str_pad((string)$number, 3, '0', STR_PAD_LEFT); -->
+
+        // dd($residue);
+
         $mr = new MaterialUse([
             'project_id' => $id,
-            'material_type_id' => $material_type->material_type_id,
+            'material_report_id' => $material_report->material_report_id,
             'material_use_date' => $material_use_date,
-            'material_name' => $request->get('material_name'),
-            'material_cost_unit' => $request->get('material_cost_unit'),
+            'material_name' => $material_report->material_name,
+            'material_cost_unit' => $material_report->material_cost_unit,
+            'stock' => $material_report->material_qty,
+            'total' => $request->get('material_qty') * $material_report->material_cost_unit,
             'material_qty' => $request->get('material_qty'),
-            'material_desc' => $request->get('material_desc'),
+            'desc' => $request->get('material_desc'),
+            'residue' => (Auth::user()->role_id == 1) ? $residue: 0,
+            'status' => ((Auth::user()->role_id == 1) ? 1 : 0),
         ]);
+        if(Auth::user()->role_id == 1){
+            $mr['verify_by_admin'] = Auth::user()->employee_id;
+            $mr['verify_at_admin'] = now();
+        }
         Project::findOrFail($id)->material_use()->save($mr);
 
         Notifications::create([
             'type' => "Laporan Penggunaan Material",
             'notifiable_type' => "laporan_penggunaan_material",
             'notifiable_id' => 1,
-            'data' => $request->get('material_desc'),
+            'data' => "Laporan Penggunaan Material ".$request->get('material_desc'),
             'href' => '/projects/'.DB::getPDO()->lastInsertId().'/detail-material-use',
             'id_href' => DB::getPDO()->lastInsertId(),
             'created_at' => date("Y-m-d H:i:s"),
@@ -748,9 +767,9 @@ class ProjectController extends Controller
         event(new MyEvent($dataNotif));
 
         if(Auth::user()->role_id == 1){
-            $this->checkLimitMaterialUse();
+            $this->checkLimitMaterialUse($id);
         }
-        return redirect("projects/{$id}/laporan-penggunaan-material");
+        return redirect("projects/{$id}/laporan-material-use");
     }
 
     public function checkLimitMaterialUse($id){
@@ -760,16 +779,16 @@ class ProjectController extends Controller
         $datamax = $project->cost_total - $project->cost_total*0.2;
         if($cost->total >= $datamax ){
             if($cost->total > $project->cost_total){
-                $desc_notif = "Material ".$project->project_name." Over";
+                $desc_notif = "Material Stock ".$project->project_name." Over";
             }else{
-                $desc_notif  = "Material ".$project->project_name." 20 % lagi";
+                $desc_notif  = "Material Stock".$project->project_name." 20 % lagi";
             }
             foreach($role as $row){
                 Notifications::create([
-                    'type' => "Pengunaan Material Mendekati limit",
-                    'notifiable_type' => "laporan_penggunaan_material_over",
+                    'type' => "Pengunaan Material Stock Mendekati limit",
+                    'notifiable_type' => "laporan_penggunaan_material_stock_over",
                     'notifiable_id' => $row->role_id,
-                    'data' => $desc_notif,
+                    'data' => "Pengunaan Material Mendekati limit ".$desc_notif,
                     'href' => '/projects/'.$id.'/laporan-material-use',
                     'id_href' => $id,
                     'created_at' => date("Y-m-d H:i:s"),
