@@ -24,7 +24,7 @@ class CreateCostReportRealtimeTable extends Migration
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->unsignedBigInteger('verify_by_admin')->nullable();
-            $table->date('verify_at_admin')->nullable();
+            $table->timestamps('verify_at_admin');
             $table->unsignedBigInteger('status')->nullable();
             $table->string('desc', 300)->nullable();
             $table->unsignedInteger('ver')->nullable(false);

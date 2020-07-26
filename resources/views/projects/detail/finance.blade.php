@@ -12,6 +12,7 @@
                             <option value="keuangan" {{ $menu == 'keuangan' ? 'selected' : '' }}>Keuangan Lapangan</option>
                             <option value="keuangan-nyata" {{ $menu == 'keuangan-nyata' ? 'selected' : '' }}>Keuangan Kantor</option>
                             <option value="laporan-material" {{ $menu == 'laporan-material' ? 'selected' : '' }}>Laporan Material</option>
+                            <option value="laporan-material-use" {{ $menu == 'laporan-material-use' ? 'selected' : '' }}>Laporan Penggunaan Material</option>
                         </select>
                     </div>
                 </div>
@@ -68,6 +69,7 @@
                         $totalKredit = 0;
                         $totalDebit = 0;
                         $total = 0;
+                        $i = 1;
                         ?>
                         @foreach($data as $datum)
                             <?php
@@ -76,7 +78,7 @@
                                 if($datum->status == 1){
                                     $totalDebit += $debit;
                                     $totalKredit += $kredit;
-                                    $total = $datum->balance;
+                                        $total = $datum->balance;
                                 }
                                 if ($datum instanceof \App\CostReportOffice){
                                     $id = $datum->cost_report_office_id;
@@ -93,7 +95,7 @@
                                 <td class="description">{{$desc}}</td>
                                 <td class="debit-amount">Rp. <span>{{ number_format($debit, 0, ",", ".") }}</span></td>
                                 <td class="kredit-amount">Rp. <span>{{ number_format($kredit, 0, ",", ".") }}</span></td>
-                                <td class="last-deposit">Rp. <span>{{ number_format($datum->balance, 0, ",", ".") }}</span></td>
+                                <td class="last-deposit">Rp. <span>{{ ($datum->status == 1) ? number_format($datum->balance, 0, ",", ".") : ''}}</span></td>
                                 <?php
                                     if($datum->status == 1){
                                         $status = 'telah diverifikasi';
@@ -114,13 +116,14 @@
 {{--                                    <i class="fas fa-trash" style="cursor: pointer;" id="delete-item"></i>--}}
                                 </td>
                             </tr>
+                            <?php $i++; ?>
                         @endforeach
                         <tr class="data-row">
                             <td class="date"></td>
                             <td class="description"><b>TOTAL</b></td>
                             <td class="debit-amount"><b>Rp. <span>{{ number_format($totalDebit, 0, ",", ".") }}</span></b></td>
                             <td class="kredit-amount"><b>Rp. <span>{{ number_format($totalKredit, 0, ",", ".") }}</span></b></td>
-                            <td class="last-deposit"><b>Rp. <span>{{ number_format($total, 0, ",", ".") }}</span></b></td>
+                            <td class="last-deposit"><b>Rp. <span>{{ ($saldo) ? number_format( $saldo->balance, 0, ",", ".") : '' }}</span></b></td>
                             <td></td>
                             <td></td>
                         </tr>

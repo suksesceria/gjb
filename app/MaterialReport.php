@@ -41,4 +41,9 @@ class MaterialReport extends Model
         return $this->belongsTo(MaterialType::class, 'material_type_id', 'material_type_id');
     }
 
+    public function material_use()
+    {
+        return $this->hasMany(MaterialUse::class, 'material_use_id', 'material_use_id');
+    }
+
 }

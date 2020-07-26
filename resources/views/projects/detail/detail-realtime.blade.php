@@ -59,10 +59,10 @@
                             $verif = 1;
                             $tolak = 2;
                         @endphp
-                        <a href="{{ url('/projects/'.$data->cost_report_realtime_id.'/'.$tolak.'/'.$data->project_id.'/verify') }}">
+                        <a href="{{ url('/projects/'.$data->cost_report_realtime_id.'/'.$tolak.'/'.$data->project_id.'/verify-realtime') }}">
                             <button type="button" class="btn btn-danger">Tolak</button>
                         </a>
-                        <a href="{{ url('/projects/'.$data->cost_report_realtime_id.'/'.$verif.'/'.$data->project_id.'/verify') }}">
+                        <a href="{{ url('/projects/'.$data->cost_report_realtime_id.'/'.$verif.'/'.$data->project_id.'/verify-realtime') }}">
                             <button type="button" class="btn btn-primary">Verifikasi</button>
                         </a>
                         @php }else{ @endphp

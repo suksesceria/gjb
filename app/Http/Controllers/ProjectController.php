@@ -253,17 +253,16 @@ class ProjectController extends Controller
         if ($dateFrom && $dateTo) {
             $dateFrom = Carbon::createFromFormat('Y-m-d', $dateFrom)->startOfDay();
             $dateTo = Carbon::createFromFormat('Y-m-d', $dateTo)->endOfDay();
-            $data = Project::findOrFail($id)->cost_report_office()->whereBetween('cost_report_office_date', [$dateFrom, $dateTo])->orderBy('cost_report_office_id', 'asc')->get();
+            $data = Project::findOrFail($id)->cost_report_office()->whereBetween('cost_report_office_date', [$dateFrom, $dateTo])->orderBy('cost_report_office.verify_at_admin', 'desc')->get();
+            $saldo = Project::findOrFail($id)->cost_report_office()->where('status', 1)->whereBetween('cost_report_office_date', [$dateFrom, $dateTo])->orderBy('cost_report_office.verify_at_admin', 'desc')->first();
+
         } else {
-            $data = Project::findOrFail($id)->cost_report_office()->orderBy('cost_report_office_id', 'desc')->get();
+            $data = Project::findOrFail($id)->cost_report_office()->orderBy('cost_report_office.verify_at_admin', 'desc')->get();
+            $saldo = Project::findOrFail($id)->cost_report_office()->where('status', 1)->orderBy('cost_report_office.verify_at_admin', 'desc')->first();
         }
-        if($k){
-            $show = 1;
-        }else{
-            $show =0;
-        }
+        
         // dd($data);
-        return view('projects.detail.index', compact(['data', 'show']));
+        return view('projects.detail.index', compact(['data', 'saldo']));
     }
     /**
      * Display the specified resource.
@@ -284,21 +283,36 @@ class ProjectController extends Controller
      */
     public function updateStatusFinance(Request $request,$id, $s = null, $p = null)
     {
-        if(Auth::user()->role_id == 1){
+        $office = CostReportOffice::where('cost_report_office_id', $id)->orderBy('cost_report_office_id', 'desc')->first();
+        $last = Project::findOrFail($office->project_id)->cost_report_office()->wherenotnull('cost_report_office.verify_by_admin')->where('cost_report_office.status', 1)->orderBy('cost_report_office_id', 'desc')->first();
+        $balance = 0;
+        $cashflow =  (bool) $office->cost_report_cashflow;
+        $cost_expense = $office->cost_expense;
+        if ($last) {
+            $balance = $last->balance;
+        }
+        if ($cashflow)
+            $balance += $cost_expense;
+        else
+            $balance -= $cost_expense;
+        if(Auth::user()->role_id == 1 && $s == 1){
             $data = array();
+            $data['balance'] = $balance;
             $data['status'] = $s;
-            $data['verify_at_admin'] = date('Y-m-d');
+            $data['verify_at_admin'] = now();
             $data['verify_by_admin'] = Auth::user()->employee_id;
         }
         
-        $this->checkLimitFinance($id);
+        $this->checkLimitFinance($p);
         CostReportOffice::where('cost_report_office_id', $id)->update($data);
+        
         return redirect("projects/{$p}/keuangan");
     }
 
     public function storeFinance(Request $request, $id)
     {
-        $last = Project::findOrFail($id)->cost_report_office()->orderBy('cost_report_office_id', 'desc')->first();
+        $id_project = $id;
+        $last = Project::findOrFail($id)->cost_report_office()->wherenotnull('cost_report_office.verify_by_admin')->where('cost_report_office.status', 1)->orderBy('cost_report_office_id', 'desc')->first();
         $balance = 0;
         $cashflow =  (bool) $request->get('cashflow');
         $cost_expense = $request->get('cost_expense');
@@ -311,13 +325,18 @@ class ProjectController extends Controller
             $balance -= $cost_expense;
         $cro = new CostReportOffice([
             'project_id' => $id,
-            'balance' => $balance,
+            'balance' => ((Auth::user()->role_id == 1) ? $balance : 0),
             'cost_expense' => $cost_expense,
             'cost_report_cashflow' => $cashflow,
             'status' => ((Auth::user()->role_id == 1) ? 1 : 0),
             'cost_report_office_desc' => $request->get('desc'),
             'cost_report_office_date' => Carbon::createFromFormat('Y-m-d', $request->get('date')),
         ]);
+        if(Auth::user()->role_id == 1){
+            $cro['verify_by_admin'] = Auth::user()->employee_id;
+            $cro['verify_at_admin'] = now();
+        }
+        
         Project::findOrFail($id)->cost_report_office()->save($cro);
         
         Notifications::create([
@@ -332,7 +351,7 @@ class ProjectController extends Controller
         $dataNotif = "Keuangan Lapangan ".$request->get('cost_report_office_desc');
         event(new MyEvent($dataNotif));
         if(Auth::user()->role_id == 1){
-            $this->checkLimitFinance($id);
+            $this->checkLimitFinance($id_project);
         }
 
         return redirect("projects/{$id}/keuangan");
@@ -358,7 +377,7 @@ class ProjectController extends Controller
                         'data' => $desc_notif,
                         'href' => '/projects/'.$id.'/keuangan',
                         'id_href' => $id,
-                        'created_at' => date("Y-m-d H:i:s"),
+                        'created_at' => now(),
                     ]);
                     $dataNotif = "Keuangan Lapangan Mendekati limit";
                     event(new MyEvent($dataNotif));
@@ -374,11 +393,15 @@ class ProjectController extends Controller
             $dateFrom = Carbon::createFromFormat('Y-m-d', $dateFrom)->startOfDay();
             $dateTo = Carbon::createFromFormat('Y-m-d', $dateTo)->endOfDay();
 
-            $data = Project::findOrFail($id)->cost_report_realtime()->whereBetween('cost_report_realtime_date', [$dateFrom, $dateTo])->orderBy('cost_report_realtime_id', 'asc')->get();
+            // $data = Project::findOrFail($id)->cost_report_realtime()->whereBetween('cost_report_realtime_date', [$dateFrom, $dateTo])->orderBy('cost_report_realtime_id', 'asc')->get();
+            $data = Project::findOrFail($id)->cost_report_realtime()->whereBetween('cost_report_realtime_date', [$dateFrom, $dateTo])->orderBy('cost_report_realtime.verify_at_admin', 'desc')->get();
+            $saldo = Project::findOrFail($id)->cost_report_realtime()->where('status', 1)->whereBetween('cost_report_realtime_date', [$dateFrom, $dateTo])->orderBy('cost_report_realtime.verify_at_admin', 'desc')->first();
         } else {
-            $data = Project::findOrFail($id)->cost_report_realtime()->orderBy('cost_report_realtime_id', 'desc')->get();
+            // $data = Project::findOrFail($id)->cost_report_realtime()->orderBy('cost_report_realtime_id', 'desc')->get();
+            $data = Project::findOrFail($id)->cost_report_realtime()->orderBy('cost_report_realtime.verify_at_admin', 'desc')->get();
+            $saldo = Project::findOrFail($id)->cost_report_realtime()->where('status', 1)->orderBy('cost_report_realtime.verify_at_admin', 'desc')->first();
         }
-        return view('projects.detail.index', compact(['data']));
+        return view('projects.detail.index', compact(['data', 'saldo']));
     }
 
     public function showDetailRealtime(Request $request, $id)
@@ -397,11 +420,28 @@ class ProjectController extends Controller
     public function updateStatusRealtime(Request $request,$id, $s = null, $p = null)
     {
         if(Auth::user()->role_id == 1){
-            $data = array();
-            $data['status'] = $s;
-            $data['verify_at_admin'] = date('Y-m-d');
-            $data['verify_by_admin'] = Auth::user()->employee_id;
-        }
+            $realtime = CostReportRealtime::where('cost_report_realtime_id', $id)->orderBy('cost_report_realtime_id', 'desc')->first();
+            $last = Project::findOrFail($realtime->project_id)->cost_report_realtime()->wherenotnull('cost_report_realtime.verify_by_admin')->where('cost_report_realtime.status', 1)->orderBy('cost_report_realtime_id', 'desc')->first();
+            $balance = 0;
+            $cashflow =  (bool) $realtime->cost_report_cashflow;
+            $cost_expense = $realtime->cost_expense;
+            if ($last) {
+                $balance = $last->balance;
+            }
+            if ($cashflow)
+                $balance += $cost_expense;
+            else
+                $balance -= $cost_expense;
+            if(Auth::user()->role_id == 1){
+                $data = array();
+                $data['status'] = $s;
+                $data['verify_at_admin'] = now();
+                $data['verify_by_admin'] = Auth::user()->employee_id;
+            }
+            if(Auth::user()->role_id == 1 && $s == 1){
+                $data['balance'] = $balance;
+            }
+        }     
         CostReportRealtime::where('cost_report_realtime_id', $id)->update($data);
         $this->checkLimitRealtime($p);
         return redirect("projects/{$p}/keuangan-nyata");
@@ -439,7 +479,8 @@ class ProjectController extends Controller
 
     public function storeFinanceRealtime(Request $request, $id)
     {
-        $last = Project::findOrFail($id)->cost_report_realtime()->orderBy('cost_report_realtime_id', 'desc')->first();
+        $id_project = $id;
+        $last = Project::findOrFail($id)->cost_report_realtime()->wherenotnull('cost_report_realtime.verify_by_admin')->where('cost_report_realtime.status', 1)->orderBy('verify_at_admin', 'desc')->first();
         $balance = 0;
         $cashflow =  (bool) $request->get('cashflow');
         $cost_expense = $request->get('cost_expense');
@@ -452,13 +493,18 @@ class ProjectController extends Controller
             $balance -= $cost_expense;
         $cro = new CostReportRealtime([
             'project_id' => $id,
-            'balance' => $balance,
+            'balance' => ((Auth::user()->role_id == 1) ? $balance : 0),
             'cost_expense' => $cost_expense,
             'cost_report_cashflow' => $cashflow,
             'cost_report_realtime_desc' => $request->get('desc'),
             'cost_report_realtime_date' => Carbon::createFromFormat('Y-m-d', $request->get('date')),
             'status' => ((Auth::user()->role_id == 1) ? 1 : 0)
         ]);
+
+        if(Auth::user()->role_id == 1){
+            $cro['verify_by_admin'] = Auth::user()->employee_id;
+            $cro['verify_at_admin'] = now();
+        }
         Project::findOrFail($id)->cost_report_realtime()->save($cro);
 
         Notifications::create([
@@ -468,9 +514,9 @@ class ProjectController extends Controller
             'data' => $request->get('desc'),
             'href' => '/projects/'.DB::getPDO()->lastInsertId().'/detail-realtime',
             'id_href' => DB::getPDO()->lastInsertId(),
-            'created_at' => date("Y-m-d H:i:s"),
+            'created_at' => now(),
         ]);
-        $dataNotif = "Keuangan Lapangan ".$request->get('desc');
+        $dataNotif = "Keuangan Kantor ".$request->get('desc');
         event(new MyEvent($dataNotif));
         
         if(Auth::user()->role_id == 1){
@@ -519,7 +565,7 @@ class ProjectController extends Controller
         if(Auth::user()->role_id == 1){
             $data = array();
             $data['status'] = $s;
-            $data['verify_at_admin'] = date('Y-m-d');
+            $data['verify_at_admin'] = now();
             $data['verify_by_admin'] = Auth::user()->employee_id;
         }
         
@@ -557,22 +603,27 @@ class ProjectController extends Controller
             'material_qty' => $request->get('material_qty'),
             'material_desc' => $request->get('material_desc'),
         ]);
+        if(Auth::user()->role_id == 1){
+            $mr['verify_by_admin'] = Auth::user()->employee_id;
+            $mr['verify_at_admin'] = now();
+            $mr['status'] = 1;
+        }
         Project::findOrFail($id)->material_report()->save($mr);
 
         Notifications::create([
             'type' => "Laporan Material",
             'notifiable_type' => "laporan_material",
             'notifiable_id' => 1,
-            'data' => $request->get('material_desc'),
+            'data' => $request->get('material_name'),
             'href' => '/projects/'.DB::getPDO()->lastInsertId().'/detail-material',
             'id_href' => DB::getPDO()->lastInsertId(),
             'created_at' => date("Y-m-d H:i:s"),
         ]);
-        $dataNotif = "Laporan Material ".$request->get('material_desc');
+        $dataNotif = "Laporan Material ".$request->get('material_name');
         event(new MyEvent($dataNotif));
 
         if(Auth::user()->role_id == 1){
-            $this->checkLimitMaterial();
+            $this->checkLimitMaterial($id);
         }
         return redirect("projects/{$id}/laporan-material");
     }
@@ -593,7 +644,7 @@ class ProjectController extends Controller
                     'type' => "Material Mendekati limit",
                     'notifiable_type' => "laporan_material_over",
                     'notifiable_id' => $row->role_id,
-                    'data' => $desc_notif,
+                    'data' => "Material Mendekati limit ".$desc_notif,
                     'href' => '/projects/'.$id.'/laporan-material',
                     'id_href' => $id,
                     'created_at' => date("Y-m-d H:i:s"),
@@ -613,14 +664,18 @@ class ProjectController extends Controller
         if ($dateFrom && $dateTo) {
             $dateFrom = Carbon::createFromFormat('Y-m-d', $dateFrom)->startOfDay();
             $dateTo = Carbon::createFromFormat('Y-m-d', $dateTo)->endOfDay();
-            
-            $data = Project::findOrFail($id)->material_use()->whereBetween('material_use_date', [$dateFrom, $dateTo])->orderBy('material_use_id', 'asc')->get();
+            // $data = Project::with(['material_use', 'material_use.material_report'])->findOrFail($id)->whereBetween('material_use.material_use_date', [$dateFrom, $dateTo])->orderBy('material_use.material_use_id', 'asc')->get();
+            $data = Project::findOrFail($id)->material_use()->material_report()->whereBetween('material_use_date', [$dateFrom, $dateTo])->orderBy('material_use_id', 'asc')->get();
             
         } else {
-            $data = Project::findOrFail($id)->material_use()->orderBy('material_use_id', 'asc')->get();
+            // $data = Project::with(['material_use', 'material_use.material_report'])->findOrFail($id)->orderBy('material_use.material_use_id', 'asc')->get();
+            // dd($data);
+            $data = Project::findOrFail($id)->material_use()->material_report()->orderBy('material_use_id', 'asc')->get();
+            // $data = Project::with(['material_use', 'material_use.material_report'])->findOrFail($id)->material_use()->orderBy('material_use_id', 'asc')->get();
             
         }
-        $materialTypes = MaterialType::get();
+        dd($data);
+        $materialReport = MaterialReport::get();
         return view('projects.detail.index', compact(['data', 'materialTypes']));
     }
     public function showDetailMaterialUse(Request $request, $id)

@@ -76,4 +76,9 @@ class Project extends Model
         return $this->hasMany(MaterialReport::class, 'project_id', 'project_id');
     }
 
+    public function material_use()
+    {
+        return $this->hasMany(MaterialUse::class, 'project_id', 'project_id');
+    }
+
 }

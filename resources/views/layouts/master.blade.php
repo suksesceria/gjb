@@ -184,6 +184,23 @@
     background-color:#e6e1e1;
 }
 
+.access-rol {
+  /* font-size: 80px; */
+  color: #fff;
+  text-align: center;
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+  -moz-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+@-webkit-keyframes glow {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+  }
+  to {
+    text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
+  }
+}
+
         /* .count {
         display: none;
         } */
@@ -198,46 +215,50 @@
 
     <div class="sidebar" style="background-image: url('{{ asset('69.jpg') }}');background-size:cover;font-weight: 700;">
         
-        <div class="title" style="color:#020608">
+        <div class="title" style="color:#020608;background-color: #fbfcfc;">
             {{ __('GJB') }}
             <hr>
         </div>
-        <a href="{{ url('/') }}" 
-            class="{{ (request()->is('/')) ? 'active' : '' }}"
-            >Beranda
-        </a>
-        <a href="{{ url('/projects') }}" 
-            class="{{ (request()->is('projects*')) ? 'active' : '' }} access-role access-projects"
-            >Proyek 
-           
-        </a>
-        <!-- <a href="{{ url('/type-proyek') }}"
-           class="{{ request()->is('type-proyek*') ? 'active' : '' }} access-role access-type-proyek">Tipe Proyek</a>
-        <a href="{{ url('/material-type') }}"
-           class="{{ request()->is('material-type*') ? 'active' : '' }} access-role access-material-type">Tipe Material</a>
-        <a href="{{ url('/material-unit') }}"
-           class="{{ request()->is('material-unit*') ? 'active' : '' }} access-role access-material-unit">Satuan Material</a> -->
-           <div class="dropdown {{ request()->is('type-proyek*') ? 'active' : '' }} access-role access-type-proyek">
-            <a id="dLabel" role="button" data-toggle="dropdown" class="btn-{{ ((request()->is('type-proyek*') || request()->is('material-type*') || request()->is('material-unit*')) ? 'primary' : '' )}}" data-target="#" href="{{ url('/type-proyek') }}" style="text-align: left; color: #000">
-                Data Master <span class="caret"></span>
+        <div style="background-color: #ffffff8c;height: inherit;">
+            <a href="{{ url('/') }}" 
+                class="{{ (request()->is('/')) ? 'active' : '' }}"
+                >Beranda
             </a>
-    		<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu" style="font-size:12px">
-            <a href="{{ url('/type-proyek') }}"
-           class="{{ request()->is('type-proyek*') ? 'active' : '' }} access-role access-type-proyek">Tipe Proyek</a>
+            <a href="{{ url('/projects') }}" 
+                class="{{ (request()->is('projects*')) ? 'active' : '' }} access-role access-projects"
+                >Proyek 
+            
+            </a>
+            <!-- <a href="{{ url('/type-proyek') }}"
+            class="{{ request()->is('type-proyek*') ? 'active' : '' }} access-role access-type-proyek">Tipe Proyek</a>
             <a href="{{ url('/material-type') }}"
-           class="{{ request()->is('material-type*') ? 'active' : '' }} access-role access-material-type">Tipe Material</a>
-              <a href="{{ url('/material-unit') }}"
-           class="{{ request()->is('material-unit*') ? 'active' : '' }} access-role access-material-unit">Satuan Material</a>
-            </ul>
+            class="{{ request()->is('material-type*') ? 'active' : '' }} access-role access-material-type">Tipe Material</a>
+            <a href="{{ url('/material-unit') }}"
+            class="{{ request()->is('material-unit*') ? 'active' : '' }} access-role access-material-unit">Satuan Material</a> -->
+           
+            <a href="{{ url('/employees') }}"
+                class="{{ (request()->is('employees*')) ? 'active' : '' }} access-role access-employees"
+                >Karyawan
+            </a>
+            <a href="{{ url('/roles') }}"
+                class="{{ (request()->is('roles*')) ? 'active' : '' }} access-role access-roles"
+                >Akses Role</a>
+            <div class="dropdown {{ request()->is('type-proyek*') ? 'active' : '' }} access-role access-type-proyek">
+                <a id="dLabel" role="button" data-toggle="dropdown" class="btn-{{ ((request()->is('type-proyek*') || request()->is('material-type*') || request()->is('material-unit*')) ? 'primary' : '' )}}" data-target="#" href="{{ url('/type-proyek') }}" style="text-align: left; color: #000">
+                    Data Master <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu" style="font-size:12px">
+                <a href="{{ url('/type-proyek') }}"
+            class="{{ request()->is('type-proyek*') ? 'active' : '' }} access-role access-type-proyek">Tipe Proyek</a>
+                <a href="{{ url('/material-type') }}"
+            class="{{ request()->is('material-type*') ? 'active' : '' }} access-role access-material-type">Tipe Material</a>
+                <a href="{{ url('/material-unit') }}"
+            class="{{ request()->is('material-unit*') ? 'active' : '' }} access-role access-material-unit">Satuan Material</a>
+                </ul>
+            </div>
+            <a href="{{ url('/logout') }}">Log out</a>
         </div>
-        <a href="{{ url('/employees') }}"
-            class="{{ (request()->is('employees*')) ? 'active' : '' }} access-role access-employees"
-            >Karyawan
-        </a>
-        <a href="{{ url('/roles') }}"
-            class="{{ (request()->is('roles*')) ? 'active' : '' }} access-role access-roles"
-            >Akses Role</a>
-        <a href="{{ url('/logout') }}">Log out</a>
+        
     </div>
     <div class="content" style="z-index:1;">
     <div style="float:right; margin:1%;z-index:2;">

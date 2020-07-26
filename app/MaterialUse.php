@@ -18,20 +18,22 @@ class MaterialUse extends Model
 
     protected $fillable = [
         'project_id',
-        'material_type_id',
+        'material_report_id',
         'material_use_date',
-        'material_name',
+        'stock',
         'material_cost_unit',
         'material_qty',
-        'material_desc',
+        'total',
+        'residue',
+        'desc',
         'status',
         'verify_by_admin',
         'verify_at_admin',
     ];
 
-    public function type()
+    public function material_report()
     {
-        return $this->belongsTo(MaterialType::class, 'material_type_id', 'material_type_id');
+        return $this->belongsTo(MaterialReport::class, 'material_report_id', 'material_report_id');
     }
 
 }

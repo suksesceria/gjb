@@ -55,11 +55,13 @@
                     <tr>
                         <th>No</th>
                         <th>Uraian</th>
+                        <th>Stock</th>
                         <th>Satuan</th>
                         <th>Qty</th>
                         <th>Harga Satuan</th>
-                        <th>Total Harga</th>
                         <th>Tanggal</th>
+                        <th>Total Pembelian</th>
+                        <th>Sisa Stock</th>
                         <th>Keterangan</th>
                         <th>Status</th>
                         <th>Aksi</th>
@@ -72,7 +74,9 @@
                         ?>
                         @foreach($data as $index => $datum)
                             <?php
-                            $total += ($datum->material_cost_unit * $datum->material_qty);
+                             if($datum->status == 1){
+                                $total += ($datum->material_cost_unit * $datum->material_qty);
+                             }
                             ?>
                             <tr class="data-row">
                                 <td>{{$index + 1}}</td>

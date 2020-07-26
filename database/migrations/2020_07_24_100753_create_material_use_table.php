@@ -16,12 +16,13 @@ class CreateMaterialUseTable extends Migration
         Schema::create('material_use', function (Blueprint $table) {
             $table->bigIncrements('material_use_id');
             $table->unsignedBigInteger('project_id');
-            $table->unsignedBigInteger('material_type_id');
+            $table->unsignedBigInteger('material_report_id');
             $table->date('material_use_date');
-            $table->string('material_name');
+            $table->unsignedInteger('stock');
             $table->double('material_cost_unit');
             $table->unsignedInteger('material_qty');
-            $table->text('material_desc');
+            $table->double('total');
+            $table->unsignedInteger('residue');
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->unsignedBigInteger('verify_by_admin')->nullable();
@@ -35,7 +36,7 @@ class CreateMaterialUseTable extends Migration
 
             $table->foreign('project_id')->references('project_id')->on('project')
                 ->onDelete('RESTRICT');
-            $table->foreign('material_type_id')->references('material_type_id')->on('material_type')
+            $table->foreign('material_report_id')->references('material_report_id')->on('material_report')
                 ->onDelete('RESTRICT');
         });
     }
