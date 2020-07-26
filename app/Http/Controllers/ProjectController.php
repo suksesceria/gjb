@@ -331,6 +331,7 @@ class ProjectController extends Controller
             'status' => ((Auth::user()->role_id == 1) ? 1 : 0),
             'cost_report_office_desc' => $request->get('desc'),
             'cost_report_office_date' => Carbon::createFromFormat('Y-m-d', $request->get('date')),
+            'verify_at_admin' => now(),
         ]);
         if(Auth::user()->role_id == 1){
             $cro['verify_by_admin'] = Auth::user()->employee_id;
@@ -343,7 +344,7 @@ class ProjectController extends Controller
             'type' => "Keuangan Lapangan",
             'notifiable_type' => "keuangan_lapangan",
             'notifiable_id' => 1,
-            'data' => $request->get('desc'),
+            'data' => 'keuangan_lapangan '.$request->get('desc'),
             'href' => '/projects/'.DB::getPDO()->lastInsertId().'/detail-keuangan',
             'id_href' => DB::getPDO()->lastInsertId(),
             'created_at' => date("Y-m-d H:i:s"),
@@ -498,7 +499,8 @@ class ProjectController extends Controller
             'cost_report_cashflow' => $cashflow,
             'cost_report_realtime_desc' => $request->get('desc'),
             'cost_report_realtime_date' => Carbon::createFromFormat('Y-m-d', $request->get('date')),
-            'status' => ((Auth::user()->role_id == 1) ? 1 : 0)
+            'status' => ((Auth::user()->role_id == 1) ? 1 : 0),
+            'verify_at_admin' => now(),
         ]);
 
         if(Auth::user()->role_id == 1){
@@ -511,7 +513,7 @@ class ProjectController extends Controller
             'type' => "Keuangan Kantor",
             'notifiable_type' => "keuangan_kantor",
             'notifiable_id' => 1,
-            'data' => $request->get('desc'),
+            'data' => 'Keuangan Kantor '.$request->get('desc'),
             'href' => '/projects/'.DB::getPDO()->lastInsertId().'/detail-realtime',
             'id_href' => DB::getPDO()->lastInsertId(),
             'created_at' => now(),
@@ -603,6 +605,7 @@ class ProjectController extends Controller
             'material_qty' => $request->get('material_qty'),
             'material_desc' => $request->get('material_desc'),
             'status' => ((Auth::user()->role_id == 1) ? 1 : 0),
+            'verify_at_admin' => now(),
         ]);
         if(Auth::user()->role_id == 1){
             $mr['verify_by_admin'] = Auth::user()->employee_id;
@@ -614,7 +617,7 @@ class ProjectController extends Controller
             'type' => "Laporan Material",
             'notifiable_type' => "laporan_material",
             'notifiable_id' => 1,
-            'data' => $request->get('material_name'),
+            'data' => "Laporan Material ".$request->get('material_name'),
             'href' => '/projects/'.DB::getPDO()->lastInsertId().'/detail-material',
             'id_href' => DB::getPDO()->lastInsertId(),
             'created_at' => date("Y-m-d H:i:s"),
@@ -747,6 +750,7 @@ class ProjectController extends Controller
             'desc' => $request->get('material_desc'),
             'residue' => (Auth::user()->role_id == 1) ? $residue: 0,
             'status' => ((Auth::user()->role_id == 1) ? 1 : 0),
+            'verify_at_admin' => now(),
         ]);
         if(Auth::user()->role_id == 1){
             $mr['verify_by_admin'] = Auth::user()->employee_id;
