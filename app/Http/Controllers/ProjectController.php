@@ -295,17 +295,19 @@ class ProjectController extends Controller
             $balance += $cost_expense;
         else
             $balance -= $cost_expense;
-        if(Auth::user()->role_id == 1 && $s == 1){
+        // if(Auth::user()->role_id == 1 && $s == 1){
             $data = array();
             $data['balance'] = $balance;
             $data['status'] = $s;
             $data['verify_at_admin'] = now();
             $data['verify_by_admin'] = Auth::user()->employee_id;
-        }
+        // }
         
         $this->checkLimitFinance($p);
         CostReportOffice::where('cost_report_office_id', $id)->update($data);
-        
+        $datanotif = array();
+        $datanotif['read_at'] = now();
+        Notifications::where('href', '/projects/'.$id.'/keuangan')->update($datanotif);
         return redirect("projects/{$p}/keuangan");
     }
 
@@ -344,7 +346,7 @@ class ProjectController extends Controller
             'type' => "Keuangan Lapangan",
             'notifiable_type' => "keuangan_lapangan",
             'notifiable_id' => 1,
-            'data' => 'keuangan_lapangan '.$request->get('desc'),
+            'data' => 'Keuangan Lapangan '.$request->get('desc'),
             'href' => '/projects/'.DB::getPDO()->lastInsertId().'/detail-keuangan',
             'id_href' => DB::getPDO()->lastInsertId(),
             'created_at' => date("Y-m-d H:i:s"),
@@ -433,18 +435,22 @@ class ProjectController extends Controller
                 $balance += $cost_expense;
             else
                 $balance -= $cost_expense;
-            if(Auth::user()->role_id == 1){
+            // if(Auth::user()->role_id == 1){
                 $data = array();
                 $data['status'] = $s;
                 $data['verify_at_admin'] = now();
                 $data['verify_by_admin'] = Auth::user()->employee_id;
-            }
+            // }
             if(Auth::user()->role_id == 1 && $s == 1){
                 $data['balance'] = $balance;
             }
         }     
         CostReportRealtime::where('cost_report_realtime_id', $id)->update($data);
         $this->checkLimitRealtime($p);
+        
+        $datanotif = array();
+        $datanotif['read_at'] = now();
+        Notifications::where('href', '/projects/'.$id.'/keuangan-nyata')->update($datanotif);
         return redirect("projects/{$p}/keuangan-nyata");
     }
 
@@ -564,16 +570,19 @@ class ProjectController extends Controller
      */
     public function updateStatusMaterial(Request $request,$id, $s = null, $p = null)
     {
-        if(Auth::user()->role_id == 1){
+        // if(Auth::user()->role_id == 1){
             $data = array();
             $data['status'] = $s;
             $data['verify_at_admin'] = now();
             $data['verify_by_admin'] = Auth::user()->employee_id;
-        }
+        // }
         
         MaterialReport::where('material_report_id', $id)->update($data);
 
         $this->checkLimitMaterial($p);
+        $datanotif = array();
+        $datanotif['read_at'] = now();
+        Notifications::where('href', '/projects/'.$id.'/laporan-material')->update($datanotif);
         return redirect("projects/{$p}/laporan-material");
     }
 
@@ -707,18 +716,20 @@ class ProjectController extends Controller
             // dd($residue.' = '.$material_report->material_qty.' - '.$material_use->material_qty);
         }
 
-        if(Auth::user()->role_id == 1){
             $data = array();
             $data['status'] = $s;
             $data['verify_at_admin'] = now();
             $data['verify_by_admin'] = Auth::user()->employee_id;
             $data['residue'] = $residue;
             $data['total'] = $material_use->material_qty * $material_report->material_cost_unit;
-        }
+
         
         MaterialUse::where('material_use_id', $id)->update($data);
 
         $this->checkLimitMaterialUse($p);
+        $datanotif = array();
+        $datanotif['read_at'] = now();
+        Notifications::where('href', '/projects/'.$id.'/laporan-material-use')->update($datanotif);
         return redirect("projects/{$p}/laporan-material-use");
     }
 
