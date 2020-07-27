@@ -275,11 +275,6 @@
                             <div id="notificationTitle">Notifikasi Terbaru</div>
                             <div id="notificationsBody" class="notifications" style="z-index:5;margin:1%">
                                 <ul>
-                                    <li>Message 1</li>
-                                    <li>Message 2</li>
-                                    <li>Message 3</li>
-                                    <li>Message 4</li>
-                                    <li>Message 5</li>
                                 </ul>
                             </div>
                             <div id="notificationFooter"><a href="{{ url('/notification/all')}}" id='AddNew'>See All</a></div>
