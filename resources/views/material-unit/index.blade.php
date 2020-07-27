@@ -7,7 +7,8 @@
                 <h4>Material Unit</h4>
             </div>
             <div class="panel-body">
-                <button class="btn btn-primary" data-toggle="modal" style="float:right;margin:2%"
+                <button class="btn btn-primary" data-toggle="modal"
+                        data-target="#modal-create-material-unit"  style="float:right;margin:2%"
                 ><i class="fa fa-plus" aria-hidden="true"></i>Membuat Satuan Material</button>
                 <table class="table mt-3">
                     <thead>
